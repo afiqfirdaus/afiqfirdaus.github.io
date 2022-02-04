@@ -196,7 +196,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="menu-icon"><a href="#">News</a>
+                                        <!--<li class="menu-icon"><a href="#">News</a>
                                             <ul>
                                                 <li><a href="blog.html">News</a></li>
                                                 <li><a href="blog-grid.html">News Grid</a></li>
@@ -240,7 +240,7 @@
                                                 <li><a href="shop.html"><img src="img/banner/menu-banner-1.jpg" alt="#"></a>
                                                 </li>
                                             </ul>
-                                        </li>
+                                        </li>-->
                                         <li><a href="contact.html">Contact</a></li>
                                         <li class="special-link">
                                             <a href="add-listing.html">Add Listing</a>
@@ -524,7 +524,7 @@
                                             <h6 class="slide-sub-title white-color--- animated"><span><i class="fas fa-home"></i></span> Construction Agency</h6>
                                             <h1 class="slide-title animated ">text <br> text</h1>
                                             <div class="slide-brief animated">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                                <p>text text.</p>
                                             </div>
                                             <div class="btn-wrapper animated">
                                                 <a href="service.html" class="theme-btn-1 btn btn-effect-1">OUR SERVICES</a>
@@ -556,7 +556,7 @@
                                             <h6 class="slide-sub-title white-color--- animated"><span><i class="fas fa-home"></i></span> Construction Agency</h6>
                                             <h1 class="slide-title animated ">text <br> text</h1>
                                             <div class="slide-brief animated">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                                <p>text text.</p>
                                             </div>
                                             <div class="btn-wrapper animated">
                                                 <a href="service.html" class="theme-btn-1 btn btn-effect-1">OUR SERVICES</a>
@@ -588,7 +588,7 @@
                                             <h6 class="slide-sub-title white-color--- animated"><span><i class="fas fa-home"></i></span> Construction Agency</h6>
                                             <h1 class="slide-title animated ">text <br> text</h1>
                                             <div class="slide-brief animated">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                                <p>text text.</p>
                                             </div>
                                             <div class="btn-wrapper animated">
                                                 <a href="service.html" class="theme-btn-1 btn btn-effect-1">OUR SERVICES</a>
@@ -669,18 +669,17 @@
                     <div class="about-us-info-wrap">
                         <div class="section-title-area ltn__section-title-2--- mb-30">
                             <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color">About Us</h6>
-                            <h1 class="section-title">Dream Living Spaces
-                                Setting New Build</h1>
-                            <p>Over 39,000 people work for us in more than 70 countries all over the
-                                This breadth of global coverage, combined with specialist services</p>
+                            <h1 class="section-title">Mulia Global Resource
+                                ditubuhkan pada tahun 2019</h1>
+                            <p>sebuah syarikat peneraju dalam sektor binaan dan kimpalan awning pergola, pagar besi dan aluminium, cermin di Selangor dan Kuala Lumpur dengan reputasi cemerlang baik dari segi produk serta servis kepada pelanggan</p>
                         </div>                        
                         <div class="ltn__feature-item ltn__feature-item-3">
                             <div class="ltn__feature-icon">
                                 <span><i class="flaticon-house-4"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="service-details.html">The Perfect Residency</a></h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisic do eiusmod tempor incididunt ut labore et</p>
+                                <h4><a href="#">Menu 1</a></h4>
+                                <p>text text</p>
                             </div>
                         </div>
                         <div class="ltn__feature-item ltn__feature-item-3">
@@ -688,8 +687,8 @@
                                 <span><i class="flaticon-call-center-agent"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="service-details.html">Global Architect Experts</a></h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisic do eiusmod tempor incididunt ut labore et</p>
+                                <h4><a href="#">Menu 2</a></h4>
+                                <p>text text</p>
                             </div>
                         </div>
                         <div class="ltn__feature-item ltn__feature-item-3">
@@ -697,8 +696,8 @@
                                 <span><i class="flaticon-maps-and-location"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="service-details.html">Built-in Storage Cupboards</a></h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisic do eiusmod tempor incididunt ut labore et</p>
+                                <h4><a href="#">Menu 3</a></h4>
+                                <p>text text</p>
                             </div>
                         </div>
                     </div>
@@ -718,8 +717,7 @@
                             <h6 class="section-subtitle section-subtitle-2--- ltn__secondary-color">Building Facilities</h6>
                             <h1 class="section-title">Making living spaces
                                 More Beautiful</h1>
-                            <p>Over 39,000 people work for us in more than 70 countries all over the
-                                This breadth of global coverage, combined with specialist services</p>
+                            <p>text text</p>
                         </div>
                         <ul class="ltn__list-item-half ltn__list-item-half-2 list-item-margin clearfix">
                             <li>
@@ -949,9 +947,7 @@
                                         <div class="apartments-plan-info ltn__secondary-bg--- section-bg-1 text-color-white---">
                                             <h2>The Studio</h2>
                                             <p>Enimad minim veniam quis nostrud exercitation ullamco laboris.
-                                                Lorem ipsum dolor sit amet cons aetetur adipisicing elit sedo
-                                                eiusmod tempor.Incididunt labore et dolore magna aliqua.
-                                                sed ayd minim veniam.</p>
+                                                text text.</p>
                                             <div class="apartments-info-list apartments-info-list-color mt-40">
                                                 <ul>
                                                     <li><label>Total Area</label> <span>2800 Sq. Ft</span></li>
@@ -978,9 +974,7 @@
                                         <div class="apartments-plan-info ltn__secondary-bg--- section-bg-1 text-color-white---">
                                             <h2>Deluxe Portion</h2>
                                             <p>Enimad minim veniam quis nostrud exercitation ullamco laboris.
-                                                Lorem ipsum dolor sit amet cons aetetur adipisicing elit sedo
-                                                eiusmod tempor.Incididunt labore et dolore magna aliqua.
-                                                sed ayd minim veniam.</p>
+                                                text text.</p>
                                             <div class="apartments-info-list apartments-info-list-color mt-40">
                                                 <ul>
                                                     <li><label>Total Area</label> <span>2800 Sq. Ft</span></li>
@@ -1007,9 +1001,7 @@
                                         <div class="apartments-plan-info ltn__secondary-bg--- section-bg-1 text-color-white---">
                                             <h2>Penthouse</h2>
                                             <p>Enimad minim veniam quis nostrud exercitation ullamco laboris.
-                                                Lorem ipsum dolor sit amet cons aetetur adipisicing elit sedo
-                                                eiusmod tempor.Incididunt labore et dolore magna aliqua.
-                                                sed ayd minim veniam.</p>
+                                                text text</p>
                                             <div class="apartments-info-list apartments-info-list-color mt-40">
                                                 <ul>
                                                     <li><label>Total Area</label> <span>2800 Sq. Ft</span></li>
@@ -1036,9 +1028,7 @@
                                         <div class="apartments-plan-info ltn__secondary-bg--- section-bg-1 text-color-white---">
                                             <h2>Top Garden</h2>
                                             <p>Enimad minim veniam quis nostrud exercitation ullamco laboris.
-                                                Lorem ipsum dolor sit amet cons aetetur adipisicing elit sedo
-                                                eiusmod tempor.Incididunt labore et dolore magna aliqua.
-                                                sed ayd minim veniam.</p>
+                                                text text.</p>
                                             <div class="apartments-info-list apartments-info-list-color mt-40">
                                                 <ul>
                                                     <li><label>Total Area</label> <span>2800 Sq. Ft</span></li>
@@ -1065,9 +1055,7 @@
                                         <div class="apartments-plan-info ltn__secondary-bg--- section-bg-1 text-color-white---">
                                             <h2>Double Height</h2>
                                             <p>Enimad minim veniam quis nostrud exercitation ullamco laboris.
-                                                Lorem ipsum dolor sit amet cons aetetur adipisicing elit sedo
-                                                eiusmod tempor.Incididunt labore et dolore magna aliqua.
-                                                sed ayd minim veniam.</p>
+                                                text text.</p>
                                             <div class="apartments-info-list apartments-info-list-color mt-40">
                                                 <ul>
                                                     <li><label>Total Area</label> <span>2800 Sq. Ft</span></li>
@@ -1355,9 +1343,7 @@
                                                     <h4><a href="product-details.html">Shopping Center</a></h4>
                                                     <label><span class="ltn__secondary-color">1,500m </span>/ 21 min. walk</label>
                                                     <div class="search-by-place-brief">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                            elit, sed do eiusmod tempor incididunt ut labore Enim
-                                                            ullamco laboris.</p>
+                                                        <p>text text.</p>
                                                     </div>
                                                     <div class="search-by-place-btn">
                                                         <a href="product-details.html">View Property <i class="flaticon-right-arrow"></i></a>
@@ -1390,9 +1376,7 @@
                                                     <h4><a href="product-details.html">Medical Hospital</a></h4>
                                                     <label><span class="ltn__secondary-color">1,500m </span>/ 21 min. walk</label>
                                                     <div class="search-by-place-brief">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                            elit, sed do eiusmod tempor incididunt ut labore Enim
-                                                            ullamco laboris.</p>
+                                                        <p>text text.</p>
                                                     </div>
                                                     <div class="search-by-place-btn">
                                                         <a href="product-details.html">View Property <i class="flaticon-right-arrow"></i></a>
@@ -1425,9 +1409,7 @@
                                                     <h4><a href="product-details.html">Children Playland</a></h4>
                                                     <label><span class="ltn__secondary-color">1,500m </span>/ 21 min. walk</label>
                                                     <div class="search-by-place-brief">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                            elit, sed do eiusmod tempor incididunt ut labore Enim
-                                                            ullamco laboris.</p>
+                                                        <p>text text.</p>
                                                     </div>
                                                     <div class="search-by-place-btn">
                                                         <a href="product-details.html">View Property <i class="flaticon-right-arrow"></i></a>
@@ -1451,7 +1433,7 @@
                                         </h6>
                                         <div id="faq-item-2-1" class="collapse" data-bs-parent="#accordion_2">
                                             <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1468,7 +1450,7 @@
                                                         <i class="fa fa-play"></i>
                                                     </a>
                                                 </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>                          
@@ -1479,7 +1461,7 @@
                                         </h6>
                                         <div id="faq-item-2-3" class="collapse" data-bs-parent="#accordion_2">
                                             <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1495,7 +1477,7 @@
                                         </h6>
                                         <div id="faq-item-3-4" class="collapse" data-bs-parent="#accordion_3">
                                             <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1506,7 +1488,7 @@
                                         </h6>
                                         <div id="faq-item-3-5" class="collapse" data-bs-parent="#accordion_3">
                                             <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1517,7 +1499,7 @@
                                         </h6>
                                         <div id="faq-item-3-6" class="collapse" data-bs-parent="#accordion_3">
                                             <div class="card-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque eleifend donec pretium vulputate sapien nec sagittis.</p>
+                                                <p>text text</p>
                                             </div>
                                         </div>
                                     </div>
@@ -2017,7 +1999,7 @@
                                     <img src="img/logo-2.png" alt="Logo">
                                 </div>
                             </div>
-                            <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>
+                            <p>text text.</p>
                             <div class="footer-address">
                                 <ul>
                                     <li>
