@@ -614,7 +614,7 @@
                                                         square Ft
                                                     </li>
                                                 </ul>
-                                               <!-- <div class="product-hover-action">
+                                                <div class="product-hover-action">
                                                     <ul>
                                                         <li>
                                                             <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
@@ -631,7 +631,7 @@
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                </div>-->
+                                                </div>
                                             </div>
                                             <div class="product-info-bottom">
                                                 <div class="product-price">
