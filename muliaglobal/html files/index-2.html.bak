@@ -176,7 +176,7 @@
                                                 <li><a href="locations.html">Google Map Locations</a></li>
                                             </ul>
                                         </li>
-                                        <li class="menu-icon"><a href="#">Shop</a>
+                                        <!--<li class="menu-icon"><a href="#">Shop</a>
                                             <ul>
                                                 <li><a href="shop.html">Shop</a></li>
                                                 <li><a href="shop-grid.html">Shop Grid</a></li>
@@ -195,7 +195,7 @@
                                                     </ul>
                                                 </li>
                                             </ul>
-                                        </li>
+                                        </li>-->
                                         <!--<li class="menu-icon"><a href="#">News</a>
                                             <ul>
                                                 <li><a href="blog.html">News</a></li>
@@ -1994,12 +1994,12 @@
                 <div class="row">
                     <div class="col-xl-3 col-md-6 col-sm-6 col-12">
                         <div class="footer-widget footer-about-widget">
-                            <div class="footer-logo">
+                            <!--<div class="footer-logo">
                                 <div class="site-logo">
-                                    <img src="img/logo-2.png" alt="Logo">
+                                    <img src="#" width="170" height="100" alt="Logo">
                                 </div>
-                            </div>
-                            <p>text text.</p>
+                            </div>-->
+                            <p>Mulia Global</p>
                             <div class="footer-address">
                                 <ul>
                                     <li>
@@ -2007,7 +2007,7 @@
                                             <i class="icon-placeholder"></i>
                                         </div>
                                         <div class="footer-address-info">
-                                            <p>Brooklyn, New York, United States</p>
+                                            <p>Jalan Az Zaharah 10/2, 42300 Ujong Permatang Selangor</p>
                                         </div>
                                     </li>
                                     <li>
@@ -2015,7 +2015,7 @@
                                             <i class="icon-call"></i>
                                         </div>
                                         <div class="footer-address-info">
-                                            <p><a href="tel:+0123-456789">+0123-456789</a></p>
+                                            <p><a href="tel:+0123-456789">+60164440760</a></p>
                                         </div>
                                     </li>
                                     <li>
@@ -2107,7 +2107,7 @@
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="ltn__copyright-design clearfix">
-                            <p>All Rights Reserved @ Company <span class="current-year"></span></p>
+                            <p>All Rights Reserved @ Mulia Global Resource <span class="current-year"></span></p>
                         </div>
                     </div>
                     <div class="col-md-6 col-12 align-self-center">
