@@ -242,7 +242,7 @@
                                         </li>-->
                                         <li><a href="contact.html">Contact</a></li>
                                         <li class="special-link">
-                                            <a href="add-listing.html">Add Listing</a>
+                                            <a href="#shop1">Add Listing</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -492,10 +492,10 @@
                                                 <p>intro.</p>
                                             </div>
                                             <div class="btn-wrapper animated">
-                                                <a href="https://wasap.my/60142756308" class="theme-btn-1 btn btn-effect-1">Make An Enquiry</a>
-                                                <a class="ltn__video-play-btn bg-white" href="https://www.youtube.com/embed/p7YXXieghto?autoplay=1&amp;showinfo=0" data-rel="lightcase">
+                                                <a href="https://wasap.my/60142756308" class="theme-btn-1 btn btn-effect-1">Whatsapp Us</a>
+                                                <!--<a class="ltn__video-play-btn bg-white" href="https://www.youtube.com/embed/p7YXXieghto?autoplay=1&amp;showinfo=0" data-rel="lightcase">
                                                     <i class="icon-play  ltn__secondary-color"></i>
-                                                </a>
+                                                </a>-->
                                             </div>
                                         </div>
                                     </div>
@@ -677,8 +677,8 @@
                                 <span><i class="flaticon-house-4"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="#">Menu 1</a></h4>
-                                <p>text text</p>
+								<h4><a href="#shop1">Browse Listing</a></h4>
+									<p>text text</p>
                             </div>
                         </div>
                         <div class="ltn__feature-item ltn__feature-item-3">
@@ -686,7 +686,7 @@
                                 <span><i class="flaticon-call-center-agent"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="#">Menu 2</a></h4>
+                                <h4><a href="#">Contact Us</a></h4>
                                 <p>text text</p>
                             </div>
                         </div>
@@ -695,7 +695,7 @@
                                 <span><i class="flaticon-maps-and-location"></i></span>
                             </div>
                             <div class="ltn__feature-info">
-                                <h4><a href="#">Menu 3</a></h4>
+                                <h4><a href="#">Navigate to us</a></h4>
                                 <p>text text</p>
                             </div>
                         </div>
@@ -1514,7 +1514,8 @@
     <!-- NEIGHBOUR AREA END -->
 
     <!-- CATEGORY AREA START -->
-    <div class="ltn__category-area ltn__product-gutter section-bg-1--- pt-115 pb-70">
+    <div id="shop1" class="ltn__category-area ltn__product-gutter section-bg-1--- pt-115 pb-70">
+		 
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -1567,7 +1568,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                     <div class="ltn__category-item ltn__category-item-5 ltn__category-item-5-2 text-center---">
                         <a href="shop-frameless-glass.html">
-                            <span class="category-icon"><i class="flaticon-home-2"></i></span>
+                            <span class="category-icon"><i class="flaticon-home-1"></i></span>
                             <span class="category-number">04</span>
                             <span class="category-title">FRAMELESS GLASS<br>RAILING</span>
                             <span class="category-brief">
@@ -2043,16 +2044,16 @@
                             <div class="footer-menu">
                                 <ul>
                                     <li><a href="about.html">About</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
+                                    <!--<li><a href="blog.html">Blog</a></li>-->
                                     <li><a href="shop.html">All Products</a></li>
                                     <li><a href="locations.html">Locations Map</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
+                                   <!-- <li><a href="faq.html">FAQ</a></li>-->
                                     <li><a href="contact.html">Contact us</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                    <!--<div class="col-xl-2 col-md-6 col-sm-6 col-12">
                         <div class="footer-widget footer-menu-widget clearfix">
                             <h4 class="footer-title">Services</h4>
                             <div class="footer-menu">
