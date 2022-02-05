@@ -311,7 +311,7 @@
     </header>
     <!-- HEADER AREA END -->
 
-    <!-- Utilize Cart Menu Start -->
+    <!-- Utilize Cart Menu Start 
     <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
         <div class="ltn__utilize-menu-inner ltn__scrollbar">
             <div class="ltn__utilize-menu-head">
@@ -362,13 +362,13 @@
             </div>
             <div class="mini-cart-footer">
                 <div class="mini-cart-sub-total">
-                    <h5>Subtotal: <span>$310.00</span></h5>
+                    <h5>Subtotal: <span>RM0.00</span></h5>
                 </div>
                 <div class="btn-wrapper">
                     <a href="cart.html" class="theme-btn-1 btn btn-effect-1">View Cart</a>
                     <a href="cart.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
                 </div>
-                <p>Free Shipping on All Orders Over $100!</p>
+                
             </div>
 
         </div>
@@ -1362,7 +1362,7 @@
                                     <!--<img src="img/logo-2.png" alt="Logo">-->
                                 </div>
                             </div>
-                            <p>MULIA GLOBAL.</p>
+                            <p>Mulia Global</p>
                             <div class="footer-address">
                                 <ul>
                                     <li>
@@ -1370,7 +1370,7 @@
                                             <i class="icon-placeholder"></i>
                                         </div>
                                         <div class="footer-address-info">
-                                            <p>Kuala Lumpur, MY</p>
+                                            <p>Jalan Az Zaharah 10/2, 42300 Ujong Permatang Selangor</p>
                                         </div>
                                     </li>
                                     <li>
@@ -1378,7 +1378,7 @@
                                             <i class="icon-call"></i>
                                         </div>
                                         <div class="footer-address-info">
-                                            <p><a href="tel:+0123-456789">+6012345678</a></p>
+                                            <p><a href="tel:+0123-456789">+60164440760</a></p>
                                         </div>
                                     </li>
                                     <li>
