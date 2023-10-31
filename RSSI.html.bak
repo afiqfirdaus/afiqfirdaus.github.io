@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<	!DOCTYPE html>
 <html>
 <head>
 
@@ -15,7 +15,7 @@
   <!-- title -->
   <title>
     
-    Link Budget Calculator
+    RSSI VS MULTIMETER VOLTAGE HUAWEI 
     
   </title>
   
@@ -109,59 +109,39 @@
 <body>
     <div class="container" id="ctner">
         <!-- Form -->
-        <form id="transmissionForm">
-            <h1>Link Budget Calculator(Alpha)</h1>
+        <form id="calculatorForm">
+    <label for="inputX">Enter value for 'RSL(negative number)':</label>
+    <input type="number" id="inputX" step="any" placeholder="Enter RSL" required><br><br>
 
-            <label for="transmitPower">Transmit Power:</label>
-            <input type="number" id="transmitPower" placeholder="Enter Transmit Power..." step="any">
+    <label for="inputY">Enter value for 'RSSI(multimeter voltage) ':</label>
+    <input type="number" id="inputY" step="any" placeholder="Enter RSSI multimeter(V) " required><br><br>
 
-            <label for="antennaTxGain">Antenna Tx Gain:</label>
-            <input type="number" id="antennaTxGain" placeholder="Enter Antenna Tx Gain..." step="any">
-
-            <label for="antennaRxGain">Antenna Rx Gain:</label>
-            <input type="number" id="antennaRxGain" placeholder="Enter Antenna Rx Gain..." step="any">
-
-            <label for="fsl">Free Space Loss (FSL):</label>
-            <input type="number" id="fsl" placeholder="Enter Free Space Loss..." step="any">
-
-            <label for="txLoss">Transmission Loss (Tx Loss):</label>
-            <input type="number" id="txLoss" placeholder="Enter Transmission Loss..." step="any">
-
-            <label for="rxLoss">Receiver Loss (Rx Loss):</label>
-            <input type="number" id="rxLoss" placeholder="Enter Receiver Loss..." step="any">
-
-            <label for="otherLoss">Other Loss:</label>
-            <input type="number" id="otherLoss" placeholder="Enter Other Loss..." step="any">
-
-            <input type="submit" value="Submit">
-        </form>
+    <button type="button" onclick="calculateFormula()">Calculate</button>
+</form>
         <!-- End Form -->
 
         <!-- Display calculated RSL -->
-        <div id="calculatedRSL"></div>
+        <div id="result"></div>
     </div>
 
     <script>
-        // Function to calculate RSL when form is submitted
-        document.getElementById('transmissionForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+    function calculateFormula() {
+        var X = parseFloat(document.getElementById('inputX').value);
+        var Y = parseFloat(document.getElementById('inputY').value);
 
-            // Get input values
-            var transmitPower = parseFloat(document.getElementById('transmitPower').value) || 0;
-            var antennaTxGain = parseFloat(document.getElementById('antennaTxGain').value) || 0;
-            var antennaRxGain = parseFloat(document.getElementById('antennaRxGain').value) || 0;
-            var fsl = parseFloat(document.getElementById('fsl').value) || 0;
-            var txLoss = parseFloat(document.getElementById('txLoss').value) || 0;
-            var rxLoss = parseFloat(document.getElementById('rxLoss').value) || 0;
-            var otherLoss = parseFloat(document.getElementById('otherLoss').value) || 0;
-
-            // Calculate RSL
-            var rsl = transmitPower + antennaTxGain + antennaRxGain - fsl - txLoss - rxLoss - otherLoss;
-
-            // Display the calculated RSL value
-            alert('Calculated RSL: ' + rsl.toFixed(2));
-        });
-    </script>
+        if (isNaN(X) && !isNaN(Y)) {
+            X = 15.9 * Y - 91.6;
+            document.getElementById('inputX').value = X;
+            document.getElementById('result').innerHTML = "Calculated RSL = " + X;
+        } else if (!isNaN(X) && isNaN(Y)) {
+            Y = (X + 91.6) / 15.9;
+            document.getElementById('inputY').value = Y;
+            document.getElementById('result').innerHTML = "Calculated RSSI = " + Y;
+        } else {
+            document.getElementById('result').innerHTML = "Please fill only one field to calculate the other.";
+        }
+    }
+</script>
 </body>
 </html>
 </div></pre>
