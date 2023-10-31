@@ -125,6 +125,8 @@
     <input type="number" id="inputY" step="any" placeholder="Enter RSSI multimeter(V) " required><br><br>
 
     <button type="button" onclick="calculateFormula()">Calculate</button>
+    <button type="button" onclick="resetForm()">Reset</button>
+</form>
 </form>
 </p>
         <!-- End Form -->
@@ -149,6 +151,11 @@
         } else {
             document.getElementById('result').innerHTML = "Please fill only one field to calculate the other.";
         }
+	   function resetForm() {
+        document.getElementById('inputX').value = '';
+        document.getElementById('inputY').value = '';
+        document.getElementById('result').innerHTML = ''; // Clear the result field
+    } 
     }
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
