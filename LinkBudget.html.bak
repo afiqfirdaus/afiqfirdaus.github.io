@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<	!DOCTYPE html>
 <html>
 <head>
 
@@ -68,7 +68,7 @@
 
 <!-- here -->
 <head>
-    <title>Link Budget Calculator(Alpha)</title>
+    <title>Link Budget Calculator(Beta)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         
