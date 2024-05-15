@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Bird</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #70c5ce;
+    }
+
+    .game-container {
+      width: 288px;
+      height: 512px;
+      margin: 50px auto;
+      position: relative;
+      background-color: #70c5ce;
+      border: 2px solid #fff;
+      border-radius: 5px;
+    }
+
+    .bird {
+      position: absolute;
+      width: 34px;
+      height: 24px;
+      left: 50px;
+      bottom: 200px;
+      background-image: url('bird.png'); /* Replace with your bird image */
+      background-size: cover;
+    }
+
+    .pipe {
+      position: absolute;
+      width: 52px;
+      height: 320px;
+      background-image: url('pipe-green.png'); /* Replace with your pipe image */
+      background-size: cover;
+    }
+
+    .pipe-top {
+      transform: rotate(180deg);
+    }
+
+    .ground {
+      position: absolute;
+      width: 288px;
+      height: 112px;
+      bottom: 0;
+      background-image: url('ground.png'); /* Replace with your ground image */
+      background-size: cover;
+    }
+
+    .score {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      color: #fff;
+    }
+
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="bird"></div>
+    <div class="pipe pipe-top"></div>
+    <div class="pipe"></div>
+    <div class="ground"></div>
+    <div class="score">0</div>
+    <div class="game-over">Game Over</div>
+  </div>
+  <script>
+    const bird = document.querySelector('.bird');
+    const pipes = document.querySelectorAll('.pipe');
+    const ground = document.querySelector('.ground');
+    const scoreElement = document.querySelector('.score');
+    const gameOverElement = document.querySelector('.game-over');
+
+    let birdY = 200;
+    let birdVelocity = 0;
+    let pipeX = 288;
+    let pipeGap = 150;
+    let score = 0;
+    let gameOver = false;
+
+    const jump = () => {
+      birdVelocity = -8;
+    };
+
+    const update = () => {
+      if (gameOver) {
+        return;
+      }
+
+      birdVelocity += 0.5;
+      birdY += birdVelocity;
+
+      bird.style.bottom = birdY + 'px';
+
+      pipeX -= 2;
+
+      pipes.forEach(pipe => {
+        pipe.style.left = pipeX + 'px';
+
+        if (pipeX < -52) {
+          pipeX = 288;
+          pipeGap = Math.random() * 150 + 100;
+          pipe.style.height = pipeGap + 'px';
+          const topPipe = pipe.nextElementSibling;
+          topPipe.style.height = 512 - pipeGap + 'px';
+        }
+
+        // Check for collision
+        if (checkCollision(bird, pipe) || checkCollision(bird, topPipe)) {
+          gameOver = true;
+          gameOverElement.style.display = 'block';
+        }
+      });
+
+      // Check for passing through pipe
+      if (pipeX < 50 && pipeX > 0 && birdY > pipeGap - 50) {
+        score++;
+        scoreElement.textContent = score;
+      }
+
+      // Check for ground collision
+      if (birdY < 0) {
+        gameOver = true;
+        gameOverElement.style.display = 'block';
+      }
+
+      requestAnimationFrame(update);
+    };
+
+    const checkCollision = (element1, element2) => {
+      const rect1 = element1.getBoundingClientRect();
+      const rect2 = element2.getBoundingClientRect();
+
+      return rect1.right > rect2.left &&
+        rect1.left < rect2.right &&
+        rect1.bottom > rect2.top &&
+        rect1.top < rect2.bottom;
+    };
+
+    document.addEventListener('click', jump);
+
+    update();
+  </script>
+</body>
+</html>
