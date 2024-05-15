@@ -69,6 +69,7 @@
       font-size: 40px;
       color: #fff;
       text-align: center;
+      display: none; /* Initially hidden */
     }
   </style>
 </head>
@@ -107,6 +108,9 @@
       birdVelocity += 0.5;
       birdY += birdVelocity;
 
+      // Make sure the bird doesn't go offscreen
+      birdY = Math.max(0, Math.min(birdY, 400)); // Assuming ground is at 0px
+
       bird.style.bottom = birdY + 'px';
 
       pipeX -= 2;
@@ -114,6 +118,7 @@
       pipes.forEach(pipe => {
         pipe.style.left = pipeX + 'px';
 
+        // Reset pipe position and gap
         if (pipeX < -52) {
           pipeX = 288;
           pipeGap = Math.random() * 150 + 100;
