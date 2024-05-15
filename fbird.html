@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Flappy Bird</title>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+}
+canvas {
+  background: #70c5ce;
+  display: block;
+  margin: 50px auto;
+}
+</style>
+</head>
+<body>
+
+<canvas id="bird" width="288" height="512"></canvas>
+
+<script>
+const canvas = document.getElementById('bird');
+const ctx = canvas.getContext('2d');
+
+// Bird image
+const bird = new Image();
+bird.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flappy_Bird_Bird.svg/120px-Flappy_Bird_Bird.svg.png';
+
+// Pipe image
+const pipeNorth = new Image();
+pipeNorth.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Flappy_Bird_Pipe_Up.svg/120px-Flappy_Bird_Pipe_Up.svg.png';
+const pipeSouth = new Image();
+pipeSouth.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Flappy_Bird_Pipe_Down.svg/120px-Flappy_Bird_Pipe_Down.svg.png';
+
+// Some variables
+let gap = 85;
+let constant;
+let bX = 10;
+let bY = 150;
+let gravity = 1.5;
+let score = 0;
+
+// Audio files
+const fly = new Audio();
+const scor = new Audio();
+
+fly.src = 'sounds/fly.mp3';
+scor.src = 'sounds/score.mp3';
+
+// On key down
+document.addEventListener("keydown", moveUp);
+
+function moveUp() {
+  bY -= 25;
+  fly.play();
+}
+
+// Pipe coordinates
+let pipe = [];
+
+pipe[0] = {
+  x: canvas.width,
+  y: 0
+};
+
+// Draw images
+function draw() {
+  ctx.drawImage(bird, bX, bY);
+
+  for (let i = 0; i < pipe.length; i++) {
+    constant = pipeNorth.height + gap;
+    ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
+    ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
+
+    pipe[i].x--;
+
+    // Create new pipes
+    if (pipe[i].x == 125) {
+      pipe.push({
+        x: canvas.width,
+        y: Math.floor(Math.random() * pipeNorth.height) - pipeNorth.height
+      });
+    }
+
+    // Detect collision
+    if (
+      bX + bird.width >= pipe[i].x &&
+      bX <= pipe[i].x + pipeNorth.width &&
+      (bY <= pipe[i].y + pipeNorth.height ||
+        bY + bird.height >= pipe[i].y + constant) ||
+      bY + bird.height >= canvas.height - bird.height
+    ) {
+      location.reload(); // Reload the page
+    }
+
+    // Increment score
+    if (pipe[i].x == 5) {
+      score++;
+      scor.play();
+    }
+  }
+
+  // Bird falls
+  bY += gravity;
+
+  // Score
+  ctx.fillStyle = "#000";
+  ctx.font = "20px Verdana";
+  ctx.fillText("Score : " + score, 10, canvas.height - 20);
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
