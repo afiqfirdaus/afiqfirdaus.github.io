@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wave Calculator</title>
+</head>
+<body>
+    <h1>Calculate Antenna Gain(dBi)</h1>
+    <p>a is a constant value of speed of light.</p>
+    <label for="fInput">Enter value of Frequency:</label>
+    <input type="number" id="fInput" name="fInput" min="0" required>
+	
+   
+    
+    <select id="multiplierSelect" name="multiplierSelect">
+        <option value="1">Hz</option>
+        <option value="1000">KHz</option>
+        <option value="1000000">MHz</option>
+        <option value="1000000000">GHz</option>
+        <option value="1000000000000">THz</option>
+    </select>
+  
+	<p>
+	<label for="DInput">Enter value of Antenna Diameter(m):</label>
+    <input type="number" id="DInput" name="DInput" min="0" required>
+	
+	</p>
+    <button onclick="calculateX()">Calculate</button>
+    <p id="resultW"></p> 
+    <script src="script.js"></script>
+	<script>
+	
+		function calculateX() {
+  const C = 299792458; // Constant value speed of light
+  const f = parseFloat(document.getElementById("fInput").value);
+  const D = parseFloat(document.getElementById("DInput").value);
+  const multiplier = parseInt(document.getElementById("multiplierSelect").value);
+  const adjustedF = f * multiplier;
+  const w = C / (adjustedF);
+  const gdb = 10 * Math.log10((4 * Math.PI * (D ** 2)) / (w ** 2));
+  const g = gdb - 2.72;  
+  
+  document.getElementById("resultW").innerHTML = `WaveLenght = ${w.toFixed(5)}
+  <br>antenna gain = ${g.toFixed(5)}`;
+
+  
+}
+
+</script>
+	
+</body>
+</html>

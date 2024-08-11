@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Antenna Gain Calculator</title>
+  <script>
+    function calculateGain() {
+      // Get the user input values
+      const antennaDiameter = parseFloat(document.getElementById('antennaDiameter').value);
+      const frequency = parseFloat(document.getElementById('frequency').value);
+
+      // Speed of light (m/s)
+      const speedOfLight = 3e8;
+
+      // Calculate wavelength
+      const wavelength = speedOfLight / (frequency * 1e9); // Convert frequency to Hz
+
+      // Calculate gain in dBi using the formula
+      const gain_dBi = 10 * Math.log10((4 * Math.PI * (antennaDiameter ** 2)) / (wavelength ** 2));
+
+      // Convert dBi to dB
+      const gain_dB = gain_dBi - 2.15;
+
+      // Display the calculated gain in dB
+      document.getElementById('result').innerHTML = `The calculated gain is approximately ${gain_dB.toFixed(2)} dB.`;
+    }
+  </script>
+</head>
+<body>
+  <h2>Antenna Gain Calculator</h2>
+  <label for="antennaDiameter">Enter Antenna Diameter (in meters):</label>
+  <input type="number" id="antennaDiameter" step="0.01"><br><br>
+  
+  <label for="frequency">Enter Frequency (in GHz):</label>
+  <input type="number" id="frequency" step="0.01"><br><br>
+  
+  <button onclick="calculateGain()">Calculate Gain</button>
+  
+  <p id="result"></p>
+</body>
+</html>

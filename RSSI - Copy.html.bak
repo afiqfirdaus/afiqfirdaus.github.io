@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RSL vs Voltage</title>
+</head>
+<body>
+    <canvas id="myCanvas" width="600" height="400" style="border:1px solid #000;"></canvas>
+
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.font = "12px Arial";
+            ctx.strokeStyle = "blue";
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(50, 20);
+            ctx.lineTo(50, 320);
+            ctx.lineTo(550, 320);
+            ctx.stroke();
+
+            var rslToVoltage = {
+                -25: 4.19,
+                -30: 3.87,
+                -35: 3.56,
+                -40: 3.24,
+                -45: 2.93,
+                -50: 2.61,
+                -55: 2.30,
+                -60: 1.99,
+                -65: 1.67,
+                -70: 1.36,
+                -75: 1.04,
+                -80: 0.73,
+                -85: 0.41,
+                -90: 0.10
+            };
+
+            var voltages = Object.values(rslToVoltage);
+            var rslValues = Object.keys(rslToVoltage).map(Number);
+
+            var voltageScale = (canvas.width - 100) / Math.max(...voltages);
+            var rslScale = (canvas.height - 100) / (Math.max(...rslValues) - Math.min(...rslValues));
+
+            function voltageToX(voltage) {
+                return 50 + (voltage * voltageScale);
+            }
+
+            function rslToY(rsl) {
+                return 320 - ((rsl - Math.min(...rslValues)) * rslScale);
+            }
+
+            ctx.fillStyle = 'red';
+            for (var i = 0; i < rslValues.length; i++) {
+                ctx.beginPath();
+                ctx.arc(voltageToX(voltages[i]), rslToY(rslValues[i]), 5, 0, Math.PI * 2, true);
+                ctx.fill();
+            }
+        }
+
+        window.onload = function() {
+            drawGraph();
+        };
+    </script>
+</body>
+</html>
