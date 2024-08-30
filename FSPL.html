@@ -112,19 +112,12 @@
  
  <!-- <p>Free Space Path Loss Formula: \( \text{FSPL} = 20 \log_{10}(f) + 20 \log_{10}(d) + 32.44 \)</p> -->
 	 <body>
-    <h2>Wavelength Formula</h2>
-    <p>The wavelength \( \lambda \) of an electromagnetic wave is given by the formula:</p>
+    <h2>FSPL Formula</h2>
     <p>
         \[
-        \lambda = \frac{c}{f_c}
+        \text{FSPL} = \left(\frac{4 \pi R}{\lambda}\right)^2
         \]
     </p>
-    <p>Where:</p>
-    <ul>
-        <li>\( \lambda \) is the wavelength in meters (m).</li>
-        <li>\( c \) is the speed of light in a vacuum, approximately \( 299,792,458 \) meters per second (m/s).</li>
-        <li>\( f_c \) is the frequency of the wave in hertz (Hz).</li>
-    </ul>
 </body>
         <!-- Form -->
         <form id="transmissionForm">
@@ -153,10 +146,17 @@
 		const b = parseFloat(document.getElementById("dst").value);
 
   // Calculate X
-		const X = 20 * Math.log10(a) + 20 * Math.log10(b) + 32.44;
+		const c = 299792458
+	    	const fGHZ = fq * 1e9
+	    	const dKM = dst * 1e3
+	    	const lamda = c / fGHZ
+	    	const fspl = = Math.pow((4 * Math.PI * dKM) / lambda, 2);
+	    
+	    
+	    	//const X = 20 * Math.log10(a) + 20 * Math.log10(b) + 32.44;
 
   // Display the result in the paragraph element
-		document.getElementById("result").innerHTML = `FSPL(dB) = ${X.toFixed(2)}`;
+		document.getElementById("result").innerHTML = `FSPL(dB) = ${fspl.toFixed(2)}`;
 
   // Prevent form submission (optional)
 		return false;
