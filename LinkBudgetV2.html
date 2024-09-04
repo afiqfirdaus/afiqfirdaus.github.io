@@ -110,7 +110,7 @@
     <div class="container" id="ctner">
         <!-- Form -->
         <form id="transmissionForm">
-            <h1>Link Budget Calculator(BETA)</h1>
+            <h1>Link Budget Calculator(BETA_V2)</h1>
 
             <label for="transmitPower">Transmit Power(dB) :</label>
             <input type="number" id="transmitPower" placeholder="Enter Transmit Power..." step="any">
@@ -173,11 +173,7 @@
 			var pathDist = parseFloat(document.getElementById('pathDist').value) //distance from site A to site B
 			var fspl = 20 * Math.log10(freq) + 20 * Math.log10(pathDist) + 32.44;
 			
-			
-			
-          //  var antennaTxGain = parseFloat(document.getElementById('antennaTxGain').value) || 0;
-         //   var antennaRxGain = parseFloat(document.getElementById('antennaRxGain').value) || 0;
-          //  var fsl = parseFloat(document.getElementById('fsl').value) || 0;
+			//losses
             var txLoss = parseFloat(document.getElementById('txLoss').value) || 0;
             var rxLoss = parseFloat(document.getElementById('rxLoss').value) || 0;
             var otherLoss = parseFloat(document.getElementById('otherLoss').value) || 0;
