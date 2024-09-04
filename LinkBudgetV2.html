@@ -185,9 +185,9 @@
             // Calculate RSL
             var rsl = transmitPower + gainA + gainB - fspl - txLoss - rxLoss - otherLoss;
 
-			document.getElementById("calculatedRSL").innerHTML = `RSL(dBm) = ${rsl.toFixed(2)}`;
+			//document.getElementById("calculatedRSL").innerHTML = `RSL(dBm) = ${rsl.toFixed(2)}`;
             // Display the calculated RSL value
-           //alert('Calculated rsl: ' + rsl.toFixed(2));
+           alert('Calculated rsl: ' + rsl.toFixed(2));
 			//alert('Calculated gainA: ' + gainA.toFixed(2));
 			//alert('Calculated gainB: ' + gainB.toFixed(2));
 			//alert('Calculated fspl: ' + fspl.toFixed(2));
