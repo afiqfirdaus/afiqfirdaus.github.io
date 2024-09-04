@@ -1,0 +1,222 @@
+<	!DOCTYPE html>
+<html>
+<head>
+
+
+
+  <meta charset="utf-8" />
+  <!-- multi-device width -->
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <!-- site description -->
+  
+  <meta content="" name="description" />
+  <!-- referer for 3rd-part images-->
+  <meta content="no-referrer" name="referrer" />
+  <!-- title -->
+  <title>
+    
+    Link Budget Calculator
+    
+  </title>
+  
+  <!-- icon -->
+  <link href="assets/img/favicond41d.ico?" rel="shortcut icon bookmark" type="image/x-icon" />
+  <!-- main stylesheet -->
+  <link rel="stylesheet" href="assets/css/main.css" type="text/css" />
+  <!-- fa 5.9.0 -->
+  <link rel="stylesheet" href="assets/css/fa.min.css" type="text/css" />
+  <!-- rouge theme-->
+  <link rel="stylesheet" href="assets/css/rouge-bg.css" />
+  <!-- mathjax 2.7.5 -->
+  <script src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJaxb198.js?config=TeX-MML-AM_CHTML" async></script>
+  </head>
+  <body class="page">
+  
+ 
+  
+    <!-- background animations -->
+<div class="div_bg">
+  <canvas id="c"></canvas>
+</div>
+<script>
+  var c = document.getElementById("c");
+  var ctx = c.getContext("2d");
+  c.height = window.innerHeight;
+  c.width = window.innerWidth;
+  var txts = "αβγδεζηθικλμνξοπρστυφχψω∷∫∮∝∞∧∨∑∏∪∩∈∵∴⊥‖∠⌒⊙≌√";
+  txts = txts.split("");
+  var font_size = 12;
+  var columns = c.width / font_size;
+  var drops = [];
+  for (var x = 0; x < columns; x++) drops[x] = 1;
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = "#490";
+    ctx.font = font_size + "px arial";
+    for (var i = 0; i < drops.length; i++) {
+      var text = txts[Math.floor(Math.random() * txts.length)];
+      ctx.fillText(text, i * font_size, drops[i] * font_size);
+      if (drops[i] * font_size > c.height || Math.random() > 0.98) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw, 20);
+</script>
+   
+
+<!-- here -->
+<head>
+    <title>Link Budget Calculator(Beta)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px; /* Set the maximum width for the form on larger screens */
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 480px) {
+            /* Adjust styles for smaller screens */
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="ctner">
+        <!-- Form -->
+        <form id="transmissionForm">
+            <h1>Link Budget Calculator(BETA)</h1>
+
+            <label for="transmitPower">Transmit Power(dB) :</label>
+            <input type="number" id="transmitPower" placeholder="Enter Transmit Power..." step="any">
+
+            <label for="antennaTxSize">Antenna site A size(m) :</label>
+            <input type="number" id="antennaTxSize" placeholder="Enter Antenna size for site A in meters ..." step="any">
+
+            <label for="antennaRxSize">Antenna site B size(m) :</label>
+            <input type="number" id="antennaRxSize" placeholder="Enter Antenna size for site B in meters..." step="any">
+
+            <label for="freq">Frequency(GHz):</label>
+            <input type="number" id="freq" placeholder="Enter Frequency in GHz..." step="any">
+
+            <label for="pathDist">Distance A - B in meters:</label>
+            <input type="number" id="pathDist" placeholder="Enter Distance in meters..." step="any">
+			
+			<label for="txLoss">Receiver Loss (Tx Loss):</label>
+            <input type="number" id="txLoss" placeholder="Enter Transmit Loss..." step="any">
+
+            <label for="rxLoss">Receiver Loss (Rx Loss):</label>
+            <input type="number" id="rxLoss" placeholder="Enter Receiver Loss..." step="any">
+
+            <label for="otherLoss">Other Loss:</label>
+            <input type="number" id="otherLoss" placeholder="Enter Other Loss..." step="any">
+
+            <input type="submit" value="Submit">
+        </form>
+        <!-- End Form -->
+
+        <!-- Display calculated RSL -->
+        <div id="calculatedRSL"></div>
+    </div>
+
+    <script>
+        // Function to calculate RSL when form is submitted
+        document.getElementById('transmissionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get input values
+            var transmitPower = parseFloat(document.getElementById('transmitPower').value) || 0;
+			var freq = parseFloat(document.getElementById('freq').value) || 0; // Frequency
+			
+			//freq *= 1000.0 * 1000.0 * 1000.0; //convert freq to GHz
+			
+			// calculate Gain 
+			var antennaTxSize = parseFloat(document.getElementById('antennaTxSize').value); // Diameter site A
+			var antennaRxSize = parseFloat(document.getElementById('antennaRxSize').value); // Diameter site B
+			
+			//site A gain
+			var wavelength = 299792458.0 / (freq * 1000.0 * 1000.0 * 1000.0) ; // Wavelength calculation (in meters)
+			var ratioA = antennaTxSize / wavelength; // Ratio (Diameter/Wavelength)
+			var gainA = 10 * Math.log10(6 * Math.pow(ratioA, 2)); // Gain site A calculation (in dB)
+			
+			//site B gain
+			var wavelength = 299792458.0 / (freq * 1000.0 * 1000.0 * 1000.0) ; // Wavelength calculation (in meters)
+			var ratioB = antennaRxSize / wavelength; // Ratio (Diameter/Wavelength)
+			var gainB = 10 * Math.log10(6 * Math.pow(ratioB, 2)); // Gain site B calculation (in dB)
+			
+			// calculate free space path Loss
+			var pathDist = parseFloat(document.getElementById('pathDist').value) //distance from site A to site B
+			var fspl = 20 * Math.log10(freq) + 20 * Math.log10(pathDist) + 32.44;
+			
+			
+			
+          //  var antennaTxGain = parseFloat(document.getElementById('antennaTxGain').value) || 0;
+         //   var antennaRxGain = parseFloat(document.getElementById('antennaRxGain').value) || 0;
+          //  var fsl = parseFloat(document.getElementById('fsl').value) || 0;
+            var txLoss = parseFloat(document.getElementById('txLoss').value) || 0;
+            var rxLoss = parseFloat(document.getElementById('rxLoss').value) || 0;
+            var otherLoss = parseFloat(document.getElementById('otherLoss').value) || 0;
+
+            // Calculate RSL
+            var rsl = transmitPower + gainA + gainB - fspl - txLoss - rxLoss - otherLoss;
+
+			document.getElementById("calculatedRSL").innerHTML = `RSL(dBm) = ${rsl.toFixed(2)}`;
+            // Display the calculated RSL value
+           //alert('Calculated rsl: ' + rsl.toFixed(2));
+			//alert('Calculated gainA: ' + gainA.toFixed(2));
+			//alert('Calculated gainB: ' + gainB.toFixed(2));
+			//alert('Calculated fspl: ' + fspl.toFixed(2));
+			
+			
+			
+			
+        });
+    </script>
+</body>
+</html>
+</div></pre>
+          <div class="footer">
+    <nav class="nav_bar">
+        <ul>
+            <li class="copyright">
+                © 2022
+            </li>
+            
+            <li>
+                Afiq Firdaus, All Rights Reserved
+            </li>
+            
+    </nav>
+    </ul>
+</div>
+          
+      </div>
+    </div>
+  </body>
+
+</html>
