@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HW_RTN_SCRIPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0a0d12;--panel:#0f1520;--border:#1e3a5f;
+      --accent:#00d4ff;--text:#c8d8e8;--label:#7aadcc;
+      --dim:#3a5a72;--green:#00ff88;--input-bg:#060d16;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:var(--bg);color:var(--text);
+      font-family:'Rajdhani',sans-serif;font-size:15px;
+      min-height:100vh;padding:30px 20px 50px;
+      background-image:
+        radial-gradient(ellipse at 20% 10%,rgba(0,100,180,.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 80% 90%,rgba(0,212,255,.05) 0%,transparent 50%);
+    }
+    header{text-align:center;margin-bottom:32px;}
+    header::before{content:'';display:block;width:60px;height:2px;background:var(--accent);margin:0 auto 14px;box-shadow:0 0 12px var(--accent);}
+    header h1{font-family:'Share Tech Mono',monospace;font-size:26px;letter-spacing:6px;color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,.5);}
+    header p{font-size:12px;letter-spacing:3px;color:var(--dim);margin-top:6px;text-transform:uppercase;}
+
+    .layout{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+    @media(max-width:860px){.layout{grid-template-columns:1fr;}}
+
+    .form-col{display:flex;flex-direction:column;gap:16px;}
+
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px 20px;position:relative;animation:fadeIn .4s ease both;}
+    .card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);border-radius:4px 0 0 4px;box-shadow:0 0 10px rgba(0,212,255,.4);}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    .sec-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+    .sec-label .idx{background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;}
+    .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+    .field-title{font-size:12px;font-weight:700;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+
+    select,input[type="text"],input[type="number"]{
+      background:var(--input-bg);border:1px solid var(--border);border-radius:3px;
+      color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;
+      padding:8px 12px;transition:border-color .2s,box-shadow .2s;
+    }
+    select{width:100%;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%2300d4ff'%3E%3Cpath d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;}
+    select:focus,input[type="text"]:focus,input[type="number"]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,212,255,.12);}
+    select option{background:#0f1520;}
+    input[type="text"].full,input[type="number"].full{width:100%;}
+    input[type="number"].inline{width:110px;}
+
+    .cb-grid{display:flex;flex-direction:column;gap:9px;}
+    .cb-row{display:flex;align-items:center;gap:10px;}
+    .cb-row input[type="checkbox"]{appearance:none;width:17px;height:17px;border:1px solid var(--dim);border-radius:2px;background:var(--input-bg);cursor:pointer;flex-shrink:0;position:relative;transition:border-color .15s,background .15s;}
+    .cb-row input[type="checkbox"]:checked{background:var(--accent);border-color:var(--accent);}
+    .cb-row input[type="checkbox"]:checked::after{content:'';position:absolute;left:4px;top:1px;width:5px;height:9px;border:2px solid #000;border-top:none;border-left:none;transform:rotate(45deg);}
+    .cb-row label{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--label);min-width:40px;cursor:pointer;user-select:none;transition:color .15s;}
+    .cb-row input[type="checkbox"]:checked+label{color:var(--green);}
+    .cb-row input[type="text"],.cb-row input[type="number"]{flex:1;}
+
+    .hint{font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:6px;font-family:'Share Tech Mono',monospace;}
+
+    .gen-btn{width:100%;padding:14px;background:transparent;border:1px solid var(--accent);border-radius:4px;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s;}
+    .gen-btn:hover{background:var(--accent);color:#000;box-shadow:0 0 24px rgba(0,212,255,.4);}
+    .gen-btn:active{transform:scale(.98);}
+
+    .output-col{display:flex;flex-direction:column;position:sticky;top:20px;}
+    .output-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;animation:fadeIn .5s ease .2s both;}
+    .output-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green);border-radius:4px 0 0 4px;box-shadow:0 0 10px rgba(0,255,136,.4);}
+    .out-header{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--border);background:rgba(0,255,136,.04);}
+    .out-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--green);text-transform:uppercase;}
+    .copy-btn{background:transparent;border:1px solid var(--dim);color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 12px;border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
+    .copy-btn:hover,.copy-btn.copied{border-color:var(--green);color:var(--green);}
+
+    #output-box{width:100%;min-height:540px;background:var(--input-bg);border:none;color:var(--green);font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.9;padding:18px 20px;resize:vertical;outline:none;display:none;}
+    .empty-state{padding:80px 20px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:2px;}
+    .blink{animation:blink 1.2s step-end infinite;color:var(--accent);}
+    @keyframes blink{50%{opacity:0;}}
+
+    footer{text-align:center;margin-top:28px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:2px;}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>HW_RTN_SCRIPT</h1>
+  <p>Script Configuration generator</p>
+</header>
+
+<div class="layout">
+
+  <!-- ══ FORM ══ -->
+  <div class="form-col">
+
+    <!-- 01 Operator -->
+    <div class="card" style="animation-delay:.04s">
+      <div class="sec-label"><span class="idx">01</span> Operator</div>
+      <div class="field-title">— Operator —</div>
+      <select id="operator">
+        <option value="" disabled selected>Select Operator</option>
+        <option value="MAXIS">MAXIS</option>
+        <option value="UM">UM</option>
+        <option value="CD">CD</option>
+      </select>
+    </div>
+
+    <!-- 02 NE_NAME -->
+    <div class="card" style="animation-delay:.08s">
+      <div class="sec-label"><span class="idx">02</span> NE NAME</div>
+      <div class="field-title">— NE_NAME —</div>
+      <input type="text" id="ne_name" class="full" placeholder="e.g. RTN1_KCDR1-AKSA1"/>
+    </div>
+
+    <!-- 03 IF_SLOT_NAME -->
+    <!--
+      Slot mapping:
+        7-1 → board=27, portIdx=1, cfgPort="7,255,1", modePort="7,0xff,1"
+        7-2 → board=27, portIdx=2, cfgPort="7,255,2", modePort="7,0xff,2"   ← SAME board 27
+        3-1 → board=23, portIdx=1, cfgPort="3,255,1", modePort="3,0xff,1"
+        3-2 → board=23, portIdx=2, cfgPort="3,255,2", modePort="3,0xff,2"   ← SAME board 23
+        4-1 → board=24, portIdx=1, cfgPort="4,255,1", modePort="4,0xff,1"
+        4-2 → board=24, portIdx=2, cfgPort="4,255,2", modePort="4,0xff,2"   ← SAME board 24
+    -->
+    <div class="card" style="animation-delay:.12s">
+      <div class="sec-label"><span class="idx">03</span> IF SLOT</div>
+      <div class="field-title">— IF_SLOT_NAME — (port label)</div>
+      <div class="cb-grid" id="grp-ifslot">
+        <div class="cb-row"><input type="checkbox" id="ifs_71" data-slot="7-1" data-board="27" data-portidx="1" data-cfgport="7,255,1" data-modeport="7,0xff,1"><label for="ifs_71">7-1</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="ifs_72" data-slot="7-2" data-board="27" data-portidx="2" data-cfgport="7,255,2" data-modeport="7,0xff,2"><label for="ifs_72">7-2</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="ifs_31" data-slot="3-1" data-board="23" data-portidx="1" data-cfgport="3,255,1" data-modeport="3,0xff,1"><label for="ifs_31">3-1</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="ifs_32" data-slot="3-2" data-board="23" data-portidx="2" data-cfgport="3,255,2" data-modeport="3,0xff,2"><label for="ifs_32">3-2</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="ifs_41" data-slot="4-1" data-board="24" data-portidx="1" data-cfgport="4,255,1" data-modeport="4,0xff,1"><label for="ifs_41">4-1</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="ifs_42" data-slot="4-2" data-board="24" data-portidx="2" data-cfgport="4,255,2" data-modeport="4,0xff,2"><label for="ifs_42">4-2</label><input type="text" placeholder="Port label..."/></div>
+      </div>
+    </div>
+
+    <!-- 04 ETH_PORT -->
+    <div class="card" style="animation-delay:.16s">
+      <div class="sec-label"><span class="idx">04</span> Ethernet Port</div>
+      <div class="field-title">— ETH_PORT — (port label)</div>
+      <div class="cb-grid" id="grp-ethport">
+        <div class="cb-row"><input type="checkbox" id="eth_ge1" data-port="GE1" data-idx="1"><label for="eth_ge1">GE1</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="eth_ge2" data-port="GE2" data-idx="2"><label for="eth_ge2">GE2</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="eth_ge3" data-port="GE3" data-idx="3"><label for="eth_ge3">GE3</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="eth_ge4" data-port="GE4" data-idx="4"><label for="eth_ge4">GE4</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="eth_ge5" data-port="GE5" data-idx="5"><label for="eth_ge5">GE5</label><input type="text" placeholder="Port label..."/></div>
+        <div class="cb-row"><input type="checkbox" id="eth_ge6" data-port="GE6" data-idx="6"><label for="eth_ge6">GE6</label><input type="text" placeholder="Port label..."/></div>
+      </div>
+    </div>
+
+    <!-- 05 FREQUENCY -->
+    <div class="card" style="animation-delay:.20s">
+      <div class="sec-label"><span class="idx">05</span> Frequency</div>
+      <div class="field-title">— FREQUENCY — (MHz)</div>
+      <div class="cb-grid" id="grp-freq">
+        <div class="cb-row"><input type="checkbox" id="freq_71" data-slot="7-1" data-board="27" data-portidx="1"><label for="freq_71">7-1</label><input type="number" class="inline" placeholder="MHz"/></div>
+        <div class="cb-row"><input type="checkbox" id="freq_72" data-slot="7-2" data-board="27" data-portidx="2"><label for="freq_72">7-2</label><input type="number" class="inline" placeholder="MHz"/></div>
+        <div class="cb-row"><input type="checkbox" id="freq_31" data-slot="3-1" data-board="23" data-portidx="1"><label for="freq_31">3-1</label><input type="number" class="inline" placeholder="MHz"/></div>
+        <div class="cb-row"><input type="checkbox" id="freq_32" data-slot="3-2" data-board="23" data-portidx="2"><label for="freq_32">3-2</label><input type="number" class="inline" placeholder="MHz"/></div>
+        <div class="cb-row"><input type="checkbox" id="freq_41" data-slot="4-1" data-board="24" data-portidx="1"><label for="freq_41">4-1</label><input type="number" class="inline" placeholder="MHz"/></div>
+        <div class="cb-row"><input type="checkbox" id="freq_42" data-slot="4-2" data-board="24" data-portidx="2"><label for="freq_42">4-2</label><input type="number" class="inline" placeholder="MHz"/></div>
+      </div>
+      <div class="hint">Band spacing auto-detected: 13G→266 | 15G→490 | 18G→1010 | 23G→1232</div>
+    </div>
+
+    <!-- 06 TX_PWR -->
+    <div class="card" style="animation-delay:.24s">
+      <div class="sec-label"><span class="idx">06</span> Transmit Power</div>
+      <div class="field-title">— TX_PWR — (dBm)</div>
+      <div class="cb-grid" id="grp-txpwr">
+        <div class="cb-row"><input type="checkbox" id="txp_71" data-slot="7-1" data-board="27" data-portidx="1"><label for="txp_71">7-1</label><input type="number" class="inline" placeholder="dBm"/></div>
+        <div class="cb-row"><input type="checkbox" id="txp_72" data-slot="7-2" data-board="27" data-portidx="2"><label for="txp_72">7-2</label><input type="number" class="inline" placeholder="dBm"/></div>
+        <div class="cb-row"><input type="checkbox" id="txp_31" data-slot="3-1" data-board="23" data-portidx="1"><label for="txp_31">3-1</label><input type="number" class="inline" placeholder="dBm"/></div>
+        <div class="cb-row"><input type="checkbox" id="txp_32" data-slot="3-2" data-board="23" data-portidx="2"><label for="txp_32">3-2</label><input type="number" class="inline" placeholder="dBm"/></div>
+        <div class="cb-row"><input type="checkbox" id="txp_41" data-slot="4-1" data-board="24" data-portidx="1"><label for="txp_41">4-1</label><input type="number" class="inline" placeholder="dBm"/></div>
+        <div class="cb-row"><input type="checkbox" id="txp_42" data-slot="4-2" data-board="24" data-portidx="2"><label for="txp_42">4-2</label><input type="number" class="inline" placeholder="dBm"/></div>
+      </div>
+    </div>
+
+    <!-- 07 NE-ID -->
+    <div class="card" style="animation-delay:.28s">
+      <div class="sec-label"><span class="idx">07</span> NEID</div>
+      <div class="field-title">— NE-ID — (e.g. 9-427)</div>
+      <input type="text" id="ne_id" class="full" placeholder="e.g. 9-427  or  52-1234"/>
+      <div class="hint">Auto-converts X-YYYY → 0xHEXHEX</div>
+    </div>
+
+    <!-- 08 CM IP -->
+    <div class="card" style="animation-delay:.32s">
+      <div class="sec-label"><span class="idx">08</span> IP Address</div>
+      <div class="field-title">— NE IP ADDRESS —</div>
+      <input type="text" id="cm_ip" class="full" placeholder="e.g. 129.9.1.158"/>
+    </div>
+
+    <button class="gen-btn" onclick="generateScript()">▶ GENERATE SCRIPT</button>
+
+  </div><!-- /form-col -->
+
+  <!-- ══ OUTPUT ══ -->
+  <div class="output-col">
+    <div class="output-card">
+      <div class="out-header">
+        <span class="out-title">◈ SCRIPT OUTPUT</span>
+        <button class="copy-btn" id="copy-btn" onclick="copyOutput()">COPY</button>
+      </div>
+      <div id="empty-state" class="empty-state">
+        <div>AWAITING INPUT<span class="blink">_</span></div>
+        <div style="margin-top:10px;font-size:10px;color:#2a4a5a;">Fill the form and press GENERATE</div>
+      </div>
+      <textarea id="output-box" readonly></textarea>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<footer>◈ HW_RTN_SCRIPT v3.1 ◈</footer>
+
+<script>
+/* ── Constants ── */
+const PASSWORDS = { MAXIS:'Maxis@123456', UM:'Umobile_1234', CD:'Password_123' };
+const USERS     = ['lct1','szhw','root2','szhw3','NCEUser','DCUser'];
+
+/* Band spacing (MHz → kHz unit) */
+function getSpacing(freqMHz) {
+  const f = parseFloat(freqMHz);
+  if (f >= 12000 && f < 14000) return 266000;   // 13G
+  if (f >= 14000 && f < 16500) return 490000;   // 15G
+  if (f >= 17000 && f < 19500) return 1010000;  // 18G
+  if (f >= 21000 && f < 24000) return 1232000;  // 23G
+  return 1010000; // default 18G
+}
+
+/* NE-ID: "9-427" → 0x0901AB */
+function neIdToHex(input) {
+  const parts = input.trim().split('-');
+  if (parts.length !== 2) return null;
+  const a = parseInt(parts[0], 10);
+  const b = parseInt(parts[1], 10);
+  if (isNaN(a) || isNaN(b)) return null;
+  const val = (a << 16) | (b & 0xFFFF);
+  return '0x' + val.toString(16).toUpperCase().padStart(6, '0');
+}
+
+/* Collect checked rows from a group, reading all data-* attrs */
+function collectRows(groupId) {
+  const rows = document.querySelectorAll(`#${groupId} .cb-row`);
+  const result = [];
+  rows.forEach(row => {
+    const cb  = row.querySelector('input[type="checkbox"]');
+    const inp = row.querySelector('input[type="text"], input[type="number"]');
+    if (cb.checked) {
+      const data = {};
+      [...cb.attributes].forEach(a => {
+        if (a.name.startsWith('data-')) data[a.name.slice(5)] = a.value;
+      });
+      result.push({ ...data, val: inp ? inp.value.trim() : '' });
+    }
+  });
+  return result;
+}
+
+/* ── Main generator ── */
+function generateScript() {
+  const operator = document.getElementById('operator').value;
+  const neName   = document.getElementById('ne_name').value.trim();
+  const neIdRaw  = document.getElementById('ne_id').value.trim();
+  const cmIp     = document.getElementById('cm_ip').value.trim();
+
+  if (!operator) { alert('Please select an Operator.'); return; }
+  if (!neName)   { alert('Please enter NE_NAME.'); return; }
+
+  const pw = PASSWORDS[operator];
+  const L  = [];
+
+  /* 1. sm-add-user */
+  USERS.forEach(u => L.push(`:sm-add-user:"${u}","${pw}","admin",disable;`));
+
+  /* 2. NE Name */
+  L.push(`:cfg-set-nename:64,"${neName}";`);
+
+  /* 3. ETH_PORT port names: 8,255,X */
+  const ethRows = collectRows('grp-ethport');
+  ethRows.forEach(r => {
+    if (r.val) L.push(`:cfg-set-portname:8,255,${r.idx},"${r.val}";`);
+  });
+
+  /* 4. IF_SLOT port names: cfgport */
+  const ifRows = collectRows('grp-ifslot');
+  ifRows.forEach(r => {
+    if (r.val) L.push(`:cfg-set-portname:${r.cfgport},"${r.val}";`);
+  });
+
+  /* 5. cfg-add-board — ONE line per UNIQUE board only
+       7-1 and 7-2 both → board 27 → only one :cfg-add-board:27,modu;
+       3-1 and 3-2 both → board 23 → only one :cfg-add-board:23,modu;
+       4-1 and 4-2 both → board 24 → only one :cfg-add-board:24,modu;
+  */
+  const boardsSeen = new Set();
+  ifRows.forEach(r => {
+    if (!boardsSeen.has(r.board)) {
+      boardsSeen.add(r.board);
+      L.push(`:cfg-add-board:${r.board},modu;`);
+    }
+  });
+
+  /* 6. FREQUENCY — board + portidx as 3rd param
+       7-1 → :radio-cfg-set-modu-txfreq:27,0xff,1,1,FREQ
+       7-2 → :radio-cfg-set-modu-txfreq:27,0xff,2,1,FREQ   ← board same (27), portidx changes
+  */
+  const freqRows = collectRows('grp-freq');
+  freqRows.forEach(r => {
+    if (r.val) {
+      const freqUnit = Math.round(parseFloat(r.val) * 1000);  // MHz × 1000
+      const spacing  = getSpacing(r.val);
+      L.push(`:radio-cfg-set-modu-txfreq:${r.board},0xff,${r.portidx},1,${freqUnit};`);
+      L.push(`:radio-cfg-set-modu-trspacing:${r.board},0xff,${r.portidx},1,${spacing};`);
+    }
+  });
+
+  /* 7. TX_PWR — same board+portidx pattern */
+  const txRows = collectRows('grp-txpwr');
+  txRows.forEach(r => {
+    if (r.val) {
+      const tsl = Math.round(parseFloat(r.val) * 10);  // dBm × 10
+      L.push(`:radio-cfg-set-modu-tsl:${r.board},0xff,${r.portidx},1,${tsl};`);
+    }
+  });
+
+  /* 8. Running mode — per IF slot */
+  ifRows.forEach(r => {
+    L.push(`:radio-cfg-set-if-runningmode:${r.modeport},IS8-PLUS;`);
+  });
+
+  /* 9. Power booster — ONE line per UNIQUE board only */
+  const boards2 = new Set();
+  ifRows.forEach(r => {
+    if (!boards2.has(r.board)) {
+      boards2.add(r.board);
+      L.push(`:cfg-set-power-booster-en:${r.board},0xff,BASE-TSL,enable;`);
+    }
+  });
+
+  /* 10. NE-ID hex */
+  if (neIdRaw) {
+    const hex = neIdToHex(neIdRaw);
+    L.push(hex ? `:cm-set-neid:${hex};` : `# ERROR: Invalid NE-ID "${neIdRaw}" (expected X-YYYY)`);
+  }
+
+  /* 11. CM IP */
+  if (cmIp) L.push(`:cm-set-ip:${cmIp};`);
+
+  /* Render */
+  document.getElementById('empty-state').style.display = 'none';
+  const box = document.getElementById('output-box');
+  box.style.display = 'block';
+  box.value = L.join('\n');
+
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'COPY';
+  btn.classList.remove('copied');
+}
+
+function copyOutput() {
+  const box = document.getElementById('output-box');
+  if (!box.value) return;
+  navigator.clipboard.writeText(box.value).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'COPIED ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
