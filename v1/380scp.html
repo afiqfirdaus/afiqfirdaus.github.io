@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HW_RTN380_SCRIPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0a0d12;--panel:#0f1520;--border:#1e3a5f;
+      --accent:#00d4ff;--text:#c8d8e8;--label:#7aadcc;
+      --dim:#3a5a72;--green:#00ff88;--input-bg:#060d16;
+      --orange:#ff9500;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:var(--bg);color:var(--text);
+      font-family:'Rajdhani',sans-serif;font-size:15px;
+      min-height:100vh;padding:30px 20px 50px;
+      background-image:
+        radial-gradient(ellipse at 20% 10%,rgba(0,100,180,.08) 0%,transparent 50%),
+        radial-gradient(ellipse at 80% 90%,rgba(255,149,0,.04) 0%,transparent 50%);
+    }
+    header{text-align:center;margin-bottom:32px;}
+    header::before{content:'';display:block;width:60px;height:2px;background:var(--orange);margin:0 auto 14px;box-shadow:0 0 12px var(--orange);}
+    header h1{font-family:'Share Tech Mono',monospace;font-size:26px;letter-spacing:6px;color:var(--orange);text-shadow:0 0 20px rgba(255,149,0,.5);}
+    header p{font-size:12px;letter-spacing:3px;color:var(--dim);margin-top:6px;text-transform:uppercase;}
+    header .device-badge{
+      display:inline-block;margin-top:10px;
+      font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;
+      border:1px solid var(--orange);color:var(--orange);padding:3px 12px;border-radius:2px;
+    }
+
+    .layout{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+    @media(max-width:860px){.layout{grid-template-columns:1fr;}}
+
+    .form-col{display:flex;flex-direction:column;gap:16px;}
+
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:18px 20px;position:relative;animation:fadeIn .4s ease both;}
+    .card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--orange);border-radius:4px 0 0 4px;box-shadow:0 0 10px rgba(255,149,0,.4);}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+    .sec-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+    .sec-label .idx{background:var(--orange);color:#000;font-size:10px;font-weight:700;padding:2px 6px;border-radius:2px;}
+    .sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+    .field-title{font-size:12px;font-weight:700;color:var(--label);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+
+    select,input[type="text"],input[type="number"]{
+      background:var(--input-bg);border:1px solid var(--border);border-radius:3px;
+      color:var(--text);font-family:'Share Tech Mono',monospace;font-size:13px;
+      padding:8px 12px;transition:border-color .2s,box-shadow .2s;
+    }
+    select{width:100%;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%23ff9500'%3E%3Cpath d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer;}
+    select:focus,input[type="text"]:focus,input[type="number"]:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 2px rgba(255,149,0,.12);}
+    select option{background:#0f1520;}
+    input[type="text"].full,input[type="number"].full{width:100%;}
+
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+
+    .cb-row{display:flex;align-items:center;gap:10px;}
+    .cb-row input[type="checkbox"]{appearance:none;width:17px;height:17px;border:1px solid var(--dim);border-radius:2px;background:var(--input-bg);cursor:pointer;flex-shrink:0;position:relative;transition:border-color .15s,background .15s;}
+    .cb-row input[type="checkbox"]:checked{background:var(--orange);border-color:var(--orange);}
+    .cb-row input[type="checkbox"]:checked::after{content:'';position:absolute;left:4px;top:1px;width:5px;height:9px;border:2px solid #000;border-top:none;border-left:none;transform:rotate(45deg);}
+    .cb-row label{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--label);cursor:pointer;user-select:none;transition:color .15s;}
+    .cb-row input[type="checkbox"]:checked+label{color:var(--green);}
+
+    .hint{font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:6px;font-family:'Share Tech Mono',monospace;}
+
+    /* VLAN tags input area */
+    .vlan-wrap{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+    .vlan-entry{display:flex;align-items:center;gap:8px;}
+    .vlan-entry input{flex:1;}
+    .vlan-add-btn,.vlan-del-btn{
+      background:transparent;border:1px solid var(--dim);color:var(--dim);
+      font-family:'Share Tech Mono',monospace;font-size:11px;padding:4px 10px;
+      border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;flex-shrink:0;
+    }
+    .vlan-add-btn:hover{border-color:var(--orange);color:var(--orange);}
+    .vlan-del-btn:hover{border-color:#ff4444;color:#ff4444;}
+
+    /* GE port select row */
+    .ge-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .ge-row label{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);min-width:80px;}
+    .ge-row select{flex:1;}
+
+    /* Sub panel */
+    .sub-panel{
+      margin-top:10px;padding:12px 14px;
+      background:rgba(255,149,0,.04);border:1px solid var(--border);border-radius:3px;
+      display:flex;flex-direction:column;gap:10px;
+    }
+
+    .gen-btn{width:100%;padding:14px;background:transparent;border:1px solid var(--orange);border-radius:4px;color:var(--orange);font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s;}
+    .gen-btn:hover{background:var(--orange);color:#000;box-shadow:0 0 24px rgba(255,149,0,.4);}
+    .gen-btn:active{transform:scale(.98);}
+
+    .output-col{display:flex;flex-direction:column;position:sticky;top:20px;}
+    .output-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;animation:fadeIn .5s ease .2s both;}
+    .output-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green);border-radius:4px 0 0 4px;box-shadow:0 0 10px rgba(0,255,136,.4);}
+    .out-header{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid var(--border);background:rgba(0,255,136,.04);}
+    .out-title{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--green);text-transform:uppercase;}
+    .copy-btn{background:transparent;border:1px solid var(--dim);color:var(--dim);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 12px;border-radius:2px;cursor:pointer;transition:border-color .2s,color .2s;}
+    .copy-btn:hover,.copy-btn.copied{border-color:var(--green);color:var(--green);}
+
+    #output-box{width:100%;min-height:580px;background:var(--input-bg);border:none;color:var(--green);font-family:'Share Tech Mono',monospace;font-size:12px;line-height:1.9;padding:18px 20px;resize:vertical;outline:none;display:none;}
+    .empty-state{padding:80px 20px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:2px;}
+    .blink{animation:blink 1.2s step-end infinite;color:var(--orange);}
+    @keyframes blink{50%{opacity:0;}}
+
+    footer{text-align:center;margin-top:28px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:2px;}
+
+    .back-link{
+      display:inline-block;margin-bottom:20px;
+      font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;
+      color:var(--dim);text-decoration:none;
+      border:1px solid var(--border);padding:5px 14px;border-radius:2px;
+      transition:color .2s,border-color .2s;
+    }
+    .back-link:hover{color:var(--orange);border-color:var(--orange);}
+  </style>
+</head>
+<body>
+
+<div style="text-align:center;margin-bottom:4px;">
+  <a class="back-link" href="HW_RTN_SCRIPT.html">&#8592; RTN910AF</a>
+</div>
+
+<header>
+  <h1>HW_RTN_SCRIPT</h1>
+  <p>Hardware Return Script Configuration</p>
+  <div class="device-badge">RTN380</div>
+</header>
+
+<div class="layout">
+
+  <!-- ══ FORM ══ -->
+  <div class="form-col">
+
+    <!-- 01 Operator -->
+    <div class="card" style="animation-delay:.04s">
+      <div class="sec-label"><span class="idx">01</span> Operator</div>
+      <div class="field-title">— Operator —</div>
+      <select id="operator">
+        <option value="" disabled selected>Select Operator</option>
+        <option value="MAXIS">MAXIS</option>
+        <option value="UM">UM</option>
+        <option value="CD">CD</option>
+      </select>
+    </div>
+
+    <!-- 02 NE_NAME -->
+    <div class="card" style="animation-delay:.08s">
+      <div class="sec-label"><span class="idx">02</span> Node Identity</div>
+      <div class="field-title">— NE_NAME —</div>
+      <input type="text" id="ne_name" class="full" placeholder="e.g. BBST-HM03"/>
+    </div>
+
+    <!-- 03 DCN (optional) -->
+    <div class="card" style="animation-delay:.12s">
+      <div class="sec-label"><span class="idx">03</span> DCN Configuration</div>
+      <div class="cb-row" style="margin-bottom:0;">
+        <input type="checkbox" id="dcn_enable" onchange="toggleDcn(this.checked)">
+        <label for="dcn_enable" style="min-width:unset;font-size:14px;font-weight:700;letter-spacing:2px;color:var(--label);">DCN SITE</label>
+      </div>
+      <div id="dcn-fields" style="display:none;flex-direction:column;gap:10px;margin-top:14px;">
+        <!-- GE Port selector -->
+        <div class="ge-row" style="margin-bottom:0;">
+          <label>GE Port</label>
+          <select id="dcn_ge">
+            <option value="1">GE1 (port 1)</option>
+            <option value="2">GE2 (port 2)</option>
+            <option value="3" selected>GE3 (port 3)</option>
+            <option value="4">GE4 (port 4)</option>
+            <option value="5">GE5 (port 5)</option>
+            <option value="6">GE6 (port 6)</option>
+          </select>
+        </div>
+        <div>
+          <div class="field-title">— Gateway IP —</div>
+          <input type="text" id="dcn_gw" class="full" placeholder="e.g. 10.13.6.26"/>
+        </div>
+        <div>
+          <div class="field-title">— DCN VLAN —</div>
+          <input type="text" id="dcn_vlan" class="full" placeholder="e.g. 130"/>
+        </div>
+        <div>
+          <div class="field-title">— DCN IP —</div>
+          <input type="text" id="dcn_ip" class="full" placeholder="e.g. 10.13.6.25"/>
+        </div>
+        <div>
+          <div class="field-title">— DCN Port Label —</div>
+          <input type="text" id="dcn_port_label" class="full" placeholder="e.g. BBST-HC01_GE0/2/16"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 IF Slot / Radio Port label -->
+    <div class="card" style="animation-delay:.16s">
+      <div class="sec-label"><span class="idx">04</span> Radio Port</div>
+      <div class="field-title">— IF Port Label (port 1, constant) —</div>
+      <input type="text" id="if_label" class="full" placeholder="e.g. BBST-KPST_1V"/>
+    </div>
+
+    <!-- 05 E-Line Service -->
+    <div class="card" style="animation-delay:.20s">
+      <div class="sec-label"><span class="idx">05</span> E-Line Service</div>
+
+      <div class="field-title">— Service Name —</div>
+      <input type="text" id="eline_name" class="full" placeholder="e.g. KPST_OM, 4G &amp; 5G" style="margin-bottom:12px;"/>
+
+      <!-- VUNI 1 — radio port (fixed port 1) -->
+      <div class="field-title">— VUNI 1 (Radio Port 1) — VLAN IDs —</div>
+      <div class="hint" style="margin-bottom:8px;">Any format: 801,841,811 &nbsp;|&nbsp; 801&amp;841&amp;811 &nbsp;|&nbsp; 800-803 &nbsp;|&nbsp; mixed 801,841&amp;811</div>
+      <input type="text" id="vuni1_vlans" class="full" placeholder="e.g. 801,841,811,821 or 801-804"/>
+
+      <!-- VUNI 2 — GE port (same as DCN GE) -->
+      <div class="field-title" style="margin-top:14px;">— VUNI 2 (DCN GE Port) — VLAN IDs —</div>
+      <div class="hint" style="margin-bottom:8px;">Uses same GE port selected in DCN (section 03)</div>
+      <input type="text" id="vuni2_vlans" class="full" placeholder="e.g. 801,841,811,821 or 801-804"/>
+    </div>
+
+    <!-- 06 Radio (ODU) -->
+    <div class="card" style="animation-delay:.24s">
+      <div class="sec-label"><span class="idx">06</span> Radio — ODU</div>
+
+      <div class="row2" style="margin-bottom:10px;">
+        <div>
+          <div class="field-title">— TX FREQ (MHz) —</div>
+          <input type="number" id="odu_freq" class="full" placeholder="e.g. 72125"/>
+        </div>
+        <div>
+          <div class="field-title">— TX PWR (dBm×10) —</div>
+          <input type="number" id="odu_tsl" class="full" placeholder="e.g. 40 = 4dBm"/>
+        </div>
+      </div>
+
+      <div class="row2" style="margin-bottom:10px;">
+        <div>
+          <div class="field-title">— BANDWIDTH —</div>
+          <select id="odu_bw">
+            <option value="">Select BW</option>
+            <option value="250M">250M</option>
+            <option value="500M">500M</option>
+            <option value="1000M">1000M</option>
+            <option value="2000M" selected>2000M</option>
+            <option value="4000M">4000M</option>
+          </select>
+        </div>
+        <div>
+          <div class="field-title">— TR SPACING (MHz) —</div>
+          <input type="number" id="odu_spacing" class="full" placeholder="e.g. 10000"/>
+          <div class="hint">Raw value (×1000 for output)</div>
+        </div>
+      </div>
+
+      <div class="field-title">— ACM Modulation —</div>
+      <select id="odu_mod">
+        <option value="">Select Modulation</option>
+        <option value="QPSK">QPSK</option>
+        <option value="16QAM">16QAM</option>
+        <option value="32QAM">32QAM</option>
+        <option value="64QAM">64QAM</option>
+        <option value="128QAM">128QAM</option>
+        <option value="256QAM">256QAM</option>
+        <option value="512QAM">512QAM</option>
+        <option value="1024QAM">1024QAM</option>
+      </select>
+      <div class="hint">Used in :radio-cfg-set-acm-param:1,255,1,disable,NULL,NULL,{MOD}</div>
+    </div>
+
+    <!-- 07 NE-ID -->
+    <div class="card" style="animation-delay:.28s">
+      <div class="sec-label"><span class="idx">07</span> NE Identifier</div>
+      <div class="field-title">— NE-ID — (e.g. 9-427)</div>
+      <input type="text" id="ne_id" class="full" placeholder="e.g. 52-1135  or  9-427"/>
+      <div class="hint">Auto-converts X-YYYY → 0xHEXHEX</div>
+    </div>
+
+    <!-- 08 CM IP -->
+    <div class="card" style="animation-delay:.32s">
+      <div class="sec-label"><span class="idx">08</span> IP Address</div>
+      <div class="field-title">— CM IP —</div>
+      <input type="text" id="cm_ip" class="full" placeholder="e.g. 129.52.2.135"/>
+    </div>
+
+    <button class="gen-btn" onclick="generateScript()">&#9654; GENERATE SCRIPT</button>
+
+  </div><!-- /form-col -->
+
+  <!-- ══ OUTPUT ══ -->
+  <div class="output-col">
+    <div class="output-card">
+      <div class="out-header">
+        <span class="out-title">◈ SCRIPT OUTPUT — RTN380</span>
+        <button class="copy-btn" id="copy-btn" onclick="copyOutput()">COPY</button>
+      </div>
+      <div id="empty-state" class="empty-state">
+        <div>AWAITING INPUT<span class="blink">_</span></div>
+        <div style="margin-top:10px;font-size:10px;color:#2a4a5a;">Fill the form and press GENERATE</div>
+      </div>
+      <textarea id="output-box" readonly></textarea>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<footer>◈ HW_RTN380_SCRIPT v1.0 ◈</footer>
+
+<script>
+const PASSWORDS = { MAXIS:'Maxis@123456', UM:'Umobile_1234', CD:'Password_123' };
+const USERS     = ['lct1','szhw','root2','szhw3','NCEUser','DCUser'];
+
+/* NE-ID: "52-1135" → 0x34066F */
+function neIdToHex(input) {
+  const parts = input.trim().split('-');
+  if (parts.length !== 2) return null;
+  const a = parseInt(parts[0], 10);
+  const b = parseInt(parts[1], 10);
+  if (isNaN(a) || isNaN(b)) return null;
+  const val = (a << 16) | (b & 0xFFFF);
+  return '0x' + val.toString(16).toUpperCase().padStart(6, '0');
+}
+
+/* Parse flexible VLAN input → canonical &-separated string + count
+   Accepts: commas "801,841", ampersands "801&841", ranges "801-804", or mixed */
+function parseVlans(raw) {
+  if (!raw.trim()) return { str: '', count: 0 };
+  // Normalize: replace commas with &
+  let s = raw.trim().replace(/,/g, '&');
+  // Expand ranges like 801-804 → 801&802&803&804
+  s = s.replace(/(\d+)-(\d+)/g, (_, a, b) => {
+    const lo = parseInt(a), hi = parseInt(b);
+    if (isNaN(lo) || isNaN(hi) || lo > hi) return _;
+    const arr = [];
+    for (let i = lo; i <= hi; i++) arr.push(i);
+    return arr.join('&');
+  });
+  // Clean up multiple &, trim spaces
+  const ids = s.split('&').map(v => v.trim()).filter(v => v && /^\d+$/.test(v));
+  return { str: ids.join('&'), count: ids.length };
+}
+
+function generateScript() {
+  const operator = document.getElementById('operator').value;
+  const neName   = document.getElementById('ne_name').value.trim();
+  const neIdRaw  = document.getElementById('ne_id').value.trim();
+  const cmIp     = document.getElementById('cm_ip').value.trim();
+
+  // DCN
+  const dcnEnabled   = document.getElementById('dcn_enable').checked;
+  const dcnGe        = dcnEnabled ? document.getElementById('dcn_ge').value : '3';
+  const dcnGw        = dcnEnabled ? document.getElementById('dcn_gw').value.trim() : '';
+  const dcnVlan      = dcnEnabled ? document.getElementById('dcn_vlan').value.trim() : '';
+  const dcnIp        = dcnEnabled ? document.getElementById('dcn_ip').value.trim() : '';
+  const dcnPortLabel = dcnEnabled ? document.getElementById('dcn_port_label').value.trim() : '';
+
+  // Radio port label
+  const ifLabel  = document.getElementById('if_label').value.trim();
+
+  // E-Line
+  const elineName  = document.getElementById('eline_name').value.trim();
+  const vuni1Vlans = document.getElementById('vuni1_vlans').value.trim();
+  const vuni2Vlans = document.getElementById('vuni2_vlans').value.trim();
+
+  // ODU
+  const oduFreq    = document.getElementById('odu_freq').value.trim();
+  const oduTsl     = document.getElementById('odu_tsl').value.trim();
+  const oduBw      = document.getElementById('odu_bw').value;
+  const oduSpacing = document.getElementById('odu_spacing').value.trim();
+  const oduMod     = document.getElementById('odu_mod').value;
+
+  if (!operator) { alert('Please select an Operator.'); return; }
+  if (!neName)   { alert('Please enter NE_NAME.'); return; }
+
+  const pw = PASSWORDS[operator];
+  const L  = [];
+
+  /* 1. sm-add-user */
+  USERS.forEach(u => L.push(`:sm-add-user:"${u}","${pw}","admin",disable;`));
+
+  /* 2. NE Name */
+  L.push(`:cfg-set-nename:64,"${neName}";`);
+
+  /* 3. DCN — only if enabled */
+  if (dcnEnabled) {
+    if (dcnGw)        L.push(`:cm-set-gateway:${dcnGw};`);
+    if (dcnVlan)      L.push(`:dcn-cfg-set-ethadminvlan:${dcnVlan};`);
+    if (dcnIp)        L.push(`:dcn-cfg-set-nmsifip:1,255,${dcnGe},0,ethnmsif,${dcnIp},255.255.255.252;`);
+    if (dcnIp)        L.push(`:dcn-cfg-set-dcnifen:1,255,${dcnGe},0,ethnmsif,enable;`);
+  }
+
+  /* 4. Port names */
+  if (dcnEnabled && dcnPortLabel) L.push(`:cfg-set-portname:1,255,${dcnGe},"${dcnPortLabel}";`);
+  if (ifLabel)                    L.push(`:cfg-set-portname:1,255,1,"${ifLabel}";`);
+
+  /* 5. L2 port encap type — radio port (1) always; DCN GE port only if DCN enabled */
+  L.push(`:ptn-l2port-set-encaptype:1,255,1,c-tag;`);
+  if (dcnEnabled) L.push(`:ptn-l2port-set-encaptype:1,255,${dcnGe},c-tag;`);
+
+  /* 6. E-Line service */
+  L.push(`:trans-begin:unlock`);
+  if (elineName) {
+    L.push(`:ethn-cfg-crt-ethserv:1,1,"${elineName}",disable,e-line`);
+  }
+
+  /* VUNI 1 — radio port 1 (constant) */
+  if (vuni1Vlans) {
+    const v1 = parseVlans(vuni1Vlans);
+    if (v1.count) L.push(`:ethn-cfg-add-vuni:1,1,root,1,255,1,${v1.count},${v1.str};`);
+  }
+  /* VUNI 2 — DCN GE port (only if DCN enabled) */
+  if (dcnEnabled && vuni2Vlans) {
+    const v2 = parseVlans(vuni2Vlans);
+    const gePort = document.getElementById('dcn_ge').value;
+    if (v2.count) L.push(`:ethn-cfg-add-vuni:1,2,root,1,255,${gePort},${v2.count},${v2.str};`);
+  }
+
+  L.push(`:trans-commit:"create eline";`);
+
+  /* 7. ODU radio */
+  if (oduFreq) {
+    const freqUnit    = Math.round(parseFloat(oduFreq) * 1000);
+    L.push(`:radio-cfg-set-odu-txfreq:1,0xff,${freqUnit};`);
+  }
+  if (oduSpacing) {
+    const spacingUnit = Math.round(parseFloat(oduSpacing) * 1000);
+    L.push(`:radio-cfg-set-odu-trspacing:1,0xff,${spacingUnit};`);
+  }
+  if (oduTsl)     L.push(`:radio-cfg-set-odu-tsl:1,0xff,${oduTsl};`);
+  if (oduBw)      L.push(`:radio-cfg-set-bandwidth:1,0xff,1,${oduBw};`);
+  if (oduMod)     L.push(`:radio-cfg-set-acm-param:1,255,1,disable,NULL,NULL,${oduMod}`);
+
+  /* 8. NE-ID */
+  if (neIdRaw) {
+    const hex = neIdToHex(neIdRaw);
+    L.push(hex ? `:cm-set-neid:${hex};` : `# ERROR: Invalid NE-ID "${neIdRaw}" (expected X-YYYY)`);
+  }
+
+  /* 9. CM IP */
+  if (cmIp) L.push(`:cm-set-ip:${cmIp};`);
+
+  /* Render */
+  document.getElementById('empty-state').style.display = 'none';
+  const box = document.getElementById('output-box');
+  box.style.display = 'block';
+  box.value = L.join('\n');
+
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'COPY';
+  btn.classList.remove('copied');
+}
+
+function toggleDcn(checked) {
+  const fields = document.getElementById('dcn-fields');
+  fields.style.display = checked ? 'flex' : 'none';
+}
+function copyOutput() {
+  const box = document.getElementById('output-box');
+  if (!box.value) return;
+  navigator.clipboard.writeText(box.value).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'COPIED ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
