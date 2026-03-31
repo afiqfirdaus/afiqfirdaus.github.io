@@ -124,12 +124,12 @@
 <body>
 
 <div style="text-align:center;margin-bottom:4px;">
-  <a class="back-link" href="HW_RTN_SCRIPT.html">&#8592; RTN910AF</a>
+  <a class="back-link" href="910scp.html">&#8592; RTN910AF</a>
 </div>
 
 <header>
-  <h1>HW_RTN_SCRIPT</h1>
-  <p>Hardware Return Script Configuration</p>
+  <h1>HW_RTN380_SCRIPT_GENERATOR</h1>
+  <p>Script Configuration</p>
   <div class="device-badge">RTN380</div>
 </header>
 
@@ -145,8 +145,8 @@
       <select id="operator">
         <option value="" disabled selected>Select Operator</option>
         <option value="MAXIS">MAXIS</option>
-        <option value="UM">UM</option>
-        <option value="CD">CD</option>
+        <option value="UM">UMOBILE</option>
+        <option value="CD">CELCOMDIGI</option>
       </select>
     </div>
 
@@ -190,7 +190,7 @@
           <input type="text" id="dcn_ip" class="full" placeholder="e.g. 10.13.6.25"/>
         </div>
         <div>
-          <div class="field-title">— DCN Port Label —</div>
+          <div class="field-title">— ETHERNET Port Label —</div>
           <input type="text" id="dcn_port_label" class="full" placeholder="e.g. BBST-HC01_GE0/2/16"/>
         </div>
       </div>
@@ -310,7 +310,7 @@
 
 <script>
 const PASSWORDS = { MAXIS:'Maxis@123456', UM:'Umobile_1234', CD:'Password_123' };
-const USERS     = ['lct1','szhw','root2','szhw3','NCEUser','DCUser'];
+const USERS     = ['lct1','szhw','root2','szhw3','NCEUser','DCUser','HC_uFAD'];
 
 /* NE-ID: "52-1135" → 0x34066F */
 function neIdToHex(input) {
