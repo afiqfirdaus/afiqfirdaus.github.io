@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Budget Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e14;
+      --surface: #111820;
+      --surface2: #161e28;
+      --border: #1e2d3d;
+      --accent: #00d4aa;
+      --accent2: #0087ff;
+      --warn: #ff6b35;
+      --text: #cdd6f4;
+      --muted: #6b7a8d;
+      --green: #a6e22e;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 60px;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 28px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Form grid */
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    input[type="number"] {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      padding: 11px 14px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.08);
+    }
+
+    input[type="number"]::placeholder { color: #2e3d50; }
+
+    .field-unit {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .field-unit input {
+      border-radius: 7px 0 0 7px;
+      flex: 1;
+    }
+
+    .unit-tag {
+      background: #1a2535;
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 7px 7px 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 0 12px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    /* Calculate button */
+    .btn-calc {
+      width: 100%;
+      background: var(--accent);
+      color: #0a0e14;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      margin-top: 4px;
+    }
+
+    .btn-calc:hover {
+      background: #00f0c0;
+      box-shadow: 0 0 20px rgba(0,212,170,0.25);
+    }
+
+    .btn-calc:active { transform: scale(0.98); }
+
+    /* Results */
+    #results {
+      display: none;
+    }
+
+    .result-rsl {
+      text-align: center;
+      padding: 24px 20px;
+      background: linear-gradient(135deg, rgba(0,212,170,0.06), rgba(0,135,255,0.06));
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .result-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .result-value {
+      font-family: var(--mono);
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .result-value .unit {
+      font-size: 18px;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+
+    .result-quality {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Calculation breakdown */
+    .breakdown {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .breakdown-header {
+      padding: 14px 18px;
+      background: rgba(0,135,255,0.06);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 18px;
+      border-bottom: 1px solid rgba(30,45,61,0.5);
+      gap: 12px;
+    }
+
+    .breakdown-row:last-child { border-bottom: none; }
+
+    .breakdown-row.total {
+      background: rgba(0,212,170,0.04);
+      border-top: 1px solid rgba(0,212,170,0.15);
+    }
+
+    .row-name {
+      font-size: 13px;
+      color: var(--muted);
+      flex: 1;
+    }
+
+    .row-formula {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #2e4a66;
+      flex: 2;
+      text-align: center;
+    }
+
+    .row-value {
+      font-family: var(--mono);
+      font-size: 13px;
+      text-align: right;
+      min-width: 80px;
+    }
+
+    .row-value.positive { color: var(--green); }
+    .row-value.negative { color: var(--warn); }
+    .row-value.total-val { color: var(--accent); font-size: 15px; }
+
+    .equation-box {
+      background: #0d1520;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .equation-box .eq-line { display: block; }
+    .equation-box .eq-result { color: var(--accent); font-size: 13px; }
+
+    /* Separator operator row */
+    .op-row {
+      padding: 4px 18px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #1e3040;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: #2e3d50;
+      font-family: var(--mono);
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="badge">AFIQ RF ENGINEERING TOOL</div>
+    <h1>Link <span>Budget</span> Calculator</h1>
+    <p class="subtitle">Received Signal Level (RSL) estimation for point-to-point links</p>
+  </header>
+
+  <!-- Input Card -->
+  <div class="card">
+    <div class="card-title">Signal Parameters</div>
+    <div class="form-grid">
+
+      <div class="field">
+        <label>Transmit Power</label>
+        <div class="field-unit">
+          <input type="number" id="transmitPower" placeholder="e.g. 23" step="any">
+          <span class="unit-tag">dBm</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Frequency (GHz)</label>
+        <div class="field-unit">
+          <input type="number" id="freq" placeholder="e.g. 18" step="any">
+          <span class="unit-tag">GHz</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Distance A → B (meter)<label>
+        <div class="field-unit">
+          <input type="number" id="pathDist" placeholder="e.g. 5000" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Antenna Parameters</div>
+    <div class="form-grid">
+
+      <div class="field">
+        <label>Antenna Diameter — Site A</label>
+        <div class="field-unit">
+          <input type="number" id="antennaTxSize" placeholder="e.g. 0.6" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Antenna Diameter — Site B</label>
+        <div class="field-unit">
+          <input type="number" id="antennaRxSize" placeholder="e.g. 0.6" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">System Losses</div>
+    <div class="form-grid">
+
+      <div class="field">
+        <label>Tx Loss</label>
+        <div class="field-unit">
+          <input type="number" id="txLoss" placeholder="e.g. 1" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Rx Loss</label>
+        <div class="field-unit">
+          <input type="number" id="rxLoss" placeholder="e.g. 1" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Other Losses</label>
+        <div class="field-unit">
+          <input type="number" id="otherLoss" placeholder="e.g. 0" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="btn-calc" onclick="calculate()">▶ &nbsp;Calculate RSL</button>
+
+  <!-- Results -->
+  <div id="results">
+
+    <div style="height:24px"></div>
+
+    <div class="result-rsl">
+      <div class="result-label">Received Signal Level</div>
+      <div class="result-value" id="rslDisplay">—<span class="unit">dBm</span></div>
+      <div class="result-quality" id="rslQuality"></div>
+    </div>
+
+    <!-- Full Breakdown -->
+    <div class="card">
+      <div class="card-title">Full Calculation Breakdown</div>
+
+      <div class="breakdown">
+        <div class="breakdown-header">Step-by-Step Values</div>
+
+        <div class="breakdown-row">
+          <span class="row-name">Wavelength (λ)</span>
+          <span class="row-formula" id="f-wavelength"></span>
+          <span class="row-value positive" id="v-wavelength"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">Gain — Site A (Gₐ)</span>
+          <span class="row-formula">10 · log₁₀(6 · (D_A/λ)²)</span>
+          <span class="row-value positive" id="v-gainA"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">Gain — Site B (G_b)</span>
+          <span class="row-formula">10 · log₁₀(6 · (D_B/λ)²)</span>
+          <span class="row-value positive" id="v-gainB"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — 20·log(f)</span>
+          <span class="row-formula">20 · log₁₀(<span id="f-fspl-f"></span> GHz)</span>
+          <span class="row-value negative" id="v-fspl-f"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — 20·log(d)</span>
+          <span class="row-formula">20 · log₁₀(<span id="f-fspl-d"></span> m)</span>
+          <span class="row-value negative" id="v-fspl-d"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — constant</span>
+          <span class="row-formula">unit factor (GHz + m)</span>
+          <span class="row-value negative">+32.44 dB</span>
+        </div>
+
+        <div class="breakdown-row" style="background:rgba(255,107,53,0.04); border-left: 2px solid var(--warn);">
+          <span class="row-name" style="color:var(--text)">Free Space Path Loss (FSPL)</span>
+          <span class="row-formula">20log(f) + 20log(d) + 32.44</span>
+          <span class="row-value negative" id="v-fspl"></span>
+        </div>
+
+        <div class="breakdown-row">
+          <span class="row-name">Total System Loss</span>
+          <span class="row-formula">Tx + Rx + Other</span>
+          <span class="row-value negative" id="v-sysloss"></span>
+        </div>
+
+        <div class="breakdown-row total">
+          <span class="row-name" style="color:var(--text);font-weight:600">RSL</span>
+          <span class="row-formula" style="color:#1e3a50">Pt + Gₐ + G_b − FSPL − Losses</span>
+          <span class="row-value total-val" id="v-rsl"></span>
+        </div>
+
+      </div>
+
+      <!-- Full equation string -->
+      <div class="equation-box" id="eq-box"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>Link Budget Calculator · Afiqz.com</footer>
+
+<script>
+  function fmt(val, unit='dB') {
+    return `${val >= 0 ? '+' : ''}${val.toFixed(2)} ${unit}`;
+  }
+
+  function signalQuality(rsl) {
+    if (rsl > -50) return { text: '● EXCELLENT', color: '#a6e22e' };
+    if (rsl > -65) return { text: '● GOOD', color: '#00d4aa' };
+    if (rsl > -75) return { text: '◐ MARGINAL', color: '#f8b500' };
+    if (rsl > -85) return { text: '○ WEAK', color: '#ff6b35' };
+    return { text: '✕ CRITICAL', color: '#ff3355' };
+  }
+
+  function calculate() {
+    const Pt   = parseFloat(document.getElementById('transmitPower').value) || 0;
+    const freq = parseFloat(document.getElementById('freq').value) || 0;
+    const dist = parseFloat(document.getElementById('pathDist').value) || 0;
+    const dA   = parseFloat(document.getElementById('antennaTxSize').value) || 0;
+    const dB_  = parseFloat(document.getElementById('antennaRxSize').value) || 0;
+    const ltx  = parseFloat(document.getElementById('txLoss').value) || 0;
+    const lrx  = parseFloat(document.getElementById('rxLoss').value) || 0;
+    const loth = parseFloat(document.getElementById('otherLoss').value) || 0;
+
+    if (!freq || !dist || !dA || !dB_) {
+      alert('Please fill in Frequency, Distance, and both Antenna sizes.');
+      return;
+    }
+
+    const c = 299792458;
+    const lambda = c / (freq * 1e9);
+    const gainA  = 10 * Math.log10(6 * Math.pow(dA / lambda, 2));
+    const gainB  = 10 * Math.log10(6 * Math.pow(dB_ / lambda, 2));
+    const fspl   = 20 * Math.log10(freq) + 20 * Math.log10(dist) + 32.44;
+    const sysLoss = ltx + lrx + loth;
+    const rsl    = Pt + gainA + gainB - fspl - sysLoss;
+
+    // Populate values
+    document.getElementById('rslDisplay').innerHTML =
+      `${rsl.toFixed(2)}<span class="unit"> dBm</span>`;
+
+    const q = signalQuality(rsl);
+    const qEl = document.getElementById('rslQuality');
+    qEl.textContent = q.text;
+    qEl.style.color = q.color;
+
+    const fsplF = 20 * Math.log10(freq);
+    const fsplD = 20 * Math.log10(dist);
+
+    document.getElementById('f-wavelength').textContent = `c / (${freq} GHz)`;
+    document.getElementById('v-wavelength').textContent = `${(lambda*100).toFixed(4)} cm`;
+    document.getElementById('v-gainA').textContent  = fmt(gainA);
+    document.getElementById('v-gainB').textContent  = fmt(gainB);
+    document.getElementById('f-fspl-f').textContent = freq;
+    document.getElementById('v-fspl-f').textContent = `+${fsplF.toFixed(2)} dB`;
+    document.getElementById('f-fspl-d').textContent = dist;
+    document.getElementById('v-fspl-d').textContent = `+${fsplD.toFixed(2)} dB`;
+    document.getElementById('v-fspl').textContent   = `−${fspl.toFixed(2)} dB`;
+    document.getElementById('v-sysloss').textContent = `−${sysLoss.toFixed(2)} dB`;
+    document.getElementById('v-rsl').textContent    = `${rsl.toFixed(2)} dBm`;
+
+    // Equation box
+    document.getElementById('eq-box').innerHTML = `
+<span class="eq-line">FSPL = 20·log(f)  +  20·log(d)  +  32.44</span>
+<span class="eq-line">     = ${fsplF.toFixed(2)}  +  ${fsplD.toFixed(2)}  +  32.44</span>
+<span class="eq-line" style="color:var(--warn)">     = ${fspl.toFixed(2)} dB</span>
+<span class="eq-line" style="color:#1e3a50">────────────────────────────────────</span>
+<span class="eq-line">RSL  = Pt + Gₐ + G_b − FSPL − L_total</span>
+<span class="eq-line">     = ${Pt.toFixed(2)} + ${gainA.toFixed(2)} + ${gainB.toFixed(2)} − ${fspl.toFixed(2)} − ${sysLoss.toFixed(2)}</span>
+<span class="eq-line eq-result">     = <strong>${rsl.toFixed(2)} dBm</strong></span>`;
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+</body>
+</html>
