@@ -1,190 +1,642 @@
-<	!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-
-
   <meta charset="utf-8" />
-  <!-- multi-device width -->
   <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <!-- site description -->
-  
-  <meta content="" name="description" />
-  <!-- referer for 3rd-part images-->
   <meta content="no-referrer" name="referrer" />
-  <!-- title -->
-  <title>
-    
-    Free Space Path Loss Calculator
-    
-  </title>
-  
-  <!-- icon -->
-  <link href="assets/img/favicond41d.ico?" rel="shortcut icon bookmark" type="image/x-icon" />
-  <!-- main stylesheet -->
-  <link rel="stylesheet" href="assets/css/main.css" type="text/css" />
-  <!-- fa 5.9.0 -->
-  <link rel="stylesheet" href="assets/css/fa.min.css" type="text/css" />
-  <!-- rouge theme-->
-  <link rel="stylesheet" href="assets/css/rouge-bg.css" />
-  <!-- mathjax 2.7.5 -->
-  <script src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJaxb198.js?config=TeX-MML-AM_CHTML" async></script>
-  </head>
-  <body class="page">
-  
- 
-  
-    <!-- background animations -->
-<div class="div_bg">
-  <canvas id="c"></canvas>
-</div>
-<script>
-  var c = document.getElementById("c");
-  var ctx = c.getContext("2d");
-  c.height = window.innerHeight;
-  c.width = window.innerWidth;
-  var txts = "αβγδεζηθικλμνξοπρστυφχψω∷∫∮∝∞∧∨∑∏∪∩∈∵∴⊥‖∠⌒⊙≌√";
-  txts = txts.split("");
-  var font_size = 12;
-  var columns = c.width / font_size;
-  var drops = [];
-  for (var x = 0; x < columns; x++) drops[x] = 1;
+  <meta content="Free Space Path Loss Calculator" name="description" />
+  <title>HUAWEI · FSPL CALCULATOR</title>
 
-  function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, c.width, c.height);
-    ctx.fillStyle = "#490";
-    ctx.font = font_size + "px arial";
-    for (var i = 0; i < drops.length; i++) {
-      var text = txts[Math.floor(Math.random() * txts.length)];
-      ctx.fillText(text, i * font_size, drops[i] * font_size);
-      if (drops[i] * font_size > c.height || Math.random() > 0.98) drops[i] = 0;
-      drops[i]++;
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --green: #00ff88;
+      --green-dim: #00cc66;
+      --green-glow: rgba(0, 255, 136, 0.3);
+      --green-faint: rgba(0, 255, 136, 0.07);
+      --bg: #040d08;
+      --panel: rgba(6, 20, 12, 0.85);
+      --border: rgba(0, 255, 136, 0.18);
+      --text: #c8f5dd;
+      --muted: rgba(200, 245, 221, 0.45);
+      --accent: #ff6b35;
+      --accent-glow: rgba(255, 107, 53, 0.4);
+      --blue: #38bdf8;
+      --blue-glow: rgba(56, 189, 248, 0.3);
     }
-  }
-  setInterval(draw, 20);
-</script>
-   
 
-<!-- here -->
-<head>
-    <title>Link Budget Calculator(Beta)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            width: 100%;
-            max-width: 400px; /* Set the maximum width for the form on larger screens */
-        }
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            outline: none;
-        }
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.55;
+    }
 
-        
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+    }
 
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
+    .page-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
 
-        @media screen and (max-width: 480px) {
-            /* Adjust styles for smaller screens */
-            .container {
-                padding: 10px;
-            }
-        }
-    </style>
+    /* ── HEADER ── */
+    .site-header {
+      width: 100%;
+      max-width: 640px;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .brand-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .site-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      color: var(--green);
+      text-shadow: 0 0 30px var(--green-glow), 0 0 60px rgba(0,255,136,0.15);
+    }
+
+    .site-title span {
+      color: var(--blue);
+      text-shadow: 0 0 20px var(--blue-glow);
+    }
+
+    .site-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-top: 0.6rem;
+    }
+
+    .divider {
+      margin: 1rem auto 0;
+      width: 180px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+    }
+
+    /* ── CARD ── */
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow:
+        0 0 0 1px rgba(0,255,136,0.05),
+        0 0 40px rgba(0,255,136,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
+
+    .card-header {
+      padding: 1.2rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(0,255,136,0.03);
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green), 0 0 16px var(--green-glow);
+      flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .card-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .card-body { padding: 2rem 1.8rem; }
+
+    /* ── FORMULA BLOCK ── */
+    .formula-block {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-left: 3px solid var(--blue);
+      border-radius: 3px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-block::before {
+      content: 'FORMULA';
+      position: absolute;
+      top: 6px; right: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--blue);
+      opacity: 0.5;
+    }
+
+    .formula-sub {
+      margin-top: 0.8rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── FIELD GROUP ── */
+    .field-group { margin-bottom: 1.4rem; }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.55rem;
+    }
+
+    .field-label .tag {
+      background: var(--green-faint);
+      border: 1px solid var(--border);
+      color: var(--green);
+      border-radius: 2px;
+      padding: 1px 6px;
+      font-size: 0.65rem;
+    }
+
+    .field-input-wrap { position: relative; }
+
+    .field-unit {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.85rem 4.5rem 0.85rem 1rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 3px;
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 2px var(--green-glow), inset 0 0 8px rgba(0,255,136,0.05);
+    }
+
+    input[type="number"]::placeholder {
+      color: rgba(0,255,136,0.2);
+      font-size: 0.8rem;
+    }
+
+    .field-hint {
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── UNIT TOGGLE ── */
+    .unit-toggle {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .unit-btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .unit-btn.active {
+      background: var(--green-faint);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      margin-top: 1.8rem;
+    }
+
+    .btn {
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 3px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #040d08;
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .btn-primary:hover {
+      background: #00ffaa;
+      box-shadow: 0 0 30px var(--green-glow), 0 0 50px rgba(0,255,136,0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-reset {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-reset:hover { color: var(--text); border-color: var(--muted); }
+
+    /* ── RESULT ── */
+    #result { margin-top: 1.6rem; }
+
+    .result-card {
+      background: rgba(0,255,136,0.05);
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      padding: 1.4rem 1.5rem;
+      animation: slideIn 0.35s ease;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .result-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .result-unit {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-left: 0.3rem;
+    }
+
+    .result-breakdown {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .breakdown-item {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .breakdown-item span {
+      display: block;
+      color: var(--text);
+      font-size: 0.78rem;
+      margin-top: 2px;
+    }
+
+    .result-error {
+      background: rgba(255,107,53,0.08);
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.35s ease;
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      margin-top: 3rem;
+      text-align: center;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .site-footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(200,245,221,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green), 0 0 16px var(--green-glow); }
+      50%       { opacity: 0.5; box-shadow: 0 0 4px var(--green); }
+    }
+
+    @media (max-width: 480px) {
+      .card-body { padding: 1.5rem 1.2rem; }
+      .btn-row { grid-template-columns: 1fr 1fr; }
+      .result-breakdown { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-   
- <div class="container" id="ctner">
- 
- <!-- <p>Free Space Path Loss Formula: \( \text{FSPL} = 20 \log_{10}(f) + 20 \log_{10}(d) + 32.44 \)</p> -->
-	 <body>
-    <h2>FSPL Formula</h2>
-    <p>
-        \[
-        \text{FSPL} = \left(\frac{4 \pi R}{\lambda}\right)^2
-        \]
-    </p>
-</body>
-        <!-- Form -->
-        <form id="transmissionForm">
-            <h1></h1>
 
-            <label for="fq">frequency:</label>
-            <input type="number" id="fq" placeholder="Enter frequency(GHz)..." step="any">
-
-            <label for="dst">distance(meters):</label>
-            <input type="number" id="dst" placeholder="Enter path distance(meters)..." step="any">
-
-            <button type="button" onclick="calculateFormula()">Calculate</button>
-			<button type="button" onclick="resetForm()">Reset</button>
-			
-        </form>
-        <!-- End Form -->
-
-        <!-- Display calculated RSL -->
-        <div id="result"></div>
-    </div>
-
-    <script>
-    function calculateFormula() {
-        
-		const a = parseFloat(document.getElementById("fq").value);
-		const b = parseFloat(document.getElementById("dst").value);
-
-
-	    
-	    
-	    const FSPL = 20 * Math.log10(a) + 20 * Math.log10(b) + 32.44;
-
-  // Display the result in the paragraph element
-		document.getElementById("result").innerHTML = `FSPL(dB) = ${FSPL.toFixed(2)}`;
-
-  // Prevent form submission (optional)
-		return false;
-	    
-    }
-	    function resetForm() {
-        document.getElementById('fq').value = '';
-        document.getElementById('dst').value = '';
-        document.getElementById('result').innerHTML = ''; // Clear the result field
-    }
+<canvas id="matrix-canvas"></canvas>
+<script>
+  (function() {
+    const c = document.getElementById('matrix-canvas');
+    const ctx = c.getContext('2d');
+    const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+    const txts = 'αβγδεζηθικλμνξοπρστυφχψω∷∫∮∝∞∧∨∑∏∪∩∈∵∴⊥‖∠⌒⊙≌√'.split('');
+    const fs = 13;
+    let drops = [];
+    const init = () => { drops = Array(Math.floor(c.width / fs)).fill(1); };
+    init();
+    window.addEventListener('resize', init);
+    setInterval(() => {
+      ctx.fillStyle = 'rgba(4,13,8,0.06)';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = '#00cc66';
+      ctx.font = fs + 'px Share Tech Mono, monospace';
+      drops.forEach((d, i) => {
+        ctx.fillText(txts[Math.floor(Math.random() * txts.length)], i * fs, d * fs);
+        if (d * fs > c.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }, 22);
+  })();
 </script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</body>
-</html>
-</div></pre>
-          <div class="footer">
-    <nav class="nav_bar">
-        <ul>
-            <li class="copyright">
-                © 2022
-            </li>
-            
-            <li>
-                Afiq Firdaus, All Rights Reserved
-            </li>
-            
-    </nav>
-    </ul>
-</div>
-          
-      </div>
-    </div>
-  </body>
 
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <p class="brand-tag">RF SIGNAL TOOLS · PATH LOSS</p>
+    <h1 class="site-title">FREE SPACE <span>PATH LOSS</span></h1>
+    <p class="site-subtitle">FREE SPACE PATH LOSS CALCULATOR</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Card -->
+  <div class="card">
+
+    <div class="card-header">
+      <div class="status-dot"></div>
+      <span class="card-label">CALCULATOR · ACTIVE</span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Formula -->
+      <div class="formula-block">
+        <p>\( \text{FSPL (dB)} = 20\log_{10}(f) + 20\log_{10}(d) + 32.44 \)</p>
+        <div class="formula-sub">
+          <span>f = frequency (MHz) &nbsp;·&nbsp; d = distance (km)</span><br>
+          <span style="opacity:0.6;">// simplified from: FSPL = (4πR/λ)²</span>
+        </div>
+      </div>
+
+      <!-- Frequency Field -->
+      <div class="field-group">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.55rem;">
+          <label class="field-label" for="fq" style="margin-bottom:0;">
+            <span class="tag">f</span>
+            Frequency
+          </label>
+          <div class="unit-toggle">
+            <button class="unit-btn active" id="btn-mhz" onclick="setFreqUnit('MHz')">MHz</button>
+            <button class="unit-btn" id="btn-ghz" onclick="setFreqUnit('GHz')">GHz</button>
+          </div>
+        </div>
+        <div class="field-input-wrap">
+          <input type="number" id="fq" step="any" inputmode="decimal" placeholder="e.g. 23000" />
+          <span class="field-unit" id="freq-unit-label">MHz</span>
+        </div>
+        <p class="field-hint">// carrier frequency of the link</p>
+      </div>
+
+      <!-- Distance Field -->
+      <div class="field-group">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.55rem;">
+          <label class="field-label" for="dst" style="margin-bottom:0;">
+            <span class="tag">d</span>
+            Distance
+          </label>
+          <div class="unit-toggle">
+            <button class="unit-btn active" id="btn-km" onclick="setDistUnit('km')">km</button>
+            <button class="unit-btn" id="btn-m" onclick="setDistUnit('m')">m</button>
+          </div>
+        </div>
+        <div class="field-input-wrap">
+          <input type="number" id="dst" step="any" inputmode="decimal" placeholder="e.g. 5.2" />
+          <span class="field-unit" id="dist-unit-label">km</span>
+        </div>
+        <p class="field-hint">// path distance between antennas</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="calculateFSPL()">⟶ CALCULATE</button>
+        <button class="btn btn-reset" onclick="resetForm()">RESET</button>
+      </div>
+
+      <!-- Result -->
+      <div id="result"></div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>© 2026 · AFIQ FIRDAUS · ALL RIGHTS RESERVED</p>
+  </footer>
+
+</div>
+
+<script>
+  let freqUnit = 'MHz';
+  let distUnit = 'km';
+
+  function setFreqUnit(u) {
+    freqUnit = u;
+    document.getElementById('freq-unit-label').textContent = u;
+    document.getElementById('btn-mhz').classList.toggle('active', u === 'MHz');
+    document.getElementById('btn-ghz').classList.toggle('active', u === 'GHz');
+    document.getElementById('fq').placeholder = u === 'MHz' ? 'e.g. 23000' : 'e.g. 23';
+  }
+
+  function setDistUnit(u) {
+    distUnit = u;
+    document.getElementById('dist-unit-label').textContent = u;
+    document.getElementById('btn-km').classList.toggle('active', u === 'km');
+    document.getElementById('btn-m').classList.toggle('active', u === 'm');
+    document.getElementById('dst').placeholder = u === 'km' ? 'e.g. 5.2' : 'e.g. 5200';
+  }
+
+  function calculateFSPL() {
+    const fRaw = parseFloat(document.getElementById('fq').value);
+    const dRaw = parseFloat(document.getElementById('dst').value);
+    const res = document.getElementById('result');
+
+    if (isNaN(fRaw) || isNaN(dRaw) || fRaw <= 0 || dRaw <= 0) {
+      res.innerHTML = `
+        <div class="result-error">
+          <span style="font-size:1.3rem">⚠</span>
+          <span>Enter valid positive values for both frequency and distance.</span>
+        </div>`;
+      return;
+    }
+
+    // Normalise to MHz and km for the formula
+    const f_MHz = freqUnit === 'GHz' ? fRaw * 1000 : fRaw;
+    const d_km  = distUnit === 'm'   ? fRaw / 1000  : dRaw;   // intentional: use dRaw
+    const d_km2 = distUnit === 'm'   ? dRaw / 1000  : dRaw;
+
+    const FSPL = 20 * Math.log10(f_MHz) + 20 * Math.log10(d_km2) + 32.44;
+
+    // Extra context values
+    const f_GHz = f_MHz / 1000;
+    const d_m   = d_km2 * 1000;
+    const lambda_m = (3e8 / (f_MHz * 1e6)).toFixed(4);
+
+    res.innerHTML = `
+      <div class="result-card">
+        <div class="result-row">
+          <p class="result-label">Free Space Path Loss</p>
+          <p class="result-value">${FSPL.toFixed(2)}<span class="result-unit">dB</span></p>
+        </div>
+        <div class="result-breakdown">
+          <div class="breakdown-item">FREQUENCY<span>${f_GHz.toFixed(4)} GHz &nbsp;/&nbsp; ${f_MHz.toFixed(2)} MHz</span></div>
+          <div class="breakdown-item">DISTANCE<span>${d_km2.toFixed(4)} km &nbsp;/&nbsp; ${d_m.toFixed(1)} m</span></div>
+          <div class="breakdown-item">WAVELENGTH (λ)<span>${lambda_m} m</span></div>
+          <div class="breakdown-item">20·log₁₀(f)<span>${(20 * Math.log10(f_MHz)).toFixed(2)} dB</span></div>
+        </div>
+      </div>`;
+  }
+
+  function resetForm() {
+    document.getElementById('fq').value = '';
+    document.getElementById('dst').value = '';
+    document.getElementById('result').innerHTML = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') calculateFSPL();
+  });
+</script>
+
+</body>
 </html>
