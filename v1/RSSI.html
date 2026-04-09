@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="no-referrer" name="referrer" />
+  <meta content="HUAWEI RSSI Voltage vs RSL Calculator" name="description" />
+  <title>HUAWEI · RSSI ↔ RSL</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --green: #00ff88;
+      --green-dim: #00cc66;
+      --green-glow: rgba(0, 255, 136, 0.3);
+      --green-faint: rgba(0, 255, 136, 0.07);
+      --bg: #040d08;
+      --panel: rgba(6, 20, 12, 0.85);
+      --border: rgba(0, 255, 136, 0.18);
+      --text: #c8f5dd;
+      --muted: rgba(200, 245, 221, 0.45);
+      --accent: #ff6b35;
+      --accent-glow: rgba(255, 107, 53, 0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Rajdhani', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── MATRIX BACKGROUND ── */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.55;
+    }
+
+    /* ── SCAN LINE OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      width: 100%;
+      max-width: 640px;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .brand-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .site-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      color: var(--green);
+      text-shadow: 0 0 30px var(--green-glow), 0 0 60px rgba(0,255,136,0.15);
+    }
+
+    .site-title span {
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .divider {
+      margin: 1rem auto 0;
+      width: 180px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+    }
+
+    /* ── CARD ── */
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow:
+        0 0 0 1px rgba(0,255,136,0.05),
+        0 0 40px rgba(0,255,136,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
+
+    .card-header {
+      padding: 1.2rem 1.8rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(0,255,136,0.03);
+    }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green), 0 0 16px var(--green-glow);
+      flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .card-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .card-body { padding: 2rem 1.8rem; }
+
+    /* ── FORMULA BLOCK ── */
+    .formula-block {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(0,255,136,0.12);
+      border-left: 3px solid var(--green);
+      border-radius: 3px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .formula-block::before {
+      content: 'FORMULA';
+      position: absolute;
+      top: 6px; right: 10px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--green);
+      opacity: 0.5;
+    }
+
+    .formula-block .MathJax, .formula-block mjx-container {
+      color: var(--green) !important;
+    }
+
+    /* ── FIELD GROUP ── */
+    .field-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.55rem;
+    }
+
+    .field-label .tag {
+      background: var(--green-faint);
+      border: 1px solid var(--border);
+      color: var(--green);
+      border-radius: 2px;
+      padding: 1px 6px;
+      font-size: 0.65rem;
+    }
+
+    .field-input-wrap { position: relative; }
+
+    .field-unit {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1rem;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 3px;
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 2px var(--green-glow), inset 0 0 8px rgba(0,255,136,0.05);
+    }
+
+    input[type="number"]::placeholder {
+      color: rgba(0,255,136,0.2);
+      font-size: 0.8rem;
+    }
+
+    .field-hint {
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── SEPARATOR ── */
+    .or-sep {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0 1.6rem;
+    }
+
+    .or-sep::before, .or-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .or-sep span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      margin-top: 1.8rem;
+    }
+
+    .btn {
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 3px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #040d08;
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .btn-primary:hover {
+      background: #00ffaa;
+      box-shadow: 0 0 30px var(--green-glow), 0 0 50px rgba(0,255,136,0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-reset {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-reset:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+
+    /* ── RESULT ── */
+    #result {
+      margin-top: 1.6rem;
+      min-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .result-card {
+      background: rgba(0,255,136,0.05);
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.35s ease;
+    }
+
+    .result-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .result-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .result-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .result-error {
+      background: rgba(255,107,53,0.08);
+      border-color: var(--accent);
+    }
+
+    .result-error .result-value {
+      color: var(--accent);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      text-shadow: none;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      margin-top: 3rem;
+      text-align: center;
+      animation: fadeUp 1s ease 0.5s both;
+    }
+
+    .site-footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(200,245,221,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green), 0 0 16px var(--green-glow); }
+      50%       { opacity: 0.5; box-shadow: 0 0 4px var(--green); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .card-body { padding: 1.5rem 1.2rem; }
+      .btn-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Matrix Rain -->
+<canvas id="matrix-canvas"></canvas>
+<script>
+  (function() {
+    const c = document.getElementById('matrix-canvas');
+    const ctx = c.getContext('2d');
+    const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+    resize();
+    window.addEventListener('resize', resize);
+    const txts = 'αβγδεζηθικλμνξοπρστυφχψω∷∫∮∝∞∧∨∑∏∪∩∈∵∴⊥‖∠⌒⊙≌√'.split('');
+    const fs = 13;
+    let drops = [];
+    const init = () => { drops = Array(Math.floor(c.width / fs)).fill(1); };
+    init();
+    window.addEventListener('resize', init);
+    setInterval(() => {
+      ctx.fillStyle = 'rgba(4,13,8,0.06)';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = '#00cc66';
+      ctx.font = fs + 'px Share Tech Mono, monospace';
+      drops.forEach((d, i) => {
+        ctx.fillText(txts[Math.floor(Math.random() * txts.length)], i * fs, d * fs);
+        if (d * fs > c.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }, 22);
+  })();
+</script>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <p class="brand-tag">HUAWEI · RF SIGNAL TOOLS</p>
+    <h1 class="site-title">RSSI <span>↔</span> RSL</h1>
+    <p style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--muted); letter-spacing:0.15em; margin-top:0.6rem;">VOLTAGE VS RECEIVED SIGNAL LEVEL</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- Card -->
+  <div class="card">
+
+    <div class="card-header">
+      <div class="status-dot"></div>
+      <span class="card-label">Hi! </span>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Formula -->
+      <div class="formula-block">
+        <p>\( P_{\text{dBm}} = 10 \times \log_{10}\!\left(\dfrac{V^2}{R \times 10^{-3}}\right) \)</p>
+        <p style="margin-top:0.8rem; font-family:'Share Tech Mono',monospace; font-size:0.68rem; color:var(--muted);">
+          RSL = 15.9 × V − 91.6 &nbsp;|&nbsp; V = (RSL + 91.6) / 15.9
+        </p>
+      </div>
+
+      <!-- RSL Field -->
+      <div class="field-group">
+        <label class="field-label" for="inputX">
+          <span class="tag">A</span>
+          RSL — Received Signal Level
+        </label>
+        <div class="field-input-wrap">
+          <input type="number" id="inputX" step="any" placeholder="e.g. −30" />
+          <span class="field-unit">dBm</span>
+        </div>
+        <p class="field-hint">// Enter a negative value</p>
+      </div>
+
+      <div class="or-sep"><span>OR</span></div>
+
+      <!-- RSSI Field -->
+      <div class="field-group">
+        <label class="field-label" for="inputY">
+          <span class="tag">B</span>
+          RSSI — Multimeter Voltage
+        </label>
+        <div class="field-input-wrap">
+          <input type="number" id="inputY" step="any" placeholder="e.g. 3.9" />
+          <span class="field-unit">V</span>
+        </div>
+        <p class="field-hint">// Fill only one field; the other will be computed</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="calculateFormula()">⟶ CALCULATE</button>
+        <button class="btn btn-reset" onclick="resetForm()">RESET</button>
+      </div>
+
+      <!-- Result -->
+      <div id="result"></div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>© 2026 · AFIQ FIRDAUS · ALL RIGHTS RESERVED</p>
+  </footer>
+
+</div>
+
+<script>
+  function calculateFormula() {
+    const xRaw = document.getElementById('inputX').value.trim();
+    const yRaw = document.getElementById('inputY').value.trim();
+    const X = parseFloat(xRaw);
+    const Y = parseFloat(yRaw);
+    const res = document.getElementById('result');
+
+    if (xRaw === '' && yRaw !== '' && !isNaN(Y)) {
+      const calc = (15.9 * Y - 91.6).toFixed(4);
+      document.getElementById('inputX').value = calc;
+      res.innerHTML = `
+        <div class="result-card">
+          <span class="result-icon">📡</span>
+          <div>
+            <p class="result-label">Calculated RSL</p>
+            <p class="result-value">${calc} <span style="font-size:0.8rem;font-family:'Share Tech Mono',monospace;color:var(--muted)">dBm</span></p>
+          </div>
+        </div>`;
+    } else if (yRaw === '' && xRaw !== '' && !isNaN(X)) {
+      const calc = ((X + 91.6) / 15.9).toFixed(4);
+      document.getElementById('inputY').value = calc;
+      res.innerHTML = `
+        <div class="result-card">
+          <span class="result-icon">⚡</span>
+          <div>
+            <p class="result-label">Calculated RSSI Voltage</p>
+            <p class="result-value">${calc} <span style="font-size:0.8rem;font-family:'Share Tech Mono',monospace;color:var(--muted)">V</span></p>
+          </div>
+        </div>`;
+    } else {
+      res.innerHTML = `
+        <div class="result-card result-error">
+          <span class="result-icon">⚠</span>
+          <div>
+            <p class="result-label">Input Error</p>
+            <p class="result-value">Fill exactly one field to compute the other.</p>
+          </div>
+        </div>`;
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('inputX').value = '';
+    document.getElementById('inputY').value = '';
+    document.getElementById('result').innerHTML = '';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') calculateFormula();
+  });
+</script>
+
+</body>
+</html>
