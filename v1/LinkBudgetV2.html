@@ -478,7 +478,7 @@
         </div>
 
         <div class="breakdown-row">
-          <span class="row-name">Gain — Site A (Gₐ)</span>
+          <span class="row-name">Gain — Site A (G_a)</span>
           <span class="row-formula">10 · log₁₀(6 · (D_A/λ)²)</span>
           <span class="row-value positive" id="v-gainA"></span>
         </div>
@@ -521,7 +521,7 @@
 
         <div class="breakdown-row total">
           <span class="row-name" style="color:var(--text);font-weight:600">RSL</span>
-          <span class="row-formula" style="color:#1e3a50">Pt + Gₐ + G_b − FSPL − Losses</span>
+          <span class="row-formula" style="color:#1e3a50">Pt + G_a + G_b − FSPL − Losses</span>
           <span class="row-value total-val" id="v-rsl"></span>
         </div>
 
@@ -603,7 +603,7 @@
 <span class="eq-line">     = ${fsplF.toFixed(2)}  +  ${fsplD.toFixed(2)}  +  32.44</span>
 <span class="eq-line" style="color:var(--warn)">     = ${fspl.toFixed(2)} dB</span>
 <span class="eq-line" style="color:#1e3a50">────────────────────────────────────</span>
-<span class="eq-line">RSL  = Pt + Gₐ + G_b − FSPL − L_total</span>
+<span class="eq-line">RSL  = Pt + G_a + G_b − FSPL − L_total</span>
 <span class="eq-line">     = ${Pt.toFixed(2)} + ${gainA.toFixed(2)} + ${gainB.toFixed(2)} − ${fspl.toFixed(2)} − ${sysLoss.toFixed(2)}</span>
 <span class="eq-line eq-result">     = <strong>${rsl.toFixed(2)} dBm</strong></span>`;
 
