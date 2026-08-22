@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Budget Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e14;
+      --surface: #111820;
+      --surface2: #161e28;
+      --border: #1e2d3d;
+      --accent: #00d4aa;
+      --accent2: #0087ff;
+      --warn: #ff6b35;
+      --danger: #ff3355;
+      --text: #cdd6f4;
+      --muted: #6b7a8d;
+      --green: #a6e22e;
+      --yellow: #f8b500;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Outfit', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 60px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 580px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 3px 10px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .card-title.rain-title { color: #7b9fff; }
+
+    .form-grid { display: grid; gap: 14px; }
+    .form-grid.two-col { grid-template-columns: 1fr 1fr; }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    input[type="number"], select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      padding: 10px 14px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,212,170,0.08);
+    }
+
+    input[type="number"]::placeholder { color: #2e3d50; }
+
+    select option { background: #161e28; }
+
+    .field-unit { display: flex; align-items: stretch; }
+    .field-unit input, .field-unit select { border-radius: 7px 0 0 7px; flex: 1; }
+
+    .unit-tag {
+      background: #1a2535;
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 7px 7px 0;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      min-height: 42px;
+    }
+
+    /* Rain zone selector */
+    .rain-zone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .zone-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 10px 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+
+    .zone-btn:hover { border-color: #7b9fff; color: #7b9fff; }
+
+    .zone-btn.active {
+      background: rgba(123,159,255,0.1);
+      border-color: #7b9fff;
+      color: #7b9fff;
+    }
+
+    .zone-btn .zone-rate {
+      display: block;
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .zone-btn.active .zone-rate { color: #fff; }
+
+    .note {
+      font-size: 11px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .note.warn-note { color: #f8b500; }
+
+    /* Polarization toggle */
+    .pol-toggle {
+      display: flex;
+      gap: 0;
+      border-radius: 7px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .pol-btn {
+      flex: 1;
+      background: var(--surface2);
+      border: none;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .pol-btn.active {
+      background: rgba(123,159,255,0.15);
+      color: #7b9fff;
+    }
+
+    /* Threshold field */
+    .threshold-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Button */
+    .btn-calc {
+      width: 100%;
+      background: var(--accent);
+      color: #0a0e14;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      margin-top: 4px;
+    }
+
+    .btn-calc:hover { background: #00f0c0; box-shadow: 0 0 20px rgba(0,212,170,0.25); }
+    .btn-calc:active { transform: scale(0.98); }
+
+    /* Results */
+    #results { display: none; }
+
+    /* RSL summary boxes */
+    .rsl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .rsl-box {
+      text-align: center;
+      padding: 20px 12px;
+      border-radius: 10px;
+      border: 1px solid;
+    }
+
+    .rsl-box.clearsky {
+      background: linear-gradient(135deg, rgba(0,212,170,0.06), rgba(0,135,255,0.06));
+      border-color: rgba(0,212,170,0.2);
+    }
+
+    .rsl-box.rainy {
+      background: linear-gradient(135deg, rgba(123,159,255,0.06), rgba(255,107,53,0.06));
+      border-color: rgba(123,159,255,0.2);
+    }
+
+    .rsl-box .box-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .rsl-box .box-value {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .rsl-box .box-unit {
+      font-size: 13px;
+      color: var(--muted);
+      margin-left: 2px;
+    }
+
+    .rsl-box .box-quality {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* Fade margin bar */
+    .fade-margin-section {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+    }
+
+    .fm-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .fm-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .fm-value {
+      font-family: var(--mono);
+      font-size: 18px;
+    }
+
+    .fm-bar-bg {
+      background: #0d1520;
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .fm-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .fm-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #2e4055;
+    }
+
+    .fm-verdict {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* Breakdown table */
+    .breakdown {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .breakdown-header {
+      padding: 12px 18px;
+      background: rgba(0,135,255,0.06);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      border-bottom: 1px solid rgba(30,45,61,0.5);
+      gap: 10px;
+    }
+
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-row.subtotal { background: rgba(0,0,0,0.15); }
+    .breakdown-row.total { background: rgba(0,212,170,0.04); border-top: 1px solid rgba(0,212,170,0.15); }
+    .breakdown-row.rain-row { background: rgba(123,159,255,0.04); border-left: 2px solid #7b9fff; }
+    .breakdown-row.rain-total { background: rgba(255,107,53,0.04); border-top: 1px solid rgba(255,107,53,0.15); }
+
+    .row-name { font-size: 12px; color: var(--muted); flex: 1.2; }
+    .row-formula { font-family: var(--mono); font-size: 10px; color: #2e4a66; flex: 1.8; text-align: center; }
+    .row-value { font-family: var(--mono); font-size: 12px; text-align: right; min-width: 90px; }
+
+    .row-value.positive { color: var(--green); }
+    .row-value.negative { color: var(--warn); }
+    .row-value.rain-val { color: #7b9fff; }
+    .row-value.total-val { color: var(--accent); font-size: 14px; }
+    .row-value.rain-rsl-val { color: #ff9966; font-size: 14px; }
+
+    .section-divider {
+      padding: 6px 18px;
+      background: rgba(0,0,0,0.2);
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #1e3040;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .equation-box {
+      background: #0d1520;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .eq-line { display: block; }
+    .eq-result { color: var(--accent); font-size: 12px; }
+    .eq-rain-result { color: #ff9966; font-size: 12px; }
+    .eq-sep { color: #1e3040; }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 11px;
+      color: #2e3d50;
+      font-family: var(--mono);
+    }
+
+    @media (max-width: 480px) {
+      .form-grid.two-col { grid-template-columns: 1fr; }
+      .rain-zone-grid { grid-template-columns: repeat(2, 1fr); }
+      .rsl-grid { grid-template-columns: 1fr; }
+      .row-formula { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="badge">RF ENGINEERING TOOL · MY</div>
+    <h1>Link <span>Budget</span> Calculator</h1>
+    <p class="subtitle">ITU-R P.530-17 · P.838-3 · Malaysia Rain Zones</p>
+  </header>
+
+  <!-- Signal Parameters -->
+  <div class="card">
+    <div class="card-title">Signal Parameters</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Transmit Power</label>
+        <div class="field-unit">
+          <input type="number" id="transmitPower" placeholder="e.g. 23" step="any">
+          <span class="unit-tag">dBm</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Frequency</label>
+        <div class="field-unit">
+          <input type="number" id="freq" placeholder="e.g. 18" step="any">
+          <span class="unit-tag">GHz</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Distance A → B</label>
+        <div class="field-unit">
+          <input type="number" id="pathDist" placeholder="e.g. 5000" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Rx Threshold (sensitivity)</label>
+        <div class="field-unit">
+          <input type="number" id="rxThreshold" placeholder="e.g. -75" step="any">
+          <span class="unit-tag">dBm</span>
+        </div>
+        <span class="threshold-hint note">From radio datasheet. Used to calculate fade margin.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Antenna Parameters -->
+  <div class="card">
+    <div class="card-title">Antenna Parameters</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Antenna Diameter — Site A</label>
+        <div class="field-unit">
+          <input type="number" id="antennaTxSize" placeholder="e.g. 0.6" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Antenna Diameter — Site B</label>
+        <div class="field-unit">
+          <input type="number" id="antennaRxSize" placeholder="e.g. 0.6" step="any">
+          <span class="unit-tag">m</span>
+        </div>
+      </div>
+      <p class="note">† Gain is theoretical (η = 1, ideal aperture). Expect 1–3 dB less from vendor spec.</p>
+    </div>
+  </div>
+
+  <!-- System Losses -->
+  <div class="card">
+    <div class="card-title">System Losses</div>
+    <div class="form-grid two-col">
+      <div class="field">
+        <label>Tx Loss</label>
+        <div class="field-unit">
+          <input type="number" id="txLoss" placeholder="0" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Rx Loss</label>
+        <div class="field-unit">
+          <input type="number" id="rxLoss" placeholder="0" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Other Loss</label>
+        <div class="field-unit">
+          <input type="number" id="otherLoss" placeholder="0" step="any" value="0">
+          <span class="unit-tag">dB</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rain Fade -->
+  <div class="card">
+    <div class="card-title rain-title">Rain Fade · ITU-R P.530-17 / P.838-3</div>
+
+    <label style="margin-bottom:10px;display:block">Malaysia Rain Zone (R₀.₀₁)</label>
+    <div class="rain-zone-grid">
+      <button class="zone-btn active" onclick="setZone(95, this)">
+        Peninsular MY<span class="zone-rate">95 mm/h</span>
+      </button>
+      <button class="zone-btn" onclick="setZone(120, this)">
+        KL / Coastal<span class="zone-rate">120 mm/h</span>
+      </button>
+      <button class="zone-btn" onclick="setZone(145, this)">
+        Sabah / Sarawak<span class="zone-rate">145 mm/h</span>
+      </button>
+      <button class="zone-btn" onclick="setZone(null, this)" id="customZoneBtn">
+        Custom<span class="zone-rate" id="customRateDisplay">—</span>
+      </button>
+    </div>
+
+    <div class="field" id="customRainField" style="display:none; margin-bottom:14px;">
+      <label>Custom R₀.₀₁</label>
+      <div class="field-unit">
+        <input type="number" id="customRain" placeholder="e.g. 105" step="any" oninput="updateCustomDisplay()">
+        <span class="unit-tag">mm/h</span>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:4px;">
+      <label>Polarization</label>
+      <div class="pol-toggle">
+        <button class="pol-btn active" id="polH" onclick="setPol('H')">Horizontal (H)</button>
+        <button class="pol-btn" id="polV" onclick="setPol('V')">Vertical (V)</button>
+      </div>
+    </div>
+
+    <p class="note warn-note" style="margin-top:12px;">
+      ⚠ ITU-R P.530-17 is based on temperate region data. For Malaysia (tropical), actual rain fade may be higher than predicted. Use results as conservative estimate.
+    </p>
+  </div>
+
+  <button class="btn-calc" onclick="calculate()">▶ &nbsp;Calculate Link Budget</button>
+
+  <!-- Results -->
+  <div id="results">
+    <div style="height:24px"></div>
+
+    <!-- RSL Summary -->
+    <div class="rsl-grid">
+      <div class="rsl-box clearsky">
+        <div class="box-label">Clear Sky RSL</div>
+        <div class="box-value" id="rslClearVal" style="color:var(--accent)">—<span class="box-unit">dBm</span></div>
+        <div class="box-quality" id="rslClearQ"></div>
+      </div>
+      <div class="rsl-box rainy">
+        <div class="box-label">Rain RSL (0.01%)</div>
+        <div class="box-value" id="rslRainVal" style="color:#ff9966">—<span class="box-unit">dBm</span></div>
+        <div class="box-quality" id="rslRainQ"></div>
+      </div>
+    </div>
+
+    <!-- Fade Margin -->
+    <div class="fade-margin-section" id="fmSection">
+      <div class="fm-header">
+        <span class="fm-title">Fade Margin (Clear Sky)</span>
+        <span class="fm-value" id="fmValue">—</span>
+      </div>
+      <div class="fm-bar-bg">
+        <div class="fm-bar-fill" id="fmBar" style="width:0%"></div>
+      </div>
+      <div class="fm-labels">
+        <span>0 dB</span><span>10 dB</span><span>20 dB</span><span>30 dB+</span>
+      </div>
+      <div class="fm-verdict" id="fmVerdict"></div>
+      <div style="height:10px"></div>
+      <div class="fm-header">
+        <span class="fm-title">Fade Margin (Under Rain)</span>
+        <span class="fm-value" id="fmRainValue">—</span>
+      </div>
+      <div class="fm-bar-bg">
+        <div class="fm-bar-fill" id="fmRainBar" style="width:0%"></div>
+      </div>
+      <div class="fm-labels">
+        <span>0 dB</span><span>10 dB</span><span>20 dB</span><span>30 dB+</span>
+      </div>
+      <div class="fm-verdict" id="fmRainVerdict"></div>
+    </div>
+
+    <!-- Full Breakdown -->
+    <div class="card">
+      <div class="card-title">Full Calculation Breakdown</div>
+
+      <div class="breakdown">
+        <div class="breakdown-header">Step-by-Step · ITU-R P.838-3 / P.530-17</div>
+
+        <div class="section-divider">── Link Budget ──</div>
+
+        <div class="breakdown-row">
+          <span class="row-name">Wavelength (λ)</span>
+          <span class="row-formula" id="f-wavelength"></span>
+          <span class="row-value positive" id="v-wavelength"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">Gain — Site A (G_a)</span>
+          <span class="row-formula">10·log₁₀(6·(D_A/λ)²)</span>
+          <span class="row-value positive" id="v-gainA"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">Gain — Site B (G_b)</span>
+          <span class="row-formula">10·log₁₀(6·(D_B/λ)²)</span>
+          <span class="row-value positive" id="v-gainB"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — 20·log(f)</span>
+          <span class="row-formula">20·log₁₀(<span id="f-fspl-f"></span> GHz)</span>
+          <span class="row-value negative" id="v-fspl-f"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — 20·log(d)</span>
+          <span class="row-formula">20·log₁₀(<span id="f-fspl-d"></span> m)</span>
+          <span class="row-value negative" id="v-fspl-d"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">FSPL — constant</span>
+          <span class="row-formula">unit factor (GHz + m)</span>
+          <span class="row-value negative">+32.44 dB</span>
+        </div>
+        <div class="breakdown-row subtotal" style="border-left:2px solid var(--warn)">
+          <span class="row-name" style="color:var(--text)">FSPL Total</span>
+          <span class="row-formula">20log(f) + 20log(d) + 32.44</span>
+          <span class="row-value negative" id="v-fspl"></span>
+        </div>
+        <div class="breakdown-row">
+          <span class="row-name">System Loss (L_sys)</span>
+          <span class="row-formula">Tx + Rx + Other</span>
+          <span class="row-value negative" id="v-sysloss"></span>
+        </div>
+        <div class="breakdown-row total">
+          <span class="row-name" style="color:var(--text);font-weight:600">RSL (Clear Sky)</span>
+          <span class="row-formula" style="color:#1e3a50">Pt + G_a + G_b − FSPL − L_sys</span>
+          <span class="row-value total-val" id="v-rsl"></span>
+        </div>
+
+        <div class="section-divider">── Rain Fade · ITU-R P.838-3 / P.530-17 ──</div>
+
+        <div class="breakdown-row rain-row">
+          <span class="row-name">P.838-3 k coefficient</span>
+          <span class="row-formula" id="f-k">freq + polarization</span>
+          <span class="row-value rain-val" id="v-k"></span>
+        </div>
+        <div class="breakdown-row rain-row">
+          <span class="row-name">P.838-3 α coefficient</span>
+          <span class="row-formula" id="f-alpha">freq + polarization</span>
+          <span class="row-value rain-val" id="v-alpha"></span>
+        </div>
+        <div class="breakdown-row rain-row">
+          <span class="row-name">Rain rate R₀.₀₁</span>
+          <span class="row-formula" id="f-rainzone"></span>
+          <span class="row-value rain-val" id="v-rainrate"></span>
+        </div>
+        <div class="breakdown-row rain-row">
+          <span class="row-name">Specific attenuation (γ)</span>
+          <span class="row-formula">k · R^α</span>
+          <span class="row-value rain-val" id="v-gamma"></span>
+        </div>
+        <div class="breakdown-row rain-row">
+          <span class="row-name">Distance factor (r)</span>
+          <span class="row-formula">1/(1 + d/d₀)</span>
+          <span class="row-value rain-val" id="v-r"></span>
+        </div>
+        <div class="breakdown-row rain-row">
+          <span class="row-name">Effective path (d_eff)</span>
+          <span class="row-formula">r · d</span>
+          <span class="row-value rain-val" id="v-deff"></span>
+        </div>
+        <div class="breakdown-row rain-row" style="border-left-color:#ff9966">
+          <span class="row-name">Rain attenuation (A₀.₀₁)</span>
+          <span class="row-formula">γ · d_eff</span>
+          <span class="row-value negative" id="v-rainAtten"></span>
+        </div>
+        <div class="breakdown-row rain-total">
+          <span class="row-name" style="color:var(--text);font-weight:600">RSL (Under Rain)</span>
+          <span class="row-formula" style="color:#1e3a50">RSL_clear − A₀.₀₁</span>
+          <span class="row-value rain-rsl-val" id="v-rsl-rain"></span>
+        </div>
+
+      </div>
+
+      <div class="equation-box" id="eq-box"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Link Budget Calculator · ITU-R P.530-17 · P.838-3 · Malaysia</footer>
+
+<script>
+  // ── State ──
+  let activeRainRate = 95;
+  let polarization = 'H';
+
+  function setZone(rate, btn) {
+    document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (rate === null) {
+      document.getElementById('customRainField').style.display = 'block';
+      activeRainRate = parseFloat(document.getElementById('customRain').value) || null;
+    } else {
+      document.getElementById('customRainField').style.display = 'none';
+      activeRainRate = rate;
+    }
+  }
+
+  function updateCustomDisplay() {
+    const v = parseFloat(document.getElementById('customRain').value);
+    document.getElementById('customRateDisplay').textContent = v ? v + ' mm/h' : '—';
+    activeRainRate = v || null;
+  }
+
+  function setPol(p) {
+    polarization = p;
+    document.getElementById('polH').classList.toggle('active', p === 'H');
+    document.getElementById('polV').classList.toggle('active', p === 'V');
+  }
+
+  // ── ITU-R P.838-3 Coefficients ──
+  // Interpolated for H and V polarization
+  // [freq_GHz, k_H, alpha_H, k_V, alpha_V]
+  const P838 = [
+    [1,   0.0000387, 0.912,  0.0000352, 0.880],
+    [2,   0.000154,  0.963,  0.000138,  0.923],
+    [4,   0.000650,  1.121,  0.000591,  1.075],
+    [6,   0.00175,   1.308,  0.00155,   1.265],
+    [7,   0.00301,   1.332,  0.00265,   1.312],
+    [8,   0.00454,   1.327,  0.00395,   1.310],
+    [10,  0.0101,    1.276,  0.00887,   1.264],
+    [12,  0.0188,    1.217,  0.0168,    1.200],
+    [13,  0.0245,    1.185,  0.0221,    1.169],
+    [15,  0.0367,    1.154,  0.0335,    1.128],
+    [18,  0.101,     1.060,  0.0920,    1.021],
+    [20,  0.154,     1.000,  0.138,     0.979],
+    [22,  0.188,     1.021,  0.168,     1.009], // interpolated ~23G
+    [23,  0.187,     1.021,  0.167,     1.009],
+    [25,  0.219,     1.028,  0.197,     1.012],
+    [30,  0.263,     1.021,  0.233,     1.009],
+    [35,  0.317,     0.979,  0.280,     0.976],
+    [40,  0.393,     0.967,  0.347,     0.955],
+    [50,  0.479,     0.951,  0.428,     0.942],
+    [60,  0.496,     0.947,  0.449,     0.938],
+    [70,  0.506,     0.952,  0.460,     0.942],
+    [80,  0.507,     0.955,  0.461,     0.944],
+    [90,  0.519,     0.953,  0.476,     0.943],
+    [100, 0.543,     0.947,  0.502,     0.939],
+  ];
+
+  function getP838(freq, pol) {
+    // Interpolate between table entries
+    let lo = P838[0], hi = P838[P838.length - 1];
+    for (let i = 0; i < P838.length - 1; i++) {
+      if (freq >= P838[i][0] && freq <= P838[i+1][0]) {
+        lo = P838[i]; hi = P838[i+1]; break;
+      }
+    }
+    const t = (lo[0] === hi[0]) ? 0 : (freq - lo[0]) / (hi[0] - lo[0]);
+    if (pol === 'H') {
+      return {
+        k: lo[1] + t * (hi[1] - lo[1]),
+        alpha: lo[2] + t * (hi[2] - lo[2])
+      };
+    } else {
+      return {
+        k: lo[3] + t * (hi[3] - lo[3]),
+        alpha: lo[4] + t * (hi[4] - lo[4])
+      };
+    }
+  }
+
+  // ── ITU-R P.530-17 distance factor r ──
+  function distanceFactor(R001, freq, dist_km) {
+    const d0 = 35 * Math.exp(-0.015 * R001);
+    const r = 1 / (1 + 0.78 * Math.sqrt((dist_km * 0) + dist_km / d0) - 0.38 * (1 - Math.exp(-2 * dist_km)));
+    // Simplified P.530-17 formula:
+    // r = 1 / (1 + d/d0)  where d0 = 35*exp(-0.015*R001)
+    const r_simple = 1 / (1 + dist_km / d0);
+    return { r: r_simple, d0 };
+  }
+
+  // ── Signal quality ──
+  function signalQuality(rsl) {
+    if (rsl > -50) return { text: '● EXCELLENT', color: '#a6e22e' };
+    if (rsl > -65) return { text: '● GOOD',      color: '#00d4aa' };
+    if (rsl > -75) return { text: '◐ MARGINAL',  color: '#f8b500' };
+    if (rsl > -85) return { text: '○ WEAK',      color: '#ff6b35' };
+    return            { text: '✕ CRITICAL',   color: '#ff3355' };
+  }
+
+  function fadeMarginVerdict(fm, isRain) {
+    if (fm >= 25) return { text: `✓ GOOD MARGIN — link should be stable${isRain?' even in rain':''}`, bg: 'rgba(166,226,46,0.08)', color: '#a6e22e', border: 'rgba(166,226,46,0.2)' };
+    if (fm >= 15) return { text: `~ ACCEPTABLE — monitor in heavy rain conditions`, bg: 'rgba(248,181,0,0.08)', color: '#f8b500', border: 'rgba(248,181,0,0.2)' };
+    if (fm >= 5)  return { text: `⚠ LOW MARGIN — link may drop during heavy rain`, bg: 'rgba(255,107,53,0.08)', color: '#ff6b35', border: 'rgba(255,107,53,0.2)' };
+    if (fm >= 0)  return { text: `✕ VERY LOW — high outage risk`, bg: 'rgba(255,51,85,0.08)', color: '#ff3355', border: 'rgba(255,51,85,0.2)' };
+    return               { text: `✕ LINK FAILS — RSL below threshold`, bg: 'rgba(255,51,85,0.12)', color: '#ff3355', border: 'rgba(255,51,85,0.3)' };
+  }
+
+  function renderFM(fm, barId, valueId, verdictId, isRain) {
+    const pct = Math.min(Math.max((fm / 30) * 100, 0), 100);
+    const v = fadeMarginVerdict(fm, isRain);
+    const bar = document.getElementById(barId);
+    bar.style.width = pct + '%';
+    bar.style.background = v.color;
+    document.getElementById(valueId).textContent = fm.toFixed(1) + ' dB';
+    document.getElementById(valueId).style.color = v.color;
+    const vEl = document.getElementById(verdictId);
+    vEl.textContent = v.text;
+    vEl.style.color = v.color;
+    vEl.style.background = v.bg;
+    vEl.style.border = '1px solid ' + v.border;
+  }
+
+  // ── Main calculate ──
+  function calculate() {
+    const Pt   = parseFloat(document.getElementById('transmitPower').value) || 0;
+    const freq = parseFloat(document.getElementById('freq').value) || 0;
+    const dist = parseFloat(document.getElementById('pathDist').value) || 0;
+    const dA   = parseFloat(document.getElementById('antennaTxSize').value) || 0;
+    const dB_  = parseFloat(document.getElementById('antennaRxSize').value) || 0;
+    const ltx  = parseFloat(document.getElementById('txLoss').value) || 0;
+    const lrx  = parseFloat(document.getElementById('rxLoss').value) || 0;
+    const loth = parseFloat(document.getElementById('otherLoss').value) || 0;
+    const rxTh = parseFloat(document.getElementById('rxThreshold').value);
+    const R001 = activeRainRate;
+
+    if (!freq || !dist || !dA || !dB_) {
+      alert('Please fill in Frequency, Distance, and both Antenna sizes.');
+      return;
+    }
+    if (!R001) {
+      alert('Please enter a custom rain rate.');
+      return;
+    }
+
+    // ── Clear sky link budget ──
+    const c      = 299792458;
+    const lambda = c / (freq * 1e9);
+    const gainA  = 10 * Math.log10(6 * Math.pow(dA / lambda, 2));
+    const gainB  = 10 * Math.log10(6 * Math.pow(dB_ / lambda, 2));
+    const fsplF  = 20 * Math.log10(freq);
+    const fsplD  = 20 * Math.log10(dist);
+    const fspl   = fsplF + fsplD + 32.44;
+    const sysLoss = ltx + lrx + loth;
+    const rsl    = Pt + gainA + gainB - fspl - sysLoss;
+
+    // ── Rain fade · P.838-3 + P.530-17 ──
+    const { k, alpha } = getP838(freq, polarization);
+    const gamma = k * Math.pow(R001, alpha);          // specific atten dB/km
+    const dist_km = dist / 1000;
+    const { r, d0 } = distanceFactor(R001, freq, dist_km);
+    const deff = r * dist_km;                          // effective path km
+    const rainAtten = gamma * deff;                    // total rain atten dB
+    const rslRain = rsl - rainAtten;
+
+    // ── Populate summary boxes ──
+    const qClear = signalQuality(rsl);
+    const qRain  = signalQuality(rslRain);
+
+    document.getElementById('rslClearVal').innerHTML = `${rsl.toFixed(2)}<span class="box-unit"> dBm</span>`;
+    document.getElementById('rslClearVal').style.color = qClear.color;
+    document.getElementById('rslClearQ').textContent = qClear.text;
+    document.getElementById('rslClearQ').style.color = qClear.color;
+
+    document.getElementById('rslRainVal').innerHTML = `${rslRain.toFixed(2)}<span class="box-unit"> dBm</span>`;
+    document.getElementById('rslRainVal').style.color = qRain.color;
+    document.getElementById('rslRainQ').textContent = qRain.text;
+    document.getElementById('rslRainQ').style.color = qRain.color;
+
+    // ── Fade margin ──
+    const hasTh = !isNaN(rxTh);
+    document.getElementById('fmSection').style.display = hasTh ? 'block' : 'none';
+    if (hasTh) {
+      const fm     = rsl - rxTh;
+      const fmRain = rslRain - rxTh;
+      renderFM(fm,     'fmBar',     'fmValue',     'fmVerdict',     false);
+      renderFM(fmRain, 'fmRainBar', 'fmRainValue', 'fmRainVerdict', true);
+    }
+
+    // ── Breakdown rows ──
+    document.getElementById('f-wavelength').textContent = `c / (${freq} GHz)`;
+    document.getElementById('v-wavelength').textContent = `${(lambda*1000).toFixed(4)} mm`;
+    document.getElementById('v-gainA').textContent  = `+${gainA.toFixed(2)} dB`;
+    document.getElementById('v-gainB').textContent  = `+${gainB.toFixed(2)} dB`;
+    document.getElementById('f-fspl-f').textContent = freq;
+    document.getElementById('v-fspl-f').textContent = `+${fsplF.toFixed(2)} dB`;
+    document.getElementById('f-fspl-d').textContent = dist;
+    document.getElementById('v-fspl-d').textContent = `+${fsplD.toFixed(2)} dB`;
+    document.getElementById('v-fspl').textContent   = `−${fspl.toFixed(2)} dB`;
+    document.getElementById('v-sysloss').textContent = `−${sysLoss.toFixed(2)} dB`;
+    document.getElementById('v-rsl').textContent    = `${rsl.toFixed(2)} dBm`;
+
+    // Rain rows
+    document.getElementById('f-k').textContent     = `${freq} GHz, ${polarization}-pol`;
+    document.getElementById('v-k').textContent     = k.toFixed(5);
+    document.getElementById('f-alpha').textContent = `${freq} GHz, ${polarization}-pol`;
+    document.getElementById('v-alpha').textContent = alpha.toFixed(4);
+    document.getElementById('f-rainzone').textContent = `0.01% of time`;
+    document.getElementById('v-rainrate').textContent = `${R001} mm/h`;
+    document.getElementById('v-gamma').textContent = `${gamma.toFixed(3)} dB/km`;
+    document.getElementById('v-r').textContent     = `${r.toFixed(4)}`;
+    document.getElementById('v-deff').textContent  = `${deff.toFixed(3)} km`;
+    document.getElementById('v-rainAtten').textContent = `−${rainAtten.toFixed(2)} dB`;
+    document.getElementById('v-rsl-rain').textContent  = `${rslRain.toFixed(2)} dBm`;
+
+    // ── Equation box ──
+    document.getElementById('eq-box').innerHTML = `
+<span class="eq-line">── Clear Sky ─────────────────────────────────</span>
+<span class="eq-line">FSPL = 20·log(${freq}) + 20·log(${dist}) + 32.44</span>
+<span class="eq-line">     = ${fsplF.toFixed(2)} + ${fsplD.toFixed(2)} + 32.44 = ${fspl.toFixed(2)} dB</span>
+<span class="eq-line">RSL  = ${Pt.toFixed(2)} + ${gainA.toFixed(2)} + ${gainB.toFixed(2)} − ${fspl.toFixed(2)} − ${sysLoss.toFixed(2)}</span>
+<span class="eq-line eq-result">     = ${rsl.toFixed(2)} dBm</span>
+<span class="eq-line eq-sep">── Rain Fade (ITU-R P.838-3 / P.530-17) ──────</span>
+<span class="eq-line">γ    = k · R^α = ${k.toFixed(5)} × ${R001}^${alpha.toFixed(4)} = ${gamma.toFixed(3)} dB/km</span>
+<span class="eq-line">d₀   = 35 · exp(−0.015 × ${R001}) = ${d0.toFixed(3)} km</span>
+<span class="eq-line">r    = 1 / (1 + ${dist_km.toFixed(3)}/${d0.toFixed(3)}) = ${r.toFixed(4)}</span>
+<span class="eq-line">d_eff = r × d = ${r.toFixed(4)} × ${dist_km.toFixed(3)} = ${deff.toFixed(3)} km</span>
+<span class="eq-line">A₀.₀₁ = γ × d_eff = ${gamma.toFixed(3)} × ${deff.toFixed(3)} = ${rainAtten.toFixed(2)} dB</span>
+<span class="eq-line eq-rain-result">RSL_rain = ${rsl.toFixed(2)} − ${rainAtten.toFixed(2)} = <strong>${rslRain.toFixed(2)} dBm</strong></span>`;
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+</body>
+</html>
