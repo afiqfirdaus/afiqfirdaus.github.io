@@ -3,24 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#eef2f6" />
   <title>Link Budget Calculator</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0e14;
-      --surface: #111820;
-      --surface2: #161e28;
-      --border: #1e2d3d;
-      --accent: #00d4aa;
-      --accent2: #0087ff;
-      --warn: #ff6b35;
-      --danger: #ff3355;
-      --text: #cdd6f4;
-      --muted: #6b7a8d;
-      --green: #a6e22e;
-      --yellow: #f8b500;
+      color-scheme: light;
+      --bg: #eef2f6;
+      --surface: #ffffff;
+      --surface2: #f6f8fb;
+      --border: #d9e1ea;
+      --accent: #007a63;
+      --accent2: #0062c4;
+      --warn: #c2410c;
+      --danger: #c8102e;
+      --text: #16222f;
+      --muted: #55657a;
+      --faint: #5c6c7f;
+      --green: #3a7d0a;
+      --yellow: #946000;
+      --rain: #4458c7;
+      --rain-strong: #c2410c;
       --mono: 'Share Tech Mono', monospace;
       --sans: 'Outfit', sans-serif;
     }
@@ -43,8 +48,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0,98,196,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,98,196,0.05) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
       z-index: 0;
@@ -79,7 +84,7 @@
       font-size: clamp(22px, 5vw, 30px);
       font-weight: 700;
       letter-spacing: -0.5px;
-      color: #fff;
+      color: var(--text);
       line-height: 1.2;
     }
 
@@ -98,6 +103,7 @@
       border-radius: 12px;
       padding: 24px 24px;
       margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(22,34,47,0.05);
     }
 
     .card-title {
@@ -119,7 +125,7 @@
       background: var(--border);
     }
 
-    .card-title.rain-title { color: #7b9fff; }
+    .card-title.rain-title { color: var(--rain); }
 
     .form-grid { display: grid; gap: 14px; }
     .form-grid.two-col { grid-template-columns: 1fr 1fr; }
@@ -151,18 +157,18 @@
 
     input[type="number"]:focus, select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,212,170,0.08);
+      box-shadow: 0 0 0 3px rgba(0,122,99,0.15);
     }
 
-    input[type="number"]::placeholder { color: #2e3d50; }
+    input[type="number"]::placeholder { color: #8d9aab; }
 
-    select option { background: #161e28; }
+    select option { background: var(--surface); }
 
     .field-unit { display: flex; align-items: stretch; }
     .field-unit input, .field-unit select { border-radius: 7px 0 0 7px; flex: 1; }
 
     .unit-tag {
-      background: #1a2535;
+      background: #edf1f6;
       border: 1px solid var(--border);
       border-left: none;
       border-radius: 0 7px 7px 0;
@@ -198,12 +204,12 @@
       line-height: 1.4;
     }
 
-    .zone-btn:hover { border-color: #7b9fff; color: #7b9fff; }
+    .zone-btn:hover { border-color: var(--rain); color: var(--rain); }
 
     .zone-btn.active {
-      background: rgba(123,159,255,0.1);
-      border-color: #7b9fff;
-      color: #7b9fff;
+      background: rgba(68,88,199,0.08);
+      border-color: var(--rain);
+      color: var(--rain);
     }
 
     .zone-btn .zone-rate {
@@ -213,7 +219,7 @@
       margin-top: 2px;
     }
 
-    .zone-btn.active .zone-rate { color: #fff; }
+    .zone-btn.active .zone-rate { color: var(--rain); }
 
     .note {
       font-size: 11px;
@@ -223,7 +229,7 @@
       line-height: 1.5;
     }
 
-    .note.warn-note { color: #f8b500; }
+    .note.warn-note { color: var(--yellow); }
 
     /* Polarization toggle */
     .pol-toggle {
@@ -248,8 +254,8 @@
     }
 
     .pol-btn.active {
-      background: rgba(123,159,255,0.15);
-      color: #7b9fff;
+      background: rgba(68,88,199,0.1);
+      color: var(--rain);
     }
 
     /* Threshold field */
@@ -263,7 +269,7 @@
     .btn-calc {
       width: 100%;
       background: var(--accent);
-      color: #0a0e14;
+      color: #fff;
       border: none;
       border-radius: 8px;
       font-family: var(--sans);
@@ -276,7 +282,7 @@
       margin-top: 4px;
     }
 
-    .btn-calc:hover { background: #00f0c0; box-shadow: 0 0 20px rgba(0,212,170,0.25); }
+    .btn-calc:hover { background: #00664f; box-shadow: 0 4px 16px rgba(0,122,99,0.25); }
     .btn-calc:active { transform: scale(0.98); }
 
     /* Results */
@@ -298,13 +304,13 @@
     }
 
     .rsl-box.clearsky {
-      background: linear-gradient(135deg, rgba(0,212,170,0.06), rgba(0,135,255,0.06));
-      border-color: rgba(0,212,170,0.2);
+      background: linear-gradient(135deg, rgba(0,122,99,0.06), rgba(0,98,196,0.06)), var(--surface);
+      border-color: rgba(0,122,99,0.25);
     }
 
     .rsl-box.rainy {
-      background: linear-gradient(135deg, rgba(123,159,255,0.06), rgba(255,107,53,0.06));
-      border-color: rgba(123,159,255,0.2);
+      background: linear-gradient(135deg, rgba(68,88,199,0.06), rgba(194,65,12,0.06)), var(--surface);
+      border-color: rgba(68,88,199,0.25);
     }
 
     .rsl-box .box-label {
@@ -338,7 +344,7 @@
 
     /* Fade margin bar */
     .fade-margin-section {
-      background: var(--surface2);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px 18px;
@@ -366,7 +372,7 @@
     }
 
     .fm-bar-bg {
-      background: #0d1520;
+      background: #e3e9f0;
       border-radius: 4px;
       height: 8px;
       overflow: hidden;
@@ -384,7 +390,7 @@
       justify-content: space-between;
       font-family: var(--mono);
       font-size: 10px;
-      color: #2e4055;
+      color: var(--faint);
     }
 
     .fm-verdict {
@@ -407,7 +413,7 @@
 
     .breakdown-header {
       padding: 12px 18px;
-      background: rgba(0,135,255,0.06);
+      background: rgba(0,98,196,0.06);
       border-bottom: 1px solid var(--border);
       font-family: var(--mono);
       font-size: 11px;
@@ -421,38 +427,38 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 18px;
-      border-bottom: 1px solid rgba(30,45,61,0.5);
+      border-bottom: 1px solid var(--border);
       gap: 10px;
     }
 
     .breakdown-row:last-child { border-bottom: none; }
-    .breakdown-row.subtotal { background: rgba(0,0,0,0.15); }
-    .breakdown-row.total { background: rgba(0,212,170,0.04); border-top: 1px solid rgba(0,212,170,0.15); }
-    .breakdown-row.rain-row { background: rgba(123,159,255,0.04); border-left: 2px solid #7b9fff; }
-    .breakdown-row.rain-total { background: rgba(255,107,53,0.04); border-top: 1px solid rgba(255,107,53,0.15); }
+    .breakdown-row.subtotal { background: rgba(22,34,47,0.04); }
+    .breakdown-row.total { background: rgba(0,122,99,0.06); border-top: 1px solid rgba(0,122,99,0.2); }
+    .breakdown-row.rain-row { background: rgba(68,88,199,0.05); border-left: 2px solid var(--rain); }
+    .breakdown-row.rain-total { background: rgba(194,65,12,0.05); border-top: 1px solid rgba(194,65,12,0.2); }
 
     .row-name { font-size: 12px; color: var(--muted); flex: 1.2; }
-    .row-formula { font-family: var(--mono); font-size: 10px; color: #2e4a66; flex: 1.8; text-align: center; }
+    .row-formula { font-family: var(--mono); font-size: 10px; color: var(--faint); flex: 1.8; text-align: center; }
     .row-value { font-family: var(--mono); font-size: 12px; text-align: right; min-width: 90px; }
 
     .row-value.positive { color: var(--green); }
     .row-value.negative { color: var(--warn); }
-    .row-value.rain-val { color: #7b9fff; }
+    .row-value.rain-val { color: var(--rain); }
     .row-value.total-val { color: var(--accent); font-size: 14px; }
-    .row-value.rain-rsl-val { color: #ff9966; font-size: 14px; }
+    .row-value.rain-rsl-val { color: var(--rain-strong); font-size: 14px; }
 
     .section-divider {
       padding: 6px 18px;
-      background: rgba(0,0,0,0.2);
+      background: #eaeff4;
       font-family: var(--mono);
       font-size: 10px;
-      color: #1e3040;
+      color: var(--faint);
       letter-spacing: 1px;
       text-transform: uppercase;
     }
 
     .equation-box {
-      background: #0d1520;
+      background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 14px 16px;
@@ -465,14 +471,14 @@
 
     .eq-line { display: block; }
     .eq-result { color: var(--accent); font-size: 12px; }
-    .eq-rain-result { color: #ff9966; font-size: 12px; }
-    .eq-sep { color: #1e3040; }
+    .eq-rain-result { color: var(--rain-strong); font-size: 12px; }
+    .eq-sep { color: var(--faint); }
 
     footer {
       text-align: center;
       margin-top: 32px;
       font-size: 11px;
-      color: #2e3d50;
+      color: var(--muted);
       font-family: var(--mono);
     }
 
@@ -635,7 +641,7 @@
       </div>
       <div class="rsl-box rainy">
         <div class="box-label">Rain RSL (0.01%)</div>
-        <div class="box-value" id="rslRainVal" style="color:#ff9966">—<span class="box-unit">dBm</span></div>
+        <div class="box-value" id="rslRainVal" style="color:var(--rain-strong)">—<span class="box-unit">dBm</span></div>
         <div class="box-quality" id="rslRainQ"></div>
       </div>
     </div>
@@ -718,7 +724,7 @@
         </div>
         <div class="breakdown-row total">
           <span class="row-name" style="color:var(--text);font-weight:600">RSL (Clear Sky)</span>
-          <span class="row-formula" style="color:#1e3a50">Pt + G_a + G_b − FSPL − L_sys</span>
+          <span class="row-formula">Pt + G_a + G_b − FSPL − L_sys</span>
           <span class="row-value total-val" id="v-rsl"></span>
         </div>
 
@@ -754,14 +760,14 @@
           <span class="row-formula">r · d</span>
           <span class="row-value rain-val" id="v-deff"></span>
         </div>
-        <div class="breakdown-row rain-row" style="border-left-color:#ff9966">
+        <div class="breakdown-row rain-row" style="border-left-color:var(--rain-strong)">
           <span class="row-name">Rain attenuation (A₀.₀₁)</span>
           <span class="row-formula">γ · d_eff</span>
           <span class="row-value negative" id="v-rainAtten"></span>
         </div>
         <div class="breakdown-row rain-total">
           <span class="row-name" style="color:var(--text);font-weight:600">RSL (Under Rain)</span>
-          <span class="row-formula" style="color:#1e3a50">RSL_clear − A₀.₀₁</span>
+          <span class="row-formula">RSL_clear − A₀.₀₁</span>
           <span class="row-value rain-rsl-val" id="v-rsl-rain"></span>
         </div>
 
@@ -868,19 +874,19 @@
 
   // ── Signal quality ──
   function signalQuality(rsl) {
-    if (rsl > -50) return { text: '● EXCELLENT', color: '#a6e22e' };
-    if (rsl > -65) return { text: '● GOOD',      color: '#00d4aa' };
-    if (rsl > -75) return { text: '◐ MARGINAL',  color: '#f8b500' };
-    if (rsl > -85) return { text: '○ WEAK',      color: '#ff6b35' };
-    return            { text: '✕ CRITICAL',   color: '#ff3355' };
+    if (rsl > -50) return { text: '● EXCELLENT', color: '#3a7d0a' };
+    if (rsl > -65) return { text: '● GOOD',      color: '#007a63' };
+    if (rsl > -75) return { text: '◐ MARGINAL',  color: '#946000' };
+    if (rsl > -85) return { text: '○ WEAK',      color: '#c2410c' };
+    return            { text: '✕ CRITICAL',   color: '#c8102e' };
   }
 
   function fadeMarginVerdict(fm, isRain) {
-    if (fm >= 25) return { text: `✓ GOOD MARGIN — link should be stable${isRain?' even in rain':''}`, bg: 'rgba(166,226,46,0.08)', color: '#a6e22e', border: 'rgba(166,226,46,0.2)' };
-    if (fm >= 15) return { text: `~ ACCEPTABLE — monitor in heavy rain conditions`, bg: 'rgba(248,181,0,0.08)', color: '#f8b500', border: 'rgba(248,181,0,0.2)' };
-    if (fm >= 5)  return { text: `⚠ LOW MARGIN — link may drop during heavy rain`, bg: 'rgba(255,107,53,0.08)', color: '#ff6b35', border: 'rgba(255,107,53,0.2)' };
-    if (fm >= 0)  return { text: `✕ VERY LOW — high outage risk`, bg: 'rgba(255,51,85,0.08)', color: '#ff3355', border: 'rgba(255,51,85,0.2)' };
-    return               { text: `✕ LINK FAILS — RSL below threshold`, bg: 'rgba(255,51,85,0.12)', color: '#ff3355', border: 'rgba(255,51,85,0.3)' };
+    if (fm >= 25) return { text: `✓ GOOD MARGIN — link should be stable${isRain?' even in rain':''}`, bg: 'rgba(58,125,10,0.08)', color: '#3a7d0a', border: 'rgba(58,125,10,0.2)' };
+    if (fm >= 15) return { text: `~ ACCEPTABLE — monitor in heavy rain conditions`, bg: 'rgba(148,96,0,0.08)', color: '#946000', border: 'rgba(148,96,0,0.2)' };
+    if (fm >= 5)  return { text: `⚠ LOW MARGIN — link may drop during heavy rain`, bg: 'rgba(194,65,12,0.08)', color: '#c2410c', border: 'rgba(194,65,12,0.2)' };
+    if (fm >= 0)  return { text: `✕ VERY LOW — high outage risk`, bg: 'rgba(200,16,46,0.08)', color: '#c8102e', border: 'rgba(200,16,46,0.2)' };
+    return               { text: `✕ LINK FAILS — RSL below threshold`, bg: 'rgba(200,16,46,0.12)', color: '#c8102e', border: 'rgba(200,16,46,0.3)' };
   }
 
   function renderFM(fm, barId, valueId, verdictId, isRain) {
