@@ -17,7 +17,7 @@
       --border: #d9e1ea;
       --accent: #007a63;
       --accent2: #0062c4;
-      --warn: #c2410c;
+      --warn: #b93d0b;
       --danger: #c8102e;
       --text: #16222f;
       --muted: #55657a;
@@ -25,7 +25,8 @@
       --green: #3a7d0a;
       --yellow: #946000;
       --rain: #4458c7;
-      --rain-strong: #c2410c;
+      --rain-strong: #9a3412;
+      --field-border: #7f8c9d;
       --mono: 'Share Tech Mono', monospace;
       --sans: 'Outfit', sans-serif;
     }
@@ -77,7 +78,7 @@
       border-radius: 2px;
       letter-spacing: 2px;
       margin-bottom: 14px;
-      opacity: 0.85;
+      background: var(--surface);
     }
 
     h1 {
@@ -160,7 +161,7 @@
       box-shadow: 0 0 0 3px rgba(0,122,99,0.15);
     }
 
-    input[type="number"]::placeholder { color: #8d9aab; }
+    input[type="number"]::placeholder { color: #637387; }
 
     select option { background: var(--surface); }
 
@@ -254,9 +255,12 @@
     }
 
     .pol-btn.active {
-      background: rgba(68,88,199,0.1);
-      color: var(--rain);
+      background: var(--rain);
+      color: #fff;
     }
+
+    input[type="number"], select, .unit-tag, .pol-toggle { border-color: var(--field-border); }
+    input[type="number"]:focus, select:focus { border-color: var(--accent); }
 
     /* Threshold field */
     .threshold-hint {
