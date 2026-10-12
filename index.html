@@ -82,6 +82,8 @@ a:hover { color: var(--yellow); }
 
 main:focus { outline: none; }
 
+html.menu-open { overflow: hidden; }
+
 /* ── NOISE OVERLAY ────────────────────────────────────────── */
 body::before {
   content: '';
@@ -359,7 +361,7 @@ nav {
 .ticker-track {
   display: flex;
   gap: 0;
-  animation: ticker 48s linear infinite;
+  animation: ticker 96s linear infinite;
   white-space: nowrap;
 }
 
@@ -990,12 +992,13 @@ footer {
   z-index: 99;
   max-height: 0;
   overflow: hidden;
+  overscroll-behavior: contain;
   visibility: hidden;
   transition: max-height 0.4s ease, padding 0.3s ease, visibility 0s linear 0.4s;
 }
 
 .mobile-menu.is-open {
-  max-height: 640px;
+  max-height: calc(100vh - 64px);
   max-height: calc(100dvh - 64px);
   overflow-y: auto;
   visibility: visible;
@@ -1070,14 +1073,30 @@ footer {
 
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 1150px) {
-  nav { padding: 0 24px; }
-
   .nav-links, .nav-tools { display: none; }
   .hamburger { display: flex; }
   .mobile-menu { display: block; }
+
+  /* without JS the menu can't open, so show it in the page flow instead */
+  html:not(.js) .hamburger { display: none; }
+  html:not(.js) .mobile-menu {
+    position: static;
+    max-height: none;
+    visibility: visible;
+    padding: 80px 0 16px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1150px) {
+  .mobile-menu-nav,
+  .mobile-menu-tools-label,
+  .mobile-menu-tools { padding: 0 48px; }
+  .mobile-menu-divider { margin: 0 48px 20px; }
 }
 
 @media (max-width: 900px) {
+  nav { padding: 0 24px; }
+
   section { padding: 64px 24px; }
 
   #hero { padding: 96px 24px 64px; }
@@ -1108,9 +1127,6 @@ footer {
 
   .form-row { grid-template-columns: 1fr; }
 
-  .form-input,
-  .form-textarea { font-size: 16px; }
-
   footer {
     flex-direction: column;
     gap: 16px;
@@ -1119,6 +1135,12 @@ footer {
   }
 
   .section-title { font-size: 38px; }
+}
+
+/* 16px stops iOS Safari zooming into fields on focus */
+@media (pointer: coarse) {
+  .form-input,
+  .form-textarea { font-size: 16px; }
 }
 
 @media (max-width: 600px) {
@@ -1133,7 +1155,7 @@ footer {
     animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0s !important;
     transition-delay: 0s !important;
   }
 }
@@ -1147,6 +1169,10 @@ footer {
   #hero { min-height: auto; padding: 0 0 24px; }
   .hero-tag, .hero-name, .hero-subtitle { opacity: 1; animation: none; }
   .exp-item { opacity: 1 !important; transform: none !important; }
+  .project-card { aspect-ratio: auto; background: none; border: 1px solid #ccc; break-inside: avoid; }
+  .project-card img { display: none; }
+  .project-overlay { position: static; background: none; padding: 12px 16px; }
+  .project-client, .project-type { opacity: 1 !important; transform: none !important; }
   section, #contact { padding: 24px 0; max-width: none; }
 }
 </style>
@@ -1168,10 +1194,10 @@ footer {
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-tools">
-    <a class="nav-tool-btn" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank" aria-label="RSSI↔V – RSSI to voltage converter (opens in new tab)">RSSI↔&#xFE0E;V</a>
-    <a class="nav-tool-btn" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank" aria-label="LB Calc – link budget calculator (opens in new tab)">LB Calc</a>
-    <a class="nav-tool-btn" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank" aria-label="FSPL Calc – free-space path loss calculator (opens in new tab)">FSPL Calc</a>
-    <a class="nav-tool-btn" href="https://afiqz.com/s" rel="noopener" target="_blank" aria-label="Shortener – URL shortener (opens in new tab)">Shortener</a>
+    <a class="nav-tool-btn" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank">RSSI↔&#xFE0E;V<span class="sr-only"> – RSSI to voltage converter (opens in new tab)</span></a>
+    <a class="nav-tool-btn" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank">LB Calc<span class="sr-only"> – link budget calculator (opens in new tab)</span></a>
+    <a class="nav-tool-btn" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank">FSPL Calc<span class="sr-only"> – free-space path loss calculator (opens in new tab)</span></a>
+    <a class="nav-tool-btn" href="https://afiqz.com/s" rel="noopener" target="_blank">Shortener<span class="sr-only"> – URL shortener (opens in new tab)</span></a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
     <span></span><span></span><span></span>
@@ -1179,7 +1205,7 @@ footer {
 </nav>
 
 <!-- ── MOBILE MENU ── -->
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Site menu">
   <ul class="mobile-menu-nav">
     <li><a class="mobile-nav-link" href="#about">About</a></li>
     <li><a class="mobile-nav-link" href="#projects">Projects</a></li>
@@ -1191,14 +1217,14 @@ footer {
   <div class="mobile-menu-divider"></div>
   <div class="mobile-menu-tools-label"><span aria-hidden="true">▶&#xFE0E; </span>Tools</div>
   <div class="mobile-menu-tools">
-    <a class="mobile-tool-btn" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank" aria-label="RSSI ↔ V – RSSI to voltage converter (opens in new tab)">RSSI ↔&#xFE0E; V</a>
-    <a class="mobile-tool-btn" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank" aria-label="LB Calc – link budget calculator (opens in new tab)">LB Calc</a>
-    <a class="mobile-tool-btn" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank" aria-label="FSPL Calc – free-space path loss calculator (opens in new tab)">FSPL Calc</a>
-    <a class="mobile-tool-btn" href="https://afiqz.com/s" rel="noopener" target="_blank" aria-label="Shortener – URL shortener (opens in new tab)">Shortener</a>
+    <a class="mobile-tool-btn" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank">RSSI ↔&#xFE0E; V<span class="sr-only"> – RSSI to voltage converter (opens in new tab)</span></a>
+    <a class="mobile-tool-btn" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank">LB Calc<span class="sr-only"> – link budget calculator (opens in new tab)</span></a>
+    <a class="mobile-tool-btn" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank">FSPL Calc<span class="sr-only"> – free-space path loss calculator (opens in new tab)</span></a>
+    <a class="mobile-tool-btn" href="https://afiqz.com/s" rel="noopener" target="_blank">Shortener<span class="sr-only"> – URL shortener (opens in new tab)</span></a>
   </div>
 </div>
 
-<main id="main" tabindex="-1">
+<main id="main">
 
 <!-- ── HERO ── -->
 <section id="hero">
@@ -1229,7 +1255,31 @@ footer {
 <!-- ── TICKER ── -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <!-- set repeated 4x so the -50% loop never shows an empty strip on wide screens -->
+    <!-- set repeated 8x so the -50% loop never shows an empty strip, even on 4K screens -->
+    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
+    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
@@ -1491,6 +1541,7 @@ const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 
 function setMenu(open) {
+  document.documentElement.classList.toggle('menu-open', open);
   mobileMenu.classList.toggle('is-open', open);
   hamburger.classList.toggle('is-open', open);
   hamburger.setAttribute('aria-expanded', String(open));
@@ -1499,7 +1550,10 @@ function setMenu(open) {
 hamburger.addEventListener('click', () => {
   const open = !mobileMenu.classList.contains('is-open');
   setMenu(open);
-  if (open) mobileMenu.querySelector('.mobile-nav-link').focus({ preventScroll: true });
+  if (open) {
+    mobileMenu.scrollTop = 0;
+    mobileMenu.querySelector('.mobile-nav-link').focus({ preventScroll: true });
+  }
 });
 
 // Close when a nav link is tapped
@@ -1507,7 +1561,7 @@ document.querySelectorAll('.mobile-nav-link').forEach(link => {
   link.addEventListener('click', () => setMenu(false));
 });
 
-// Close on Escape, outside click, or when the desktop nav returns
+// Close on Escape, outside click, focus leaving the menu, or when the desktop nav returns
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) {
     setMenu(false);
@@ -1522,8 +1576,22 @@ document.addEventListener('click', e => {
   }
 });
 
-const desktopNav = matchMedia('(min-width: 1151px)');
-desktopNav.addEventListener('change', e => { if (e.matches) setMenu(false); });
+mobileMenu.addEventListener('focusout', e => {
+  const to = e.relatedTarget;
+  if (to && !mobileMenu.contains(to) && to !== hamburger) setMenu(false);
+});
+
+const desktopNav   = matchMedia('(min-width: 1151px)');
+const onDesktopNav = e => { if (e.matches) setMenu(false); };
+if (desktopNav.addEventListener) desktopNav.addEventListener('change', onDesktopNav);
+else desktopNav.addListener(onDesktopNav);
+
+// ── Skip link: make <main> focusable only while it is the target ──
+const mainEl = document.getElementById('main');
+document.querySelector('.skip-link').addEventListener('click', () => {
+  mainEl.setAttribute('tabindex', '-1');
+  mainEl.addEventListener('blur', () => mainEl.removeAttribute('tabindex'), { once: true });
+});
 
 // ── Years of experience (since 2017) ──────────────────────
 const yrs = new Date().getFullYear() - 2017;
@@ -1547,24 +1615,36 @@ if ('IntersectionObserver' in window) {
 }
 
 // ── Active section in nav ─────────────────────────────────
-const navLinks = document.querySelectorAll('.nav-links a');
+const navLinks    = document.querySelectorAll('.nav-links a');
+const spySections = [...document.querySelectorAll('main section[id]')];
 
-if ('IntersectionObserver' in window) {
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const hash = '#' + entry.target.id;
-      navLinks.forEach(a => {
-        const on = a.getAttribute('href') === hash;
-        a.classList.toggle('is-active', on);
-        if (on) a.setAttribute('aria-current', 'true');
-        else a.removeAttribute('aria-current');
-      });
-    });
-  }, { rootMargin: '-64px 0px -55% 0px' });
-
-  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+// Active = last section whose top has passed just below the 88px scroll padding;
+// at the bottom of the page prefer the linked target, else the last section.
+function updateActiveNav() {
+  let current = null;
+  for (const s of spySections) if (s.getBoundingClientRect().top <= 100) current = s;
+  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) {
+    const t = location.hash && document.getElementById(location.hash.slice(1));
+    current = (t && spySections.includes(t) && t.getBoundingClientRect().top >= 0) ? t : spySections[spySections.length - 1];
+  }
+  const hash = current ? '#' + current.id : '';
+  navLinks.forEach(a => {
+    const on = a.getAttribute('href') === hash;
+    a.classList.toggle('is-active', on);
+    if (on) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
 }
+
+let spyTick = false;
+addEventListener('scroll', () => {
+  if (spyTick) return;
+  spyTick = true;
+  requestAnimationFrame(() => { spyTick = false; updateActiveNav(); });
+}, { passive: true });
+addEventListener('resize', updateActiveNav);
+addEventListener('hashchange', updateActiveNav);
+updateActiveNav();
 
 // ── Contact form feedback ─────────────────────────────────
 const form       = document.getElementById('contactForm');
