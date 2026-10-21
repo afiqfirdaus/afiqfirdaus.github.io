@@ -255,15 +255,14 @@ nav.is-scrolled {
   font-weight: 600;
 }
 
-/* callout on Site B, read like an annotation on the profile */
+/* callout on Site B's dish, joined to it by a leader line */
 .hero-stats {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  align-self: end;
-  justify-self: end;
+  position: absolute;
+  right: 10.6%;
+  bottom: calc(17vw + 56px);
   text-align: right;
-  padding-bottom: 6px;
-  border-bottom: 2px solid var(--signal);
+  padding-right: 14px;
+  border-right: 1px solid var(--ink);
   opacity: 0;
   animation: rise 700ms var(--ease-out) 420ms forwards;
 }
@@ -274,6 +273,16 @@ nav.is-scrolled {
   font-size: 72px;
   line-height: 1;
   color: var(--ink);
+}
+
+.hero-stats::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 100%;
+  width: 1px;
+  height: 48px;
+  background: var(--ink);
 }
 
 .hero-stat-label {
@@ -328,7 +337,23 @@ nav.is-scrolled {
 .hop-profile .mast    { stroke: var(--ink); stroke-width: 3; }
 .hop-profile .brace   { stroke: var(--ink); stroke-width: 1; opacity: 0.6; }
 .hop-profile .dish    { fill: var(--ink); }
-.hop-profile .ticks   { stroke: rgba(255,255,255,0.55); stroke-width: 1; }
+.hop-profile .ticks   { stroke: rgba(255,255,255,0.7); stroke-width: 1; }
+.hop-profile .labels text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  fill: #fff;
+}
+.hop-profile .chainage text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  fill: #fff;
+  text-anchor: middle;
+}
+.hop-compact { display: none; }
+.hop-compact .labels text { font-size: 12px; }
 
 /* signature moment: the beam is aligned across the hop, then its Fresnel zone appears */
 .hop-profile .beam {
@@ -349,60 +374,29 @@ nav.is-scrolled {
   animation: fresnel 600ms ease 1400ms forwards;
 }
 
-.hero-scroll {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: #fff;
-  opacity: 0;
-  animation: rise 600ms var(--ease-out) 1600ms forwards;
-}
-
-.hero-scroll span {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.hero-scroll:hover { color: #fff; }
-.hero-scroll:hover .scroll-line { transform: scaleY(1.25); }
-
-.scroll-line {
-  width: 2px;
-  height: 22px;
-  background: #fff;
-  transform-origin: top;
-  transition: transform 200ms var(--ease-out);
-}
-
 /* ── TICKER: the band plan under the hop ──────────────────── */
 .ticker {
   background: var(--ground);
-  overflow: hidden;
-  height: 48px;
-  display: flex;
-  align-items: center;
+  padding: 14px var(--gutter);
 }
 
 .ticker-track {
+  max-width: 1104px;
+  margin: 0 auto;
   display: flex;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 0;
 }
 
 .ticker-item {
   display: flex;
   align-items: center;
-  gap: 22px;
-  padding: 0 22px;
+  gap: 14px;
+  padding-right: 14px;
 }
+
+.ticker-item:last-child .ticker-dot { display: none; }
 
 .ticker-word {
   font-family: var(--font-display);
@@ -433,7 +427,7 @@ nav.is-scrolled {
   top: 96px; bottom: 24px;
   left: calc(var(--gutter) + 13px);
   width: 2px;
-  background: repeating-linear-gradient(to bottom, var(--line-strong) 0 8px, transparent 8px 14px);
+  background: var(--ink);
 }
 
 /* the signal travelling the path as you read */
@@ -446,7 +440,8 @@ nav.is-scrolled {
   width: 12px; height: 12px;
   border-radius: 50%;
   background: var(--signal);
-  box-shadow: 0 0 0 4px rgba(217,72,15,0.18);
+  outline: 1px solid var(--signal);
+  outline-offset: 3px;
 }
 
 @supports (animation-timeline: scroll()) {
@@ -471,6 +466,17 @@ section {
   margin-bottom: 36px;
 }
 
+/* leader from the station to its heading */
+.section-header::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--rail) + 28px);
+  width: calc(var(--rail) - 40px);
+  top: 50%;
+  height: 1px;
+  background: var(--ink);
+}
+
 /* station marker on the path */
 .section-num {
   position: absolute;
@@ -480,9 +486,10 @@ section {
   width: 28px; height: 28px;
   display: grid;
   place-items: center;
-  background: var(--paper);
+  background: var(--ink);
   border: 2px solid var(--ink);
   border-radius: 50%;
+  color: #fff !important;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12px;
@@ -575,14 +582,17 @@ section {
 
 .skill-tag:last-child { border-right: 0; }
 
-/* ── PROJECTS: site photos with captions ──────────────────── */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px 24px;
-}
+/* ── PROJECTS: a drawing schedule, one row per operator ──── */
+.projects-grid { border-top: 2px solid var(--ink); }
 
-.project-card { position: relative; }
+.project-card {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
 
 .project-card img {
   display: block;
@@ -590,39 +600,21 @@ section {
   aspect-ratio: 3 / 2;
   object-fit: cover;
   background: var(--sky-deep);
-  transition: transform 300ms var(--ease-out);
+  outline: 1px solid var(--line-strong);
+  outline-offset: -1px;
 }
-
-.project-card::before {
-  /* keeps the photo's hover zoom inside its frame */
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  aspect-ratio: 3 / 2;
-  box-shadow: inset 0 0 0 1px rgba(13,34,54,0.08);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.project-card { overflow: hidden; }
 
 .project-overlay {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: baseline;
-  justify-content: space-between;
   gap: 16px;
-  padding-top: 14px;
-  border-top: 2px solid var(--ink);
-  margin-top: 0;
-  background: var(--paper);
-  position: relative;
-  z-index: 1;
 }
 
 .project-client {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1;
   letter-spacing: 0.02em;
   color: var(--ink);
@@ -631,11 +623,10 @@ section {
 .project-type {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-2);
-  text-align: right;
 }
 
 /* ── EXPERIENCE & EDUCATION: one log format ───────────────── */
@@ -700,7 +691,7 @@ section {
 
 .tool-card {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.2fr) 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) 32px;
   align-items: center;
   gap: 16px;
   padding: 22px 12px;
@@ -709,13 +700,6 @@ section {
 }
 
 .tool-card:active { background: var(--sky-deep); }
-
-.tool-num {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--signal-text);
-}
 
 .tool-name {
   font-family: var(--font-display);
@@ -732,8 +716,7 @@ section {
 
 .tool-arrow {
   justify-self: end;
-  font-size: 22px;
-  font-weight: 600;
+  display: flex;
   color: var(--ink);
   transition: transform 200ms var(--ease-out), color 150ms ease;
 }
@@ -743,7 +726,6 @@ section {
 @media (hover: hover) and (pointer: fine) {
   .tool-card:hover { background: var(--sky); color: var(--ink); }
   .tool-card:hover .tool-arrow { transform: translateX(6px); color: var(--signal-text); }
-  .project-card:hover img { transform: scale(1.03); }
 }
 
 /* ── CONTACT: Site B, back in the sky ─────────────────────── */
@@ -756,7 +738,8 @@ section {
   padding-right: max(var(--gutter), calc((100% - 1200px) / 2 + var(--gutter)));
 }
 
-#contact .section-num { display: none; }
+#contact .section-num,
+#contact .section-header::before { display: none; }
 
 .contact-grid {
   display: grid;
@@ -1017,7 +1000,7 @@ footer {
   margin-bottom: 10px;
 }
 
-.mobile-menu-tools-label span { color: var(--signal); }
+.mobile-menu-tools-label .tri { color: var(--signal); margin-right: 8px; vertical-align: 0; }
 
 .mobile-menu-tools {
   display: grid;
@@ -1070,22 +1053,33 @@ footer {
   #hero {
     grid-template-columns: minmax(0, 1fr);
     padding-top: 100px;
-    padding-bottom: calc(30vw + 24px);
+    padding-bottom: 0;
     min-height: auto;
   }
 
   .hero-stats {
+    position: static;
     grid-column: 1;
-    grid-row: auto;
     justify-self: start;
     text-align: left;
     margin-top: 28px;
+    padding: 0 0 0 14px;
+    border-right: 0;
+    border-left: 1px solid var(--ink);
   }
+  .hero-stats::after { display: none; }
 
   .hero-stat-num { font-size: 56px; }
   .hero-tag { font-size: 16px; }
   .hero-desc { font-size: 18px; }
-  .hero-scroll { display: none; }
+  .hop-wide { display: none; }
+  .hop-compact {
+    display: block;
+    position: static;
+    grid-column: 1;
+    width: calc(100% + 2 * var(--gutter));
+    margin: 24px calc(-1 * var(--gutter)) 0;
+  }
 
   .hop { padding-top: 64px; }
   .hop::before { top: 64px; }
@@ -1098,19 +1092,19 @@ footer {
   .about-grid,
   .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
 
-  .projects-grid { gap: 32px 16px; }
+  .project-card { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; }
+  .project-overlay { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .project-client { font-size: 24px; }
-  .project-overlay { flex-direction: column; gap: 4px; }
-  .project-type { text-align: left; }
+  .project-type { font-size: 13px; }
 
   .exp-item,
   .edu-block { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 24px 0; }
 
   .exp-role, .edu-degree { font-size: 26px; }
 
-  .tool-card { grid-template-columns: 36px minmax(0, 1fr) 24px; row-gap: 4px; padding: 18px 4px; }
-  .tool-desc { grid-column: 2; grid-row: 2; }
-  .tool-arrow { grid-column: 3; grid-row: 1 / span 2; }
+  .tool-card { grid-template-columns: minmax(0, 1fr) 24px; row-gap: 4px; padding: 18px 4px; }
+  .tool-desc { grid-column: 1; grid-row: 2; }
+  .tool-arrow { grid-column: 2; grid-row: 1 / span 2; }
   .tool-name { font-size: 22px; }
 
   #contact { padding-top: 72px; padding-bottom: 72px; }
@@ -1122,7 +1116,7 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .projects-grid { grid-template-columns: minmax(0, 1fr); }
+  .ticker-track { justify-content: flex-start; }
   .contact-detail { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 
@@ -1141,13 +1135,12 @@ footer {
 
 /* ── PRINT ────────────────────────────────────────────────── */
 @media print {
-  nav, .mobile-menu, .skip-link, .ticker, .hero-scroll, .hero-actions, .contact-form, .footer-links, .hop-profile, .hop::after { display: none !important; }
+  nav, .mobile-menu, .skip-link, .ticker, .hero-actions, .contact-form, .footer-links, .hop-profile, .hop::after { display: none !important; }
   body, #hero, #contact, footer { background: #fff !important; color: #000; }
   #hero { min-height: auto; padding: 0 0 24px; display: block; }
   .hero-name, .hero-tag, .hero-desc, .hero-stats { opacity: 1; animation: none; }
   .exp-item { opacity: 1 !important; transform: none !important; }
   .project-card img { display: none; }
-  .project-card::before { display: none; }
   section { padding: 24px 0 24px var(--rail); }
   #contact { padding: 24px 0; }
 }
@@ -1191,7 +1184,7 @@ footer {
     <li><a class="mobile-nav-link" href="#contact">Contact</a></li>
   </ul>
   <div class="mobile-menu-divider"></div>
-  <div class="mobile-menu-tools-label"><span aria-hidden="true">▶&#xFE0E; </span>Tools</div>
+  <div class="mobile-menu-tools-label"><svg class="tri" viewBox="0 0 10 10" width="9" height="9" aria-hidden="true"><path d="M1 1l8 4-8 4z" fill="currentColor"/></svg>Tools</div>
   <div class="mobile-menu-tools">
     <a class="mobile-tool-btn" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank">RSSI ↔&#xFE0E; V<span class="sr-only"> – RSSI to voltage converter (opens in new tab)</span></a>
     <a class="mobile-tool-btn" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank">LB Calc<span class="sr-only"> – link budget calculator (opens in new tab)</span></a>
@@ -1222,10 +1215,10 @@ footer {
     <a class="btn btn-primary" href="#contact">Get in touch →</a>
     <a class="btn btn-ghost" href="#tools">RF tools</a>
   </div>
-  <svg class="hop-profile" viewBox="0 0 1600 360" aria-hidden="true" focusable="false">
+  <svg class="hop-profile hop-wide" viewBox="0 0 1600 360" aria-hidden="true" focusable="false">
     <path class="terrain" d="M0 300 L60 292 L120 296 L170 288 L230 294 L300 284 L360 262 L420 248 L470 256 L520 274 L600 282 L680 266 L740 240 L790 228 L840 236 L900 258 L980 276 L1060 270 L1120 252 L1170 244 L1220 258 L1290 276 L1360 284 L1430 282 L1500 290 L1600 286 L1600 360 L0 360 Z"/>
     <path class="ridge" d="M0 300 L60 292 L120 296 L170 288 L230 294 L300 284 L360 262 L420 248 L470 256 L520 274 L600 282 L680 266 L740 240 L790 228 L840 236 L900 258 L980 276 L1060 270 L1120 252 L1170 244 L1220 258 L1290 276 L1360 284 L1430 282 L1500 290 L1600 286"/>
-    <g class="ticks"><path d="M100 338v10M200 338v10M300 338v10M400 338v10M500 338v10M600 338v10M700 338v10M800 338v14M900 338v10M1000 338v10M1100 338v10M1200 338v10M1300 338v10M1400 338v10M1500 338v10"/></g>
+    <g class="ticks"><path d="M170 330v10M260 330v10M350 330v10M440 330v10M530 330v10M620 330v10M710 330v10M800 330v10M890 330v10M980 330v10M1070 330v10M1160 330v10M1250 330v10M1340 330v10M1430 330v10"/></g>
     <path class="fresnel" d="M188 80 C 300 44, 1300 50, 1412 88 C 1300 124, 300 118, 188 80 Z"/>
     <line class="mast" x1="170" y1="290" x2="170" y2="64"/>
     <path class="brace" d="M160 290 L170 64 L180 290 M162 250 L178 210 M162 210 L178 170 M162 170 L178 130 M163 130 L177 96"/>
@@ -1234,59 +1227,27 @@ footer {
     <path class="dish" d="M176 66 a14 14 0 0 1 0 28 l-4 0 l0 -28 Z"/>
     <path class="dish" d="M1424 74 a14 14 0 0 0 0 28 l4 0 l0 -28 Z"/>
     <path class="beam" pathLength="1" d="M190 80 L1410 88"/>
+    <g class="labels"><text x="170" y="320" text-anchor="middle">SITE A</text><text x="1430" y="314" text-anchor="middle">SITE B</text></g>
+    <g class="chainage"><text x="170" y="358">0</text><text x="260" y="358">1</text><text x="350" y="358">2</text><text x="440" y="358">3</text><text x="530" y="358">4</text><text x="620" y="358">5</text><text x="710" y="358">6</text><text x="800" y="358">7</text><text x="890" y="358">8</text><text x="980" y="358">9</text><text x="1070" y="358">10</text><text x="1160" y="358">11</text><text x="1250" y="358">12</text><text x="1340" y="358">13</text><text x="1430" y="358">14</text></g>
   </svg>
-  <a class="hero-scroll" href="#about" aria-label="Scroll to About">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </a>
+  <svg class="hop-profile hop-compact" viewBox="0 0 400 270" aria-hidden="true" focusable="false">
+    <path class="terrain" d="M0 222 L40 216 L80 220 L120 204 L160 196 L200 186 L240 194 L280 206 L320 200 L360 208 L400 204 L400 270 L0 270 Z"/>
+    <path class="ridge" d="M0 222 L40 216 L80 220 L120 204 L160 196 L200 186 L240 194 L280 206 L320 200 L360 208 L400 204"/>
+    <path class="fresnel" d="M52 52 C 110 24, 290 30, 348 60 C 290 88, 110 82, 52 52 Z"/>
+    <line class="mast" x1="42" y1="218" x2="42" y2="38"/>
+    <path class="brace" d="M34 218 L42 38 L50 218 M36 180 L48 150 M36 150 L48 120 M36 120 L48 90 M37 90 L47 64"/>
+    <line class="mast" x1="358" y1="208" x2="358" y2="46"/>
+    <path class="brace" d="M350 208 L358 46 L366 208 M352 172 L364 142 M352 142 L364 112 M352 112 L364 84 M353 84 L363 64"/>
+    <path class="dish" d="M47 40 a11 11 0 0 1 0 22 l-3 0 l0 -22 Z"/>
+    <path class="dish" d="M353 48 a11 11 0 0 0 0 22 l3 0 l0 -22 Z"/>
+    <path class="beam" pathLength="1" d="M50 51 L350 59"/>
+    <g class="labels"><text x="42" y="244" text-anchor="middle">SITE A</text><text x="358" y="236" text-anchor="middle">SITE B</text></g>
+  </svg>
 </section>
 
 <!-- ── TICKER ── -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <!-- set repeated 8x so the -50% loop never shows an empty strip, even on 4K screens -->
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">HUAWEI RTN</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENODEB</span><span class="ticker-dot"></span></div>
-    <div class="ticker-item"><span class="ticker-word">ENGINEERING</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">MICROWAVE</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">RAN</span><span class="ticker-dot"></span></div>
     <div class="ticker-item"><span class="ticker-word">TELECOMMUNICATION</span><span class="ticker-dot"></span></div>
@@ -1438,28 +1399,24 @@ footer {
   </div>
   <div class="tools-grid">
     <a class="tool-card" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank">
-      <div class="tool-num" aria-hidden="true">01</div>
       <h3 class="tool-name">RSSI ↔&#xFE0E; VOLTAGE</h3>
       <div class="tool-desc">Signal strength conversion calculator<span class="sr-only"> (opens in new tab)</span></div>
-      <div class="tool-arrow" aria-hidden="true">→</div>
+      <div class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
     </a>
     <a class="tool-card" href="https://afiqz.com/v1/LinkBudgetV2.html" rel="noopener" target="_blank">
-      <div class="tool-num" aria-hidden="true">02</div>
       <h3 class="tool-name">LINK BUDGET</h3>
       <div class="tool-desc">Microwave link budget calculator<span class="sr-only"> (opens in new tab)</span></div>
-      <div class="tool-arrow" aria-hidden="true">→</div>
+      <div class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
     </a>
     <a class="tool-card" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank">
-      <div class="tool-num" aria-hidden="true">03</div>
       <h3 class="tool-name">FSPL CALC</h3>
       <div class="tool-desc">Free-space path loss calculator<span class="sr-only"> (opens in new tab)</span></div>
-      <div class="tool-arrow" aria-hidden="true">→</div>
+      <div class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
     </a>
     <a class="tool-card" href="https://afiqz.com/s" rel="noopener" target="_blank">
-      <div class="tool-num" aria-hidden="true">04</div>
       <h3 class="tool-name">URL SHORTENER</h3>
       <div class="tool-desc">Personal link shortening service<span class="sr-only"> (opens in new tab)</span></div>
-      <div class="tool-arrow" aria-hidden="true">→</div>
+      <div class="tool-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M4 12h15M13 6l6 6-6 6"/></svg></div>
     </a>
   </div>
 </section>
