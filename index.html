@@ -6,8 +6,8 @@
 <title>Afiq Firdaus — Microwave Telecommunication Engineer</title>
 <meta name="description" content="Afiq Firdaus — Microwave Telecommunication Engineer since 2017, specialising in microwave transmission and RAN technologies.">
 <link rel="canonical" href="https://afiqz.com/">
-<meta name="theme-color" content="#cfe5f6">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230d2236'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%23cfe5f6'%3EA%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#271e33">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23271e33'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%237db2c0'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://afiqz.com/">
 <meta property="og:title" content="Afiq Firdaus — Microwave Telecommunication Engineer">
@@ -23,21 +23,24 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  color-scheme: light;
-  /* the world: a microwave link path profile */
-  --sky:      #cfe5f6;
-  --sky-deep: #b5d6ef;
-  --paper:    #f5f8fb;
-  --white:    #ffffff;
-  --ink:      #0d2236;
-  --ink-2:    #3c5368;
-  --line:     #c9d6e2;
-  --line-strong: #8fa3b6;
-  --signal:   #d9480f;
-  --signal-text: #b23c0c;
-  --terrain:  #7f9a63;
-  --ridge:    #4f6b3a;
-  --ground:   #0d2236;
+  color-scheme: dark;
+  /* the world: a link path plot, "tokyo neon" palette */
+  --plum:     #271e33;
+  --teal:     #7db2c0;
+  --crimson:  #ae415e;
+  --indigo:   #445080;
+  --peri:     #596eb1;
+  --sky:      #2e2440;
+  --sky-deep: #445080;
+  --paper:    #271e33;
+  --white:    #1f1829;
+  --ink:      #ece8f4;
+  --ink-2:    #b8b0c9;
+  --line:     #3d3252;
+  --line-strong: #5f5479;
+  --signal:   #ae415e;
+  --signal-text: #7db2c0;
+  --ground:   #1d1627;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --font-display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
   --font-body:    'Barlow', system-ui, sans-serif;
@@ -89,7 +92,7 @@ button { touch-action: manipulation; }
   position: absolute;
   left: 16px; top: -100px;
   z-index: 10001;
-  background: var(--ink);
+  background: var(--crimson);
   color: #fff;
   font-weight: 600;
   font-size: 15px;
@@ -121,7 +124,7 @@ nav {
 }
 
 nav.is-scrolled {
-  background: rgba(245,248,251,0.94);
+  background: rgba(39,30,51,0.94);
   border-bottom-color: var(--line);
 }
 
@@ -186,7 +189,7 @@ nav.is-scrolled {
   transition: background-color 150ms ease, color 150ms ease, transform 160ms var(--ease-out);
 }
 
-.nav-tool-btn:hover { background: var(--ink); color: #fff; }
+.nav-tool-btn:hover { background: var(--teal); border-color: var(--teal); color: var(--plum); }
 .nav-tool-btn:active { transform: scale(0.97); }
 
 /* ── HERO: the hop ────────────────────────────────────────── */
@@ -272,7 +275,7 @@ nav.is-scrolled {
   font-weight: 700;
   font-size: 72px;
   line-height: 1;
-  color: var(--ink);
+  color: var(--teal);
 }
 
 .hero-stats::after {
@@ -313,15 +316,15 @@ nav.is-scrolled {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 13px 24px;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--peri);
   transition: background-color 150ms ease, color 150ms ease, transform 160ms var(--ease-out);
 }
 
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: var(--signal-text); border-color: var(--signal-text); color: #fff; }
+.btn-primary { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+.btn-primary:hover { background: #c24f6e; border-color: #c24f6e; color: #fff; }
 .btn-ghost { color: var(--ink); }
-.btn-ghost:hover { background: var(--ink); color: #fff; }
+.btn-ghost:hover { background: var(--ink); color: var(--plum); }
 
 .hop-profile {
   position: absolute;
@@ -332,47 +335,48 @@ nav.is-scrolled {
   pointer-events: none;
 }
 
-.hop-profile .terrain { fill: var(--terrain); }
-.hop-profile .ridge   { fill: none; stroke: var(--ridge); stroke-width: 2; }
-.hop-profile .mast    { stroke: var(--ink); stroke-width: 3; }
-.hop-profile .brace   { stroke: var(--ink); stroke-width: 1; opacity: 0.6; }
-.hop-profile .dish    { fill: var(--ink); }
-.hop-profile .ticks   { stroke: rgba(255,255,255,0.7); stroke-width: 1; }
-.hop-profile .labels text {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.12em;
-  fill: var(--ink);
-}
-.hop-profile .chainage text {
+.hop-profile .grid     { stroke: var(--indigo); stroke-width: 1; opacity: 0.45; }
+.hop-profile .earth    { fill: none; stroke: var(--peri); stroke-width: 1; stroke-dasharray: 3 5; }
+.hop-profile .terrain  { fill: url(#hatch); stroke: var(--peri); stroke-width: 1.5; stroke-linejoin: round; }
+.hop-profile .axis     { stroke: var(--peri); stroke-width: 1; }
+.hop-profile .mast     { stroke: var(--teal); stroke-width: 1.5; fill: none; }
+.hop-profile .dish     { stroke: var(--teal); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+.hop-profile .labels text,
+.hop-profile .chainage text,
+.hop-profile .zone-label {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 13px;
-  fill: var(--ink);
-  text-anchor: middle;
+  letter-spacing: 0.12em;
 }
+.hop-profile .labels text { font-size: 15px; fill: var(--teal); }
+.hop-profile .chainage text { font-size: 13px; fill: var(--ink-2); text-anchor: middle; }
+.hop-profile .zone-label { font-size: 13px; fill: var(--teal); opacity: 0; animation: fresnel 600ms ease 1600ms forwards; }
 .hop-compact { display: none; }
-.hop-compact .labels text { font-size: 12px; }
+.hop-compact .labels text { font-size: 13px; }
 
-/* signature moment: the beam is aligned across the hop, then its Fresnel zone appears */
+/* signature moment: the beam aligns across the hop, then its Fresnel zones appear */
 .hop-profile .beam {
   fill: none;
-  stroke: var(--signal);
+  stroke: var(--crimson);
   stroke-width: 2.5;
+  stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px rgba(174,65,94,0.7));
   animation: align 1100ms var(--ease-out) 500ms forwards;
 }
 
-.hop-profile .fresnel {
-  fill: rgba(217,72,15,0.06);
-  stroke: var(--signal);
+.hop-profile .fresnel,
+.hop-profile .clearance {
+  fill: rgba(125,178,192,0.06);
+  stroke: var(--teal);
   stroke-width: 1.25;
   stroke-dasharray: 6 6;
   opacity: 0;
   animation: fresnel 600ms ease 1400ms forwards;
 }
+
+.hop-profile .clearance { fill: none; stroke-dasharray: 2 4; }
 
 /* ── TICKER: the band plan under the hop ──────────────────── */
 .ticker {
@@ -403,7 +407,7 @@ nav.is-scrolled {
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.16em;
-  color: var(--sky-deep);
+  color: var(--teal);
 }
 
 .ticker-dot {
@@ -427,7 +431,7 @@ nav.is-scrolled {
   top: 96px; bottom: 24px;
   left: calc(var(--gutter) + 13px);
   width: 2px;
-  background: var(--ink);
+  background: var(--peri);
 }
 
 /* the signal travelling the path as you read */
@@ -474,7 +478,7 @@ section {
   width: calc(var(--rail) - 40px);
   top: 50%;
   height: 1px;
-  background: var(--ink);
+  background: var(--peri);
 }
 
 /* station marker on the path */
@@ -486,8 +490,8 @@ section {
   width: 28px; height: 28px;
   display: grid;
   place-items: center;
-  background: var(--ink);
-  border: 2px solid var(--ink);
+  background: var(--peri);
+  border: 2px solid var(--peri);
   border-radius: 50%;
   color: #fff !important;
   font-family: var(--font-display);
@@ -532,7 +536,7 @@ section {
 
 /* the three highlights as a datasheet */
 .about-sidebar {
-  border-top: 2px solid var(--ink);
+  border-top: 2px solid var(--peri);
 }
 
 .about-card {
@@ -583,7 +587,7 @@ section {
 .skill-tag:last-child { border-right: 0; }
 
 /* ── PROJECTS: a drawing schedule, one row per operator ──── */
-.projects-grid { border-top: 2px solid var(--ink); }
+.projects-grid { border-top: 2px solid var(--peri); }
 
 .project-card {
   display: grid;
@@ -630,7 +634,7 @@ section {
 }
 
 /* ── EXPERIENCE & EDUCATION: one log format ───────────────── */
-.exp-list { border-top: 2px solid var(--ink); }
+.exp-list { border-top: 2px solid var(--peri); }
 
 .exp-item,
 .edu-block {
@@ -641,7 +645,7 @@ section {
   border-bottom: 1px solid var(--line);
 }
 
-.edu-block { border-top: 2px solid var(--ink); }
+.edu-block { border-top: 2px solid var(--peri); }
 
 .exp-item {
   transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
@@ -687,7 +691,7 @@ section {
 }
 
 /* ── TOOLS: an equipment list ─────────────────────────────── */
-.tools-grid { border-top: 2px solid var(--ink); }
+.tools-grid { border-top: 2px solid var(--peri); }
 
 .tool-card {
   display: grid;
@@ -760,7 +764,7 @@ section {
 
 .contact-intro strong { color: var(--ink); font-weight: 700; }
 
-.contact-details { border-top: 2px solid var(--ink); }
+.contact-details { border-top: 2px solid var(--peri); }
 
 .contact-detail {
   display: grid;
@@ -799,7 +803,7 @@ section {
   gap: 18px;
   background: var(--white);
   padding: 32px;
-  border-top: 4px solid var(--ink);
+  border-top: 4px solid var(--peri);
 }
 
 .form-row {
@@ -842,12 +846,12 @@ section {
 .form-input:focus,
 .form-textarea:focus {
   border-bottom-color: var(--signal);
-  background: #fff;
+  background: var(--sky);
   box-shadow: inset 0 0 0 1px var(--line);
 }
 
 .form-input::placeholder,
-.form-textarea::placeholder { color: #5b7085; }
+.form-textarea::placeholder { color: #9a91ad; }
 
 .form-status {
   font-weight: 600;
@@ -856,9 +860,9 @@ section {
 
 .form-submit {
   align-self: flex-start;
-  background: var(--ink);
+  background: var(--crimson);
   color: #fff;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--crimson);
   padding: 14px 32px;
   font-family: var(--font-display);
   font-weight: 700;
@@ -868,7 +872,7 @@ section {
   transition: background-color 150ms ease, border-color 150ms ease, transform 160ms var(--ease-out);
 }
 
-.form-submit:hover { background: var(--signal-text); border-color: var(--signal-text); }
+.form-submit:hover { background: #c24f6e; border-color: #c24f6e; }
 .form-submit:active { transform: scale(0.97); }
 .form-submit:disabled { opacity: 0.6; cursor: progress; }
 
@@ -881,7 +885,7 @@ footer {
   padding: 24px var(--gutter);
   padding-bottom: max(24px, env(safe-area-inset-bottom));
   background: var(--ground);
-  color: var(--sky-deep);
+  color: var(--ink-2);
 }
 
 .footer-copy { font-size: 15px; }
@@ -897,7 +901,7 @@ footer {
   color: #fff;
 }
 
-.footer-links a:hover { color: var(--sky); }
+.footer-links a:hover { color: var(--teal); }
 
 /* ── ANIMATIONS ───────────────────────────────────────────── */
 @keyframes rise {
@@ -1023,7 +1027,7 @@ footer {
   transition: background-color 150ms ease, color 150ms ease;
 }
 
-.mobile-tool-btn:active { background: var(--ink); color: #fff; }
+.mobile-tool-btn:active { background: var(--teal); color: var(--plum); }
 
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 1150px) {
@@ -1215,33 +1219,38 @@ footer {
     <a class="btn btn-primary" href="#contact">Get in touch →</a>
     <a class="btn btn-ghost" href="#tools">RF tools</a>
   </div>
+  <svg class="hop-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#445080" stroke-width="2"/></pattern></defs>
+  </svg>
   <svg class="hop-profile hop-wide" viewBox="0 0 1600 360" aria-hidden="true" focusable="false">
-    <path class="terrain" d="M0 300 L60 292 L120 296 L170 288 L230 294 L300 284 L360 262 L420 248 L470 256 L520 274 L600 282 L680 266 L740 240 L790 228 L840 236 L900 258 L980 276 L1060 270 L1120 252 L1170 244 L1220 258 L1290 276 L1360 284 L1430 282 L1500 290 L1600 286 L1600 360 L0 360 Z"/>
-    <path class="ridge" d="M0 300 L60 292 L120 296 L170 288 L230 294 L300 284 L360 262 L420 248 L470 256 L520 274 L600 282 L680 266 L740 240 L790 228 L840 236 L900 258 L980 276 L1060 270 L1120 252 L1170 244 L1220 258 L1290 276 L1360 284 L1430 282 L1500 290 L1600 286"/>
-    <g class="ticks"><path d="M170 330v10M260 330v10M350 330v10M440 330v10M530 330v10M620 330v10M710 330v10M800 330v10M890 330v10M980 330v10M1070 330v10M1160 330v10M1250 330v10M1340 330v10M1430 330v10"/></g>
-    <path class="fresnel" d="M188 80 C 300 44, 1300 50, 1412 88 C 1300 124, 300 118, 188 80 Z"/>
-    <line class="mast" x1="170" y1="290" x2="170" y2="64"/>
-    <path class="brace" d="M160 290 L170 64 L180 290 M162 250 L178 210 M162 210 L178 170 M162 170 L178 130 M163 130 L177 96"/>
-    <line class="mast" x1="1430" y1="282" x2="1430" y2="72"/>
-    <path class="brace" d="M1420 282 L1430 72 L1440 282 M1422 244 L1438 204 M1422 204 L1438 164 M1422 164 L1438 124 M1423 124 L1437 98"/>
-    <path class="dish" d="M176 66 a14 14 0 0 1 0 28 l-4 0 l0 -28 Z"/>
-    <path class="dish" d="M1424 74 a14 14 0 0 0 0 28 l4 0 l0 -28 Z"/>
-    <path class="beam" pathLength="1" d="M190 80 L1410 88"/>
-    <g class="labels"><text x="170" y="320" text-anchor="middle">SITE A</text><text x="1430" y="314" text-anchor="middle">SITE B</text></g>
-    <g class="chainage"><text x="170" y="358">0</text><text x="260" y="358">1</text><text x="350" y="358">2</text><text x="440" y="358">3</text><text x="530" y="358">4</text><text x="620" y="358">5</text><text x="710" y="358">6</text><text x="800" y="358">7</text><text x="890" y="358">8</text><text x="980" y="358">9</text><text x="1070" y="358">10</text><text x="1160" y="358">11</text><text x="1250" y="358">12</text><text x="1340" y="358">13</text><text x="1430" y="358">14</text></g>
+    <path class="grid" d="M170 30V320M260 30V320M350 30V320M440 30V320M530 30V320M620 30V320M710 30V320M800 30V320M890 30V320M980 30V320M1070 30V320M1160 30V320M1250 30V320M1340 30V320M1430 30V320M0 60H1600M0 120H1600M0 180H1600M0 240H1600M0 300H1600"/>
+    <path class="earth" d="M0 318 Q800 286 1600 318"/>
+    <path class="terrain" d="M0 300 L60 294 L120 298 L170 292 L230 296 L300 286 L360 266 L420 252 L470 258 L520 274 L600 282 L680 268 L740 246 L790 236 L840 242 L900 260 L980 276 L1060 270 L1120 256 L1170 248 L1220 260 L1290 276 L1360 284 L1430 284 L1500 290 L1600 288 L1600 324 L0 324 Z"/>
+    <path class="axis" d="M0 324H1600M170 324v8M260 324v8M350 324v8M440 324v8M530 324v8M620 324v8M710 324v8M800 324v8M890 324v8M980 324v8M1070 324v8M1160 324v8M1250 324v8M1340 324v8M1430 324v8"/>
+    <path class="fresnel" d="M190 80 C 300 42, 1300 50, 1410 88 C 1300 126, 300 118, 190 80 Z"/>
+    <path class="clearance" d="M190 80 C 300 57, 1300 65, 1410 88 C 1300 111, 300 103, 190 80 Z"/>
+    <path class="mast" d="M170 292 V78 M160 292 L170 270 L180 292 M164 200 H176 M164 140 H176"/>
+    <path class="mast" d="M1430 284 V86 M1420 284 L1430 262 L1440 284 M1424 200 H1436 M1424 140 H1436"/>
+    <path class="dish" d="M176 66 Q186 80 176 94"/>
+    <path class="dish" d="M1424 74 Q1414 88 1424 102"/>
+    <path class="beam" pathLength="1" d="M182 80 L1418 88"/>
+    <text class="zone-label" x="800" y="34" text-anchor="middle">F1</text>
+    <g class="labels"><text x="170" y="312" text-anchor="middle">SITE A</text><text x="1430" y="304" text-anchor="middle">SITE B</text></g>
+    <g class="chainage"><text x="170" y="352">0</text><text x="260" y="352">1</text><text x="350" y="352">2</text><text x="440" y="352">3</text><text x="530" y="352">4</text><text x="620" y="352">5</text><text x="710" y="352">6</text><text x="800" y="352">7</text><text x="890" y="352">8</text><text x="980" y="352">9</text><text x="1070" y="352">10</text><text x="1160" y="352">11</text><text x="1250" y="352">12</text><text x="1340" y="352">13</text><text x="1430" y="352">14</text></g>
   </svg>
   <svg class="hop-profile hop-compact" viewBox="0 0 400 270" aria-hidden="true" focusable="false">
-    <path class="terrain" d="M0 222 L40 216 L80 220 L120 204 L160 196 L200 186 L240 194 L280 206 L320 200 L360 208 L400 204 L400 270 L0 270 Z"/>
-    <path class="ridge" d="M0 222 L40 216 L80 220 L120 204 L160 196 L200 186 L240 194 L280 206 L320 200 L360 208 L400 204"/>
-    <path class="fresnel" d="M52 52 C 110 24, 290 30, 348 60 C 290 88, 110 82, 52 52 Z"/>
-    <line class="mast" x1="42" y1="218" x2="42" y2="38"/>
-    <path class="brace" d="M34 218 L42 38 L50 218 M36 180 L48 150 M36 150 L48 120 M36 120 L48 90 M37 90 L47 64"/>
-    <line class="mast" x1="358" y1="208" x2="358" y2="46"/>
-    <path class="brace" d="M350 208 L358 46 L366 208 M352 172 L364 142 M352 142 L364 112 M352 112 L364 84 M353 84 L363 64"/>
-    <path class="dish" d="M47 40 a11 11 0 0 1 0 22 l-3 0 l0 -22 Z"/>
-    <path class="dish" d="M353 48 a11 11 0 0 0 0 22 l3 0 l0 -22 Z"/>
-    <path class="beam" pathLength="1" d="M50 51 L350 59"/>
-    <g class="labels"><text x="42" y="244" text-anchor="middle">SITE A</text><text x="358" y="236" text-anchor="middle">SITE B</text></g>
+    <path class="grid" d="M42 20V230M122 20V230M200 20V230M280 20V230M358 20V230M0 60H400M0 120H400M0 180H400"/>
+    <path class="earth" d="M0 226 Q200 206 400 226"/>
+    <path class="terrain" d="M0 212 L40 206 L80 210 L120 196 L160 188 L200 178 L240 186 L280 198 L320 194 L360 200 L400 198 L400 232 L0 232 Z"/>
+    <path class="axis" d="M0 232H400"/>
+    <path class="fresnel" d="M50 52 C 110 22, 290 30, 350 60 C 290 90, 110 82, 50 52 Z"/>
+    <path class="clearance" d="M50 52 C 110 34, 290 42, 350 60 C 290 78, 110 70, 50 52 Z"/>
+    <path class="mast" d="M42 210 V52 M34 210 L42 194 L50 210 M37 150 H47 M37 100 H47"/>
+    <path class="mast" d="M358 200 V60 M350 200 L358 184 L366 200 M353 150 H363 M353 100 H363"/>
+    <path class="dish" d="M47 40 Q55 52 47 64"/>
+    <path class="dish" d="M353 48 Q345 60 353 72"/>
+    <path class="beam" pathLength="1" d="M52 52 L348 60"/>
+    <g class="labels"><text x="42" y="252" text-anchor="middle">SITE A</text><text x="358" y="252" text-anchor="middle">SITE B</text></g>
   </svg>
 </section>
 
