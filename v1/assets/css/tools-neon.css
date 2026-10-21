@@ -128,29 +128,7 @@ button, a { touch-action: manipulation; }
   margin-top: 10px !important;
 }
 
-/* small hop motif, echoing the main page */
 .divider { display: none; }
-
-.tool-hop {
-  display: block;
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  margin-top: 20px;
-}
-
-.tool-hop .dish { fill: none; stroke: var(--teal); stroke-width: 2.5; stroke-linecap: round; }
-.tool-hop .mast { stroke: var(--teal); stroke-width: 1.5; }
-.tool-hop .zone { fill: rgba(125,178,192,0.06); stroke: var(--teal); stroke-width: 1; stroke-dasharray: 4 4; }
-.tool-hop .beam {
-  stroke: var(--crimson);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  filter: drop-shadow(0 0 4px rgba(174,65,94,0.7));
-  animation: align 900ms var(--ease-out) 200ms forwards;
-}
 
 /* ── SHEET ────────────────────────────────────────────────── */
 .card {
