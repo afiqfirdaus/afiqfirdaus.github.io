@@ -6,8 +6,8 @@
 <title>Afiq Firdaus — Microwave Telecommunication Engineer</title>
 <meta name="description" content="Afiq Firdaus — Microwave Telecommunication Engineer since 2017, specialising in microwave transmission and RAN technologies.">
 <link rel="canonical" href="https://afiqz.com/">
-<meta name="theme-color" content="#f42902">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23271e33'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%23c9fc01'%3EA%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#271e33">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23271e33'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%237db2c0'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://afiqz.com/">
 <meta property="og:title" content="Afiq Firdaus — Microwave Telecommunication Engineer">
@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800;125,900&family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 
 <style>
@@ -26,20 +26,20 @@
   color-scheme: dark;
   /* the world: a link path plot, "tokyo neon" palette */
   --plum:     #271e33;
-  --teal:     #c9fc01;
-  --crimson:  #f42902;
+  --teal:     #7db2c0;
+  --crimson:  #ae415e;
   --indigo:   #445080;
   --peri:     #596eb1;
   --sky:      #2e2440;
   --sky-deep: #445080;
   --paper:    #271e33;
   --white:    #1f1829;
-  --ink:      #fdfdff;
+  --ink:      #ece8f4;
   --ink-2:    #b8b0c9;
   --line:     #3d3252;
   --line-strong: #5f5479;
-  --signal:   #f42902;
-  --signal-text: #c9fc01;
+  --signal:   #ae415e;
+  --signal-text: #7db2c0;
   --ground:   #1d1627;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --font-display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
@@ -92,14 +92,14 @@ button { touch-action: manipulation; }
   position: absolute;
   left: 16px; top: -100px;
   z-index: 10001;
-  background: var(--teal);
-  color: var(--plum);
-  font-weight: 700;
+  background: var(--crimson);
+  color: #fff;
+  font-weight: 600;
   font-size: 15px;
   padding: 10px 16px;
 }
 
-.skip-link:focus { top: 12px; color: var(--plum); }
+.skip-link:focus { top: 12px; color: #fff; }
 
 main:focus { outline: none; }
 
@@ -259,7 +259,7 @@ nav.is-scrolled {
 }
 
 /* the hero's text sits above the chart */
-#hero > :not(.smith):not(.sticker),
+#hero > :not(.smith),
 .hero-subtitle > * { position: relative; z-index: 1; }
 
 .hero-stats {
@@ -314,8 +314,8 @@ nav.is-scrolled {
 }
 
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--crimson); border-color: var(--crimson); color: #fff; font-size: 19px; font-weight: 700; padding: 12px 22px; }
-.btn-primary:hover { background: #ff5a36; border-color: #ff5a36; color: #fff; }
+.btn-primary { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+.btn-primary:hover { background: #c24f6e; border-color: #c24f6e; color: #fff; }
 .btn-ghost { color: var(--ink); }
 .btn-ghost:hover { background: var(--ink); color: var(--plum); }
 
@@ -868,13 +868,13 @@ section {
   padding: 14px 32px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease, transform 160ms var(--ease-out);
 }
 
-.form-submit:hover { background: #ff5a36; border-color: #ff5a36; }
+.form-submit:hover { background: #c24f6e; border-color: #c24f6e; }
 .form-submit:active { transform: scale(0.97); }
 .form-submit:disabled { opacity: 0.6; cursor: progress; }
 
@@ -1136,193 +1136,6 @@ footer {
   section { padding: 24px 0 24px var(--rail); }
   #contact { padding: 24px 0; }
 }
-
-/* ── THEME: "let the loud colour do the work" ─────────────────
-   Red Orange owns the hero and contact; white and lime stay quiet.
-   White text sits on red only at large sizes (4.07:1); smaller text
-   on red is near-black. Lime is a fill and highlighter, never small
-   text on white. */
-:root {
-  --red:   #f42902;
-  --lime:  #c9fc01;
-  --snow:  #fdfdff;
-  --night: #140d1b;
-  --paper: #fdfdff;
-  --white: #fdfdff;
-  --sky:   #f42902;
-  --ink:   #140d1b;
-  --ink-2: #4a4152;
-  --line:  #e4e1ea;
-  --line-strong: #b9b3c4;
-  --peri:  #140d1b;
-  --ground: #140d1b;
-  --signal: #f42902;
-  --signal-text: #140d1b;
-  --font-wide: 'Archivo', 'Arial Black', sans-serif;
-  color-scheme: light;
-}
-
-body { background: var(--snow); color: var(--night); }
-::selection { background: var(--lime); color: var(--night); }
-:focus-visible { outline-color: var(--night); }
-
-/* nav: pills on red, solid white once scrolled */
-nav { background: var(--red); }
-nav.is-scrolled { background: rgba(253,253,255,0.96); border-bottom-color: var(--line); }
-.nav-logo { font-family: var(--font-wide); font-weight: 900; font-stretch: 125%; color: var(--night); }
-.nav-links { gap: 8px; }
-.nav-links a {
-  color: var(--night);
-  border: 1.5px solid var(--night);
-  border-radius: 999px;
-  padding: 5px 14px;
-  font-weight: 600;
-}
-.nav-links a::after { display: none; }
-.nav-links a:hover, .nav-links a.is-active { background: var(--night); color: var(--snow); }
-.nav-tool-btn { border-radius: 999px; border-color: var(--night); color: var(--night); }
-.nav-tool-btn:hover { background: var(--lime); border-color: var(--night); color: var(--night); }
-.hamburger span { background: var(--night); }
-
-/* hero: red field, faint grid, giant wide white name */
-#hero {
-  background-color: var(--red);
-  background-image:
-    linear-gradient(rgba(253,253,255,0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(253,253,255,0.10) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-.hero-name {
-  position: relative;
-  justify-self: start;
-  font-family: var(--font-wide);
-  font-weight: 900;
-  font-stretch: 125%;
-  font-size: clamp(88px, 15vw, 224px);
-  line-height: 0.86;
-  letter-spacing: -0.03em;
-  color: var(--snow);
-}
-.scribble {
-  position: absolute;
-  left: 100%;
-  top: 8%;
-  width: 0.62em;
-  height: auto;
-  margin-left: 0.04em;
-  fill: none;
-  stroke: var(--lime);
-  stroke-width: 12;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 700;
-  stroke-dashoffset: 700;
-  animation: scribble 900ms var(--ease-out) 700ms forwards;
-}
-@keyframes scribble { to { stroke-dashoffset: 0; } }
-.hero-tag { color: var(--night); font-weight: 700; }
-.hero-desc { color: var(--night); }
-.hero-desc strong { color: var(--night); font-weight: 700; background: linear-gradient(transparent 62%, rgba(201,252,1,0.9) 62%); }
-.hero-stats { border-left-color: var(--night); }
-.hero-stat-num { font-family: var(--font-wide); font-weight: 900; font-stretch: 125%; color: var(--lime); }
-.hero-stat-label { color: var(--night); font-weight: 700; }
-.btn { border-radius: 999px; }
-.btn-primary { background: var(--lime); border-color: var(--night); color: var(--night); }
-.btn-primary:hover { background: var(--night); border-color: var(--night); color: var(--lime); }
-.btn-ghost { border-color: var(--night); color: var(--night); }
-.btn-ghost:hover { background: var(--night); color: var(--snow); }
-
-/* spinning lime sticker */
-.sticker {
-  position: absolute;
-  z-index: 2;
-  right: max(var(--gutter), calc((100% - 1200px) / 2 + var(--gutter)));
-  bottom: 64px;
-  width: 168px;
-  height: 168px;
-  border-radius: 50%;
-  transition: transform 200ms var(--ease-out);
-}
-.sticker:hover { transform: scale(1.06) rotate(-6deg); }
-.sticker:active { transform: scale(0.97); }
-.sticker svg { width: 100%; height: 100%; overflow: visible; }
-.sticker .disc { fill: var(--lime); }
-.sticker .ring {
-  font-family: var(--font-wide); font-weight: 800; font-stretch: 125%;
-  font-size: 15px; letter-spacing: 0.06em; fill: var(--night);
-  transform-box: view-box; transform-origin: 100px 100px;
-  animation: spin 14s linear infinite;
-}
-.sticker .squig { fill: none; stroke: var(--night); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-
-/* the Smith chart, redrawn in white on red with a lime match */
-.smith .grid circle, .smith .grid .major, .smith .axis, .smith .rim { stroke: var(--snow); }
-.smith .grid, .smith .rim, .smith .axis, .smith .adm, .smith .rl { opacity: 0.32; }
-.smith .rl text { fill: var(--snow); }
-.smith .adm, .smith .vswr { stroke: var(--snow); }
-.smith .match { stroke: var(--lime); opacity: 0.95; }
-.smith .match[filter] { filter: none; }
-.smith .tail path { stroke: var(--snow); }
-.smith .sig { fill: var(--snow); filter: none; }
-.smith .load { fill: var(--snow); }
-.smith .centre { fill: var(--red); stroke: var(--lime); }
-.smith .tag { fill: var(--snow); font-family: var(--font-wide); font-weight: 800; font-stretch: 125%; }
-
-/* band under the hero */
-.ticker { background: var(--night); }
-.ticker-word { color: var(--snow); }
-.ticker-dot { background: var(--lime); }
-
-/* the path: red rail, lime station nodes */
-.hop::before { background: var(--red); }
-.hop::after { background: var(--night); outline-color: var(--night); }
-.section-num { background: var(--lime); border-color: var(--night); color: var(--night) !important; }
-.section-header::before { background: var(--red); }
-.section-title { font-family: var(--font-wide); font-weight: 900; font-stretch: 125%; letter-spacing: -0.02em; }
-.about-card-title, .project-client, .exp-role, .edu-degree, .tool-name { font-family: var(--font-wide); font-weight: 800; font-stretch: 125%; letter-spacing: -0.01em; }
-.exp-period, .edu-period { color: var(--red); font-family: var(--font-wide); font-weight: 900; font-stretch: 125%; font-size: 19px; white-space: nowrap; }
-.skill-tag { border-right: 0; margin-right: 6px; padding: 4px 12px; border-radius: 999px; background: var(--lime); color: var(--night); }
-.tool-card:hover, .tool-card:focus-visible { background: var(--lime); }
-.tool-card:active { background: var(--lime); }
-.project-card img { background: #f1eff4; }
-
-/* contact: back to red */
-#contact { background: var(--red); }
-#contact .section-title { color: var(--snow); font-size: clamp(56px, 8vw, 104px); }
-#contact .section-line { background: rgba(20,13,27,0.25); }
-.contact-intro { color: var(--night); }
-.contact-intro strong { color: var(--night); }
-.contact-details { border-top-color: var(--night); }
-.contact-detail { border-bottom-color: rgba(20,13,27,0.3); }
-.contact-detail-label, .contact-detail-val { color: var(--night); }
-.contact-detail-val a { text-decoration-color: var(--lime); text-decoration-thickness: 3px; }
-.contact-form { background: var(--snow); border-top: 0; border-radius: 24px; }
-.form-input, .form-textarea { background: #f3f1f6; border-bottom-color: var(--line-strong); color: var(--night); }
-.form-input:focus, .form-textarea:focus { border-bottom-color: var(--red); background: #fff; }
-.form-input::placeholder, .form-textarea::placeholder { color: #6b6274; }
-.form-submit { border-radius: 999px; background: var(--red); border-color: var(--red); }
-.form-submit:hover { background: var(--night); border-color: var(--night); }
-.form-status { color: var(--night); }
-
-footer { background: var(--night); color: #b9b3c4; }
-.footer-links a:hover { color: var(--lime); }
-
-/* skip link and mobile menu */
-.skip-link { background: var(--lime); color: var(--night); }
-.mobile-menu { background: var(--snow); }
-.mobile-tool-btn { border-radius: 999px; color: var(--night); border-color: var(--night); }
-.mobile-tool-btn:active { background: var(--lime); color: var(--night); }
-.mobile-menu-tools-label .tri { color: var(--red); }
-
-@media (max-width: 900px) {
-  .hero-name { font-size: clamp(72px, 22vw, 120px); }
-  .scribble { width: 0.55em; top: 4%; }
-  .sticker { width: 112px; height: 112px; right: 20px; bottom: 28px; }
-  .smith .grid, .smith .rim, .smith .axis, .smith .adm { opacity: 0.25; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scribble { stroke-dashoffset: 0; }
-}
 </style>
 </head>
 
@@ -1376,7 +1189,7 @@ footer { background: var(--night); color: #b9b3c4; }
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <h1 class="hero-name">AFIQ.<svg class="scribble" viewBox="0 0 220 200" aria-hidden="true" focusable="false"><path d="M18 40 C 70 -6, 170 10, 168 70 C 166 118, 104 132, 92 100 C 82 72, 132 60, 150 96 C 166 130, 150 168, 118 186"/><path d="M96 168 L 120 190 L 146 164"/></svg></h1>
+  <h1 class="hero-name">AFIQ.</h1>
   <div class="hero-tag">Microwave Telecommunication Engineer&nbsp;· <span class="tag-seg">Shah Alam, Malaysia ·</span> <span class="tag-seg">afiqz.com</span></div>
   <div class="hero-subtitle">
     <p class="hero-desc">
@@ -1394,14 +1207,6 @@ footer { background: var(--night); color: #b9b3c4; }
     <a class="btn btn-primary" href="#contact">Get in touch →</a>
     <a class="btn btn-ghost" href="#tools">RF tools</a>
   </div>
-  <a class="sticker" href="#contact" aria-label="Get in touch">
-    <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-      <defs><path id="stickerRing" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs>
-      <circle cx="100" cy="100" r="98" class="disc"/>
-      <text class="ring"><textPath href="#stickerRing" startOffset="0" textLength="462" lengthAdjust="spacing">GET IN TOUCH · GET IN TOUCH · </textPath></text>
-      <path class="squig" d="M70 118 C 78 70, 104 70, 100 100 C 96 128, 124 132, 132 84 M118 92 L 132 82 L 140 98"/>
-    </svg>
-  </a>
   <svg class="smith" viewBox="0 0 640 640" aria-hidden="true" focusable="false">
 <defs><clipPath id="unit"><circle cx="320" cy="320" r="300"/></clipPath>
 <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>

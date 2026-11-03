@@ -16,19 +16,19 @@
       --surface: #2e2440;
       --surface2: #1f1829;
       --border: #3d3252;
-      --accent: #c9fc01;
+      --accent: #7db2c0;
       --accent2: #9fb0e6;
       --warn: #e08a5c;
       --danger: #e07a95;
-      --text: #fdfdff;
+      --text: #ece8f4;
       --muted: #b8b0c9;
       --faint: #a79fbb;
-      --green: #c9fc01;
+      --green: #7db2c0;
       --yellow: #e0b25c;
       --rain: #9fb0e6;
       --rain-strong: #e07a95;
       --field-border: #5f5479;
-      --crimson: #f42902;
+      --crimson: #ae415e;
       --peri: #596eb1;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --mono: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
@@ -163,7 +163,7 @@
 
     input[type="number"]:focus, select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(201,252,1,0.22);
+      box-shadow: 0 0 0 3px rgba(125,178,192,0.22);
     }
 
     input[type="number"]::placeholder { color: #9a91ad; }
@@ -282,7 +282,7 @@
       border: none;
       border-radius: 0;
       font-family: var(--sans);
-      font-size: 19px;
+      font-size: 15px;
       font-weight: 700;
       padding: 14px;
       cursor: pointer;
@@ -291,7 +291,7 @@
       margin-top: 4px;
     }
 
-    .btn-calc:hover { background: #ff5a36; }
+    .btn-calc:hover { background: #c24f6e; }
     .btn-calc:active { transform: scale(0.97); }
     .btn-calc:active { transform: scale(0.98); }
 
@@ -314,8 +314,8 @@
     }
 
     .rsl-box.clearsky {
-      background: linear-gradient(135deg, rgba(201,252,1,0.06), rgba(89,110,177,0.06)), var(--surface);
-      border-color: rgba(201,252,1,0.3);
+      background: linear-gradient(135deg, rgba(125,178,192,0.06), rgba(89,110,177,0.06)), var(--surface);
+      border-color: rgba(125,178,192,0.3);
     }
 
     .rsl-box.rainy {
@@ -443,7 +443,7 @@
 
     .breakdown-row:last-child { border-bottom: none; }
     .breakdown-row.subtotal { background: rgba(0,0,0,0.18); }
-    .breakdown-row.total { background: rgba(201,252,1,0.06); border-top: 1px solid rgba(201,252,1,0.2); }
+    .breakdown-row.total { background: rgba(125,178,192,0.06); border-top: 1px solid rgba(125,178,192,0.2); }
     .breakdown-row.rain-row { background: rgba(159,176,230,0.05); border-left: 2px solid var(--rain); }
     .breakdown-row.rain-total { background: rgba(224,122,149,0.05); border-top: 1px solid rgba(224,122,149,0.2); }
 
@@ -954,7 +954,7 @@
 
   // ── Signal quality ──
   function signalQuality(rsl) {
-    if (rsl > -50) return { text: '● EXCELLENT', color: '#c9fc01' };
+    if (rsl > -50) return { text: '● EXCELLENT', color: '#7db2c0' };
     if (rsl > -65) return { text: '● GOOD',      color: '#9fb0e6' };
     if (rsl > -75) return { text: '◐ MARGINAL',  color: '#e0b25c' };
     if (rsl > -85) return { text: '○ WEAK',      color: '#e08a5c' };
@@ -962,7 +962,7 @@
   }
 
   function fadeMarginVerdict(fm, isRain) {
-    if (fm >= 25) return { text: `✓ GOOD MARGIN — link should be stable${isRain?' even in rain':''}`, bg: 'rgba(201,252,1,0.08)', color: '#c9fc01', border: 'rgba(201,252,1,0.2)' };
+    if (fm >= 25) return { text: `✓ GOOD MARGIN — link should be stable${isRain?' even in rain':''}`, bg: 'rgba(125,178,192,0.08)', color: '#7db2c0', border: 'rgba(125,178,192,0.2)' };
     if (fm >= 15) return { text: `~ ACCEPTABLE — monitor in heavy rain conditions`, bg: 'rgba(224,178,92,0.08)', color: '#e0b25c', border: 'rgba(224,178,92,0.2)' };
     if (fm >= 5)  return { text: `⚠ LOW MARGIN — link may drop during heavy rain`, bg: 'rgba(224,138,92,0.08)', color: '#e08a5c', border: 'rgba(224,138,92,0.2)' };
     if (fm >= 0)  return { text: `✕ VERY LOW — high outage risk`, bg: 'rgba(224,122,149,0.08)', color: '#e07a95', border: 'rgba(224,122,149,0.2)' };

@@ -6,13 +6,13 @@
 :root {
   color-scheme: dark;
   --plum:     #271e33;
-  --teal:     #c9fc01;
-  --crimson:  #f42902;
+  --teal:     #7db2c0;
+  --crimson:  #ae415e;
   --indigo:   #445080;
   --peri:     #596eb1;
   --sky:      #2e2440;
   --field:    #1f1829;
-  --ink:      #fdfdff;
+  --ink:      #ece8f4;
   --ink-2:    #b8b0c9;
   --line:     #3d3252;
   --line-strong: #5f5479;
@@ -342,8 +342,8 @@ input[type="number"]::placeholder { color: #9a91ad; font-size: 16px; }
 }
 
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--crimson); color: #fff; font-size: 19px; }
-.btn-primary:hover { background: #ff5a36; border-color: #ff5a36; }
+.btn-primary { background: var(--crimson); color: #fff; }
+.btn-primary:hover { background: #c24f6e; border-color: #c24f6e; }
 .btn-reset { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-reset:hover { background: var(--ink); color: var(--plum); }
 
@@ -472,4 +472,4 @@ input[type="number"]::placeholder { color: #9a91ad; font-size: 16px; }
 .result-error > span:not([style]) { color: #e07a95; font-weight: 500; }
 
 .btn { white-space: nowrap; }
-@media (max-width: 480px) { .btn { padding: 14px 10px; font-size: 16px; } .btn-primary { font-size: 19px; letter-spacing: 0.04em; } }
+@media (max-width: 480px) { .btn { padding: 14px 12px; font-size: 16px; } }
