@@ -7,7 +7,7 @@
 <meta name="description" content="Afiq Firdaus — Microwave Telecommunication Engineer since 2017, specialising in microwave transmission and RAN technologies.">
 <link rel="canonical" href="https://afiqz.com/">
 <meta name="theme-color" content="#271e33">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23271e33'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%237db2c0'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23271e33'/%3E%3Ctext x='32' y='49' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='46' text-anchor='middle' fill='%23c9fc01'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://afiqz.com/">
 <meta property="og:title" content="Afiq Firdaus — Microwave Telecommunication Engineer">
@@ -26,20 +26,20 @@
   color-scheme: dark;
   /* the world: a link path plot, "tokyo neon" palette */
   --plum:     #271e33;
-  --teal:     #7db2c0;
-  --crimson:  #ae415e;
+  --teal:     #c9fc01;
+  --crimson:  #f42902;
   --indigo:   #445080;
   --peri:     #596eb1;
   --sky:      #2e2440;
   --sky-deep: #445080;
   --paper:    #271e33;
   --white:    #1f1829;
-  --ink:      #ece8f4;
+  --ink:      #fdfdff;
   --ink-2:    #b8b0c9;
   --line:     #3d3252;
   --line-strong: #5f5479;
-  --signal:   #ae415e;
-  --signal-text: #7db2c0;
+  --signal:   #f42902;
+  --signal-text: #c9fc01;
   --ground:   #1d1627;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --font-display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
@@ -92,14 +92,14 @@ button { touch-action: manipulation; }
   position: absolute;
   left: 16px; top: -100px;
   z-index: 10001;
-  background: var(--crimson);
-  color: #fff;
-  font-weight: 600;
+  background: var(--teal);
+  color: var(--plum);
+  font-weight: 700;
   font-size: 15px;
   padding: 10px 16px;
 }
 
-.skip-link:focus { top: 12px; color: #fff; }
+.skip-link:focus { top: 12px; color: var(--plum); }
 
 main:focus { outline: none; }
 
@@ -314,8 +314,8 @@ nav.is-scrolled {
 }
 
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--crimson); border-color: var(--crimson); color: #fff; }
-.btn-primary:hover { background: #c24f6e; border-color: #c24f6e; color: #fff; }
+.btn-primary { background: var(--crimson); border-color: var(--crimson); color: #fff; font-size: 19px; font-weight: 700; padding: 12px 22px; }
+.btn-primary:hover { background: #ff5a36; border-color: #ff5a36; color: #fff; }
 .btn-ghost { color: var(--ink); }
 .btn-ghost:hover { background: var(--ink); color: var(--plum); }
 
@@ -868,13 +868,13 @@ section {
   padding: 14px 32px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 19px;
   letter-spacing: 0.08em;
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease, transform 160ms var(--ease-out);
 }
 
-.form-submit:hover { background: #c24f6e; border-color: #c24f6e; }
+.form-submit:hover { background: #ff5a36; border-color: #ff5a36; }
 .form-submit:active { transform: scale(0.97); }
 .form-submit:disabled { opacity: 0.6; cursor: progress; }
 

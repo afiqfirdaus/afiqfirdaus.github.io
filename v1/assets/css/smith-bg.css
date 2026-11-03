@@ -20,23 +20,23 @@
 
 .smith-bg .grid circle { stroke: #445080; stroke-width: 1; }
 .smith-bg .grid .major { stroke: #596eb1; stroke-width: 1.3; }
-.smith-bg .adm  { stroke: #7db2c0; stroke-width: 1; stroke-dasharray: 2 5; }
+.smith-bg .adm  { stroke: #c9fc01; stroke-width: 1; stroke-dasharray: 2 5; }
 .smith-bg .axis { stroke: #596eb1; stroke-width: 1.3; }
 .smith-bg .rim  { stroke: #596eb1; stroke-width: 2; }
 .smith-bg .grid, .smith-bg .rim, .smith-bg .axis, .smith-bg .adm, .smith-bg .rl { opacity: 0.4; }
 .smith-bg .rl text { font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 600; font-size: 12px; fill: #b8b0c9; }
-.smith-bg .vswr { stroke: #7db2c0; stroke-width: 1.3; stroke-dasharray: 6 6; opacity: 0; animation: smith-fade 600ms ease 1900ms forwards; }
-.smith-bg .tail path { stroke: #7db2c0; stroke-width: 3; stroke-linecap: round; }
-.smith-bg .sig { fill: #ece8f4; filter: drop-shadow(0 0 6px #7db2c0); }
-.smith-bg .load { fill: #ae415e; }
-.smith-bg .centre { fill: #271e33; stroke: #7db2c0; stroke-width: 3; opacity: 0; animation: smith-fade 400ms ease 2000ms forwards; }
-.smith-bg .tag { font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; font-size: 16px; fill: #ece8f4; }
+.smith-bg .vswr { stroke: #c9fc01; stroke-width: 1.3; stroke-dasharray: 6 6; opacity: 0; animation: smith-fade 600ms ease 1900ms forwards; }
+.smith-bg .tail path { stroke: #c9fc01; stroke-width: 3; stroke-linecap: round; }
+.smith-bg .sig { fill: #fdfdff; filter: drop-shadow(0 0 6px #c9fc01); }
+.smith-bg .load { fill: #f42902; }
+.smith-bg .centre { fill: #271e33; stroke: #c9fc01; stroke-width: 3; opacity: 0; animation: smith-fade 400ms ease 2000ms forwards; }
+.smith-bg .tag { font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; font-size: 16px; fill: #fdfdff; }
 
 .smith-bg .spin  { transform-box: view-box; transform-origin: 320px 320px; animation: smith-spin 180s linear infinite; }
 .smith-bg .orbit { transform-box: view-box; transform-origin: 320px 320px; animation: smith-spin 6s linear infinite; }
 
 .smith-bg .match {
-  stroke: #ae415e;
+  stroke: #f42902;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-dasharray: 1200;
