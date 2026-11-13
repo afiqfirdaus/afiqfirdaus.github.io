@@ -373,20 +373,6 @@ html:not(.js) .mobile-menu {
 .hop-foot a { color: var(--ink); }
 .formula { font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; text-transform: none; }
 
-.live {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--orange-text);
-}
-
-.live::before {
-  content: '';
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--orange);
-  animation: blink 2.4s ease-in-out infinite;
-}
 
 .hop-plot {
   background-image:
@@ -605,7 +591,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   color: var(--on-dark);
 }
 
-.meter-head .live { color: var(--orange-dark); }
 
 .meter-fields {
   display: grid;
@@ -1006,7 +991,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 /* ── MOTION ───────────────────────────────────────────────── */
 @keyframes rise  { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes draw  { to { stroke-dashoffset: 0; } }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
 @keyframes travel {
   0%   { transform: translate(0, 0); opacity: 0; }
   8%   { opacity: 1; }
@@ -1177,7 +1161,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
       <div class="hop load load-5" role="group" aria-labelledby="hop-title">
         <div class="hop-head mono">
           <span id="hop-title">Fig. 1 · Line-of-sight hop</span>
-          <span class="live">Live calculation</span>
         </div>
 
         <div class="hop-plot">
@@ -1286,7 +1269,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
       <div class="meter" role="group" aria-labelledby="meter-title" data-reveal>
         <div class="meter-head mono">
           <span id="meter-title">RSSI voltage ↔ RSL · Huawei</span>
-          <span class="live">Live</span>
         </div>
         <div class="meter-fields">
           <div class="meter-field">

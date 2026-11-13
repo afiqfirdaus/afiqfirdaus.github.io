@@ -237,20 +237,6 @@ h1 {
   font-size: 14px;
 }
 
-.live {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--orange-text);
-}
-
-.live::before {
-  content: '';
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--orange);
-  animation: blink 2.4s ease-in-out infinite;
-}
 
 .formula { font-family: var(--font-mono); font-size: 14px; color: var(--ink); overflow-wrap: anywhere; }
 
@@ -507,7 +493,6 @@ h1 {
 /* ── MOTION ───────────────────────────────────────────────── */
 @keyframes rise  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes draw  { to { stroke-dashoffset: 0; } }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
 @keyframes travel {
   0%   { transform: translate(0, 0); opacity: 0; }
   8%   { opacity: 1; }
