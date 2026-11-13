@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 
 <style>
@@ -98,15 +98,15 @@ ul { list-style: none; }
 }
 
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
+  font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .display {
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -150,7 +150,6 @@ main:focus { outline: none; }
   align-items: center;
   gap: 10px;
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   font-size: 16px;
   letter-spacing: 0.02em;
@@ -170,9 +169,10 @@ main:focus { outline: none; }
   position: relative;
   display: block;
   padding: 8px 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
+  font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--slate);
@@ -249,7 +249,6 @@ main:focus { outline: none; }
   gap: 14px;
   padding: 16px 0;
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   font-size: 26px;
   letter-spacing: -0.01em;
@@ -279,10 +278,10 @@ html:not(.js) .mobile-menu {
   background: var(--orange);
   color: var(--ink);
   border: 1px solid var(--ink);
-  font-family: var(--font-mono);
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: 14px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -327,7 +326,7 @@ html:not(.js) .mobile-menu {
 
 .hero-name {
   margin-top: 18px;
-  font-size: clamp(44px, 13.4vw, 84px);
+  font-size: clamp(52px, 16.5vw, 104px);
   line-height: 0.9;
   text-transform: uppercase;
   color: var(--spruce);
@@ -372,6 +371,7 @@ html:not(.js) .mobile-menu {
 .hop-head { border-bottom: 1px solid var(--ink); color: var(--ink); }
 .hop-foot { border-top: 1px solid var(--rule); }
 .hop-foot a { color: var(--ink); }
+.formula { font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; text-transform: none; }
 
 .live {
   display: inline-flex;
@@ -528,7 +528,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 .fact dd {
   margin-top: 4px;
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 700;
   font-size: clamp(17px, 2.1vw, 24px);
   line-height: 1.15;
@@ -539,7 +538,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   display: block;
   margin-top: 4px;
   font-family: var(--font-body);
-  font-stretch: 100%;
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0;
@@ -714,7 +712,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 
 .tool-name {
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   font-size: clamp(22px, 3vw, 30px);
   line-height: 1.05;
@@ -822,7 +819,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 
 .proj-client {
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   font-size: clamp(26px, 3.6vw, 38px);
   line-height: 1;
@@ -866,7 +862,6 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 
 .entry-role {
   font-family: var(--font-display);
-  font-stretch: 125%;
   font-weight: 800;
   font-size: clamp(21px, 2.8vw, 28px);
   line-height: 1.1;
@@ -1074,9 +1069,10 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
     display: inline-flex;
     padding: 9px 14px;
     border: 1px solid var(--ink);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 500;
     font-size: 13px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     text-decoration: none;
     transition: background-color 150ms ease, color 150ms ease;
@@ -1085,7 +1081,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
 
   #hero { padding-top: 56px; }
   .hero-grid { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr); gap: 56px; align-items: center; }
-  .hero-name { font-size: clamp(56px, 6.5vw, 96px); }
+  .hero-name { font-size: clamp(64px, 8vw, 120px); }
 
   .bench { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); gap: 64px; align-items: start; }
   .meter { position: sticky; top: calc(var(--nav-h) + 24px); }
@@ -1248,7 +1244,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
         </dl>
 
         <div class="hop-foot mono">
-          <span>FSPL = 20log f + 20log d + 32.44</span>
+          <span class="formula">FSPL = 20log f + 20log d + 32.44</span>
           <a class="text-link" href="https://afiqz.com/v1/FSPL.html" rel="noopener" target="_blank">Full calculator<span class="sr-only"> for free-space path loss (opens in new tab)</span> ↗</a>
         </div>
       </div>
@@ -1333,7 +1329,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
           </svg>
         </div>
         <div class="meter-foot mono">
-          <span>RSL = 15.9 × V − 91.6</span>
+          <span class="formula">RSL = 15.9 × V − 91.6</span>
           <a class="text-link" href="https://afiqz.com/v1/RSSI.html" rel="noopener" target="_blank">Full converter<span class="sr-only"> for RSSI to voltage (opens in new tab)</span> ↗</a>
         </div>
       </div>
