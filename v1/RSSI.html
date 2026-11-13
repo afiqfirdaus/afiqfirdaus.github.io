@@ -1,239 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <meta content="no-referrer" name="referrer" />
-  <meta content="HUAWEI RSSI Voltage vs RSL Calculator" name="description" />
-  <title>HUAWEI · RSSI ↔ RSL</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
-
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-  <meta name="theme-color" content="#271e33">
-  <link rel="stylesheet" href="assets/css/tools-neon.css">
-  <link rel="stylesheet" href="assets/css/smith-bg.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>HUAWEI · RSSI ↔ RSL</title>
+<meta name="description" content="HUAWEI RSSI Voltage vs RSL Calculator">
+<meta name="theme-color" content="#F5F2EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23103C36'/%3E%3Cg transform='translate(4 13.6) scale(.193)'%3E%3Cdefs%3E%3CclipPath id='c'%3E%3Crect x='46' y='0' width='260' height='190'/%3E%3C/clipPath%3E%3C/defs%3E%3Cpath d='M10.1 170 L80 18.5 L149.9 170 L130.1 170 L80 61.4 L29.9 170 Z' fill='%23F5F2EA'/%3E%3Cg clip-path='url(%23c)' fill='none' stroke-linecap='round'%3E%3Cpath d='M24 112 C37.6 132 44.4 132 58 112 S78.4 92 92 112 S112.4 132 126 112 S146.4 92 160 112 S180.4 132 194 112 S214.4 92 228 112 S248.4 132 262 112' stroke='%23103C36' stroke-width='28'/%3E%3Cpath d='M24 112 C37.6 132 44.4 132 58 112 S78.4 92 92 112 S112.4 132 126 112 S146.4 92 160 112 S180.4 132 194 112 S214.4 92 228 112 S248.4 132 262 112' stroke='%23FF7A1A' stroke-width='14'/%3E%3C/g%3E%3Cpath d='M10.1 170 L80 18.5 L80 61.4 L29.9 170 Z' fill='%23F5F2EA'/%3E%3Cpath d='M181 22 H280 V40 H199 V170 H181 Z' fill='%23F5F2EA'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tools-sheet.css">
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
 
-<nav class="tool-bar" aria-label="Site">
-  <a class="tool-home" href="../">AFIQ</a>
-  <a class="tool-all" href="../#tools">All tools</a>
+<header class="site-header">
+  <div class="bar wrap">
+    <a class="bar-logo" href="../" aria-label="Afiq Firdaus, home">
+      <svg viewBox="0 0 290 190" width="43" height="28" aria-hidden="true" focusable="false">
+        <defs><clipPath id="af-wave"><rect x="46" y="0" width="260" height="190"/></clipPath></defs><path d="M10.1 170 L80 18.5 L149.9 170 L130.1 170 L80 61.4 L29.9 170 Z" fill="#103C36"/><g clip-path="url(#af-wave)" fill="none" stroke-linecap="round"><path d="M24 112 C37.6 132 44.4 132 58 112 S78.4 92 92 112 S112.4 132 126 112 S146.4 92 160 112 S180.4 132 194 112 S214.4 92 228 112 S248.4 132 262 112" stroke="#F5F2EA" stroke-width="26"/><path d="M24 112 C37.6 132 44.4 132 58 112 S78.4 92 92 112 S112.4 132 126 112 S146.4 92 160 112 S180.4 132 194 112 S214.4 92 228 112 S248.4 132 262 112" stroke="#F04E12" stroke-width="12"/></g><path d="M10.1 170 L80 18.5 L80 61.4 L29.9 170 Z" fill="#103C36"/><path d="M181 22 H280 V40 H199 V170 H181 Z" fill="#103C36"/>
+      </svg>
+      Afiq Firdaus
+    </a>
+    <a class="bar-back label" href="../#tools">All tools</a>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="RF tools">
+  <div class="wrap" style="padding-left:0;padding-right:0">
+    <ul>
+      <li><a href="RSSI.html" aria-current="page"><span class="label">T1 · Alignment</span><b>RSSI to Voltage</b></a></li>
+      <li><a href="LinkBudgetV2.html"><span class="label">T2 · Planning</span><b>Link Budget</b></a></li>
+      <li><a href="FSPL.html"><span class="label">T3 · Planning</span><b>FSPL</b></a></li>
+    </ul>
+  </div>
 </nav>
-<svg class="smith-bg" viewBox="0 0 640 640" aria-hidden="true" focusable="false">
-<defs><clipPath id="unit"><circle cx="320" cy="320" r="300"/></clipPath>
-<filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<g class="spin"><g clip-path="url(#unit)" fill="none">
-  <g class="grid"><circle cx="370.0" cy="320.0" r="250.0" class="minor"/>
-<circle cx="420.0" cy="320.0" r="200.0" class="minor"/>
-<circle cx="470.0" cy="320.0" r="150.0" class="major"/>
-<circle cx="520.0" cy="320.0" r="100.0" class="minor"/>
-<circle cx="570.0" cy="320.0" r="50.0" class="minor"/>
-<circle cx="620.0" cy="-1180.0" r="1500.0" class="minor"/>
-<circle cx="620.0" cy="1820.0" r="1500.0" class="minor"/>
-<circle cx="620.0" cy="-280.0" r="600.0" class="minor"/>
-<circle cx="620.0" cy="920.0" r="600.0" class="minor"/>
-<circle cx="620.0" cy="20.0" r="300.0" class="major"/>
-<circle cx="620.0" cy="620.0" r="300.0" class="major"/>
-<circle cx="620.0" cy="170.0" r="150.0" class="minor"/>
-<circle cx="620.0" cy="470.0" r="150.0" class="minor"/>
-<circle cx="620.0" cy="260.0" r="60.0" class="minor"/>
-<circle cx="620.0" cy="380.0" r="60.0" class="minor"/></g>
-  <circle cx="170.0" cy="320.0" r="150.0" class="adm"/>
-  <path d="M20 320H620" class="axis"/>
-</g>
-<circle cx="320" cy="320" r="300" class="rim" fill="none"/></g>
-<circle cx="320" cy="320" r="180.0" class="vswr" fill="none"/>
-<g class="rl"><text x="124" y="314">0.2</text><text x="224" y="314">0.5</text><text x="424" y="314">2</text><text x="524" y="314">5</text></g>
-<g class="orbit"><g class="tail" fill="none"><path d="M500.0 320.0 A180.0 180.0 0 0 0 499.0 301.2" stroke-opacity="1.00"/><path d="M499.0 301.2 A180.0 180.0 0 0 0 496.1 282.6" stroke-opacity="0.88"/><path d="M496.1 282.6 A180.0 180.0 0 0 0 491.2 264.4" stroke-opacity="0.75"/><path d="M491.2 264.4 A180.0 180.0 0 0 0 484.4 246.8" stroke-opacity="0.62"/><path d="M484.4 246.8 A180.0 180.0 0 0 0 475.9 230.0" stroke-opacity="0.50"/><path d="M475.9 230.0 A180.0 180.0 0 0 0 465.6 214.2" stroke-opacity="0.38"/><path d="M465.6 214.2 A180.0 180.0 0 0 0 453.8 199.6" stroke-opacity="0.25"/><path d="M453.8 199.6 A180.0 180.0 0 0 0 440.4 186.2" stroke-opacity="0.12"/></g><circle cx="500.0" cy="320" r="5" class="sig"/></g>
-<path class="match" d="M410.0 164.1 L414.2 166.6 L418.3 169.2 L422.4 172.0 L426.4 174.8 L430.3 177.7 L434.1 180.8 L437.9 183.9 L441.5 187.2 L445.1 190.6 L448.5 194.0 L451.9 197.5 L455.2 201.2 L458.4 204.9 L461.5 208.7 L464.4 212.6 L467.3 216.5 L470.1 220.6 L472.7 224.7 L475.2 228.9 L477.7 233.1 L480.0 237.4 L482.1 241.8 L484.2 246.3 L486.1 250.8 L488.0 255.3 L489.7 259.9 L491.2 264.5 L492.7 269.2 L494.0 273.9 L495.2 278.6 L496.2 283.4 L497.2 288.2 L498.0 293.1 L498.6 297.9 L499.2 302.8 L499.6 307.6 L499.8 312.5 L500.0 317.4 L500.0 322.3 L499.9 327.2 L499.6 332.1 L499.2 337.0 L498.7 341.8 L498.0 346.7 L497.2 351.5 L496.3 356.3 L495.3 361.1 L494.1 365.8 L492.8 370.5 L491.3 375.2 L489.8 379.8 L488.1 384.4 L486.3 389.0 L484.3 393.5 L482.3 397.9 L480.1 402.3 L477.8 406.6 L475.4 410.9 L472.9 415.1 L470.2 419.2 L467.5 423.2 L464.6 427.2 L461.6 431.1 L458.6 434.9 L455.4 438.6 L452.1 442.2 L448.7 445.8 L445.3 449.2 L441.7 452.6 L438.1 455.9 L434.3 459.0 L430.5 462.1 L426.6 465.0 L422.6 467.9 L418.6 470.6 L414.4 473.2 L410.2 475.7 L406.0 478.1 L401.7 480.4 L397.3 482.6 L392.8 484.6 L388.3 486.5 L383.8 488.3 L379.2 490.0 L374.5 491.5 L369.8 493.0 L365.1 494.3 L360.4 495.4 L355.6 496.4 L350.8 497.3 L346.0 498.1 L341.1 498.8 L336.2 499.3 L331.4 499.6 L326.5 499.9 L321.6 500.0 L316.7 500.0 L311.8 499.8 L306.9 499.5 L302.0 499.1 L297.2 498.5 L292.3 497.9 L287.5 497.0 L282.7 496.1 L277.9 495.0 L273.2 493.8 L268.5 492.5 L263.8 491.0 L259.2 489.4 L254.6 487.7 L250.1 485.9 L245.6 483.9 L241.2 481.8 L236.8 479.6 L232.5 477.3 L228.3 474.9 L224.1 472.3 L220.0 469.7 L216.0 466.9 L212.0 464.0 L215.1 463.1 L218.1 462.1 L221.2 461.0 L224.2 459.9 L227.2 458.7 L230.1 457.4 L233.1 456.1 L236.0 454.7 L238.8 453.3 L241.7 451.8 L244.5 450.2 L247.3 448.6 L250.0 446.9 L252.7 445.1 L255.4 443.3 L258.0 441.5 L260.6 439.6 L263.1 437.6 L265.6 435.6 L268.1 433.5 L270.5 431.4 L272.9 429.2 L275.2 426.9 L277.5 424.7 L279.7 422.3 L281.8 420.0 L284.0 417.5 L286.0 415.1 L288.0 412.6 L290.0 410.0 L291.9 407.4 L293.7 404.8 L295.5 402.1 L297.3 399.4 L298.9 396.6 L300.6 393.9 L302.1 391.0 L303.6 388.2 L305.0 385.3 L306.4 382.4 L307.7 379.5 L309.0 376.5 L310.1 373.5 L311.3 370.5 L312.3 367.4 L313.3 364.4 L314.2 361.3 L315.1 358.2 L315.8 355.1 L316.6 351.9 L317.2 348.8 L317.8 345.6 L318.3 342.4 L318.8 339.3 L319.1 336.1 L319.4 332.9 L319.7 329.6 L319.9 326.4 L320.0 323.2 L320.0 320.0" fill="none" filter="url(#glow)"/>
-<circle cx="410.0" cy="164.1" r="6" class="load"/>
-<text x="422" y="154" class="tag">Z<tspan baseline-shift="sub" font-size="11">L</tspan></text>
-<circle cx="320" cy="320" r="7" class="centre"/>
-<text x="332" y="344" class="tag">50 Ω</text>
-</svg>
 
-<div class="page-wrap">
+<main id="main">
+  <div class="wrap">
 
-  <!-- Header -->
-  <header class="site-header">
-    <p class="brand-tag">BLUE PILL OR RED PILL</p>
-    <h1 class="site-title">RSSI <span>↔</span> RSL</h1>
-    <p style="font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--muted); letter-spacing:0.15em; margin-top:0.6rem;">VOLTAGE VS RECEIVED SIGNAL LEVEL</p>
-  </header>
-
-  <!-- Card -->
-  <div class="card">
-
-    <div class="card-header">
-      <div class="status-dot"></div>
-      <span class="card-label">HUAWEI ODU RSSI - RSL CALCULATOR</span>
+    <div class="title-block">
+      <p class="eyebrow label"><b>T1</b> Alignment · Huawei ODU</p>
+      <h1>RSSI voltage to RSL</h1>
+      <p class="intro">Read the RSSI voltage on your multimeter and get the received signal level in dBm, or enter the level you want and get the voltage to aim for.</p>
     </div>
 
-    <div class="card-body">
+    <div class="cols">
 
-      <!-- Formula -->
-      <div class="formula-block">
-        <p>\( \text{RSL (dBm)} = 15.9 \times V - 91.6 \)</p>
-        <p style="margin-top:0.9rem;">\( V \text{ (volts)} = \dfrac{\text{RSL} + 91.6}{15.9} \)</p>
-        <p style="margin-top:0.9rem; font-family:'Share Tech Mono',monospace; font-size:0.62rem; color:var(--muted); letter-spacing:0.08em;">
-          // HUAWEI hardware-calibrated linear curve · RSSI DC voltage vs RSL
-        </p>
-      </div>
-
-      <!-- RSL Field -->
-      <div class="field-group">
-        <label class="field-label" for="inputX">
-          <span class="tag">A</span>
-          RSL — Received Signal Level
-        </label>
-        <div class="field-input-wrap has-sign-toggle">
-          <button class="btn-sign is-negative" id="signToggle" onclick="toggleSign()" title="Toggle sign">−</button>
-          <input type="number" id="inputX" step="any" inputmode="decimal" placeholder="29.7" />
-          <span class="field-unit">dBm</span>
+      <div class="panel" role="group" aria-labelledby="conv-title">
+        <div class="panel-head label">
+          <span id="conv-title"><b>A</b>Converter</span>
         </div>
-        <p class="field-hint">// Tap <strong style="color:var(--green)">±</strong> to flip between negative / positive</p>
-      </div>
-
-      <div class="or-sep"><span>OR</span></div>
-
-      <!-- RSSI Field -->
-      <div class="field-group">
-        <label class="field-label" for="inputY">
-          <span class="tag">B</span>
-          RSSI — Multimeter Voltage
-        </label>
-        <div class="field-input-wrap">
-          <input type="number" id="inputY" step="any" placeholder="e.g. 3.8" />
-          <span class="field-unit">V</span>
+        <div class="panel-body">
+          <div class="fields">
+            <div class="field">
+              <div class="field-top"><label class="label" for="inputY">RSSI, multimeter voltage</label></div>
+              <div class="input">
+                <input type="text" id="inputY" inputmode="decimal" autocomplete="off" value="3.8" placeholder="e.g. 3.8">
+                <span class="unit">V</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-top"><label class="label" for="inputX">RSL, received signal level</label></div>
+              <div class="input">
+                <button class="sign" id="signToggle" type="button" aria-label="RSL sign: negative. Press to switch." title="Switch sign">−</button>
+                <input type="text" id="inputX" inputmode="decimal" autocomplete="off" placeholder="e.g. 31.18">
+                <span class="unit">dBm</span>
+              </div>
+              <p class="hint">Type in either field; the other follows. Tap ± to switch the sign of the RSL.</p>
+            </div>
+          </div>
         </div>
-        <p class="field-hint">// Fill only one field; the other will be computed</p>
+        <div class="panel-foot">
+          <span class="formula">RSL = 15.9 × V − 91.6<br>V = (RSL + 91.6) ÷ 15.9</span>
+          <button class="btn-plain label" type="button" id="reset">Reset</button>
+        </div>
       </div>
 
-      <!-- Buttons -->
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="calculateFormula()">⟶ CALCULATE</button>
-        <button class="btn btn-reset" onclick="resetForm()">RESET</button>
-      </div>
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head label">
+            <span><b>Fig. 1</b>Calibration curve</span>
+            <span>Huawei, linear</span>
+          </div>
+          <dl class="readouts" aria-live="polite">
+            <div class="readout">
+              <dt class="label">RSSI</dt>
+              <dd><span id="outV">—</span><small>V</small></dd>
+            </div>
+            <div class="readout key">
+              <dt class="label">RSL</dt>
+              <dd><span id="outRsl">—</span><small>dBm</small></dd>
+            </div>
+          </dl>
+          <div class="chart" style="border-top:1px solid var(--ink)">
+            <svg viewBox="0 0 320 170" aria-hidden="true" focusable="false">
+              <path class="grid" d="M40 20H300M40 52.7H300M40 85.4H300M40 118.1H300M92 20V150M144 20V150M196 20V150M248 20V150M300 20V150"/>
+              <path class="axis" d="M40 20V150H300"/>
+              <path class="curve" d="M40 150 300 20"/>
+              <g class="mk" id="mk" style="transform: translate(170px, 85px)">
+                <path class="drop" d="M0 0V65M0 0H-130" id="mkDrop"/>
+                <circle class="marker" r="6"/>
+              </g>
+              <text x="40" y="164" text-anchor="middle">0</text>
+              <text x="92" y="164" text-anchor="middle">1</text>
+              <text x="144" y="164" text-anchor="middle">2</text>
+              <text x="196" y="164" text-anchor="middle">3</text>
+              <text x="248" y="164" text-anchor="middle">4</text>
+              <text x="300" y="164" text-anchor="middle">5 V</text>
+              <text x="34" y="153" text-anchor="end">−92</text>
+              <text x="34" y="121" text-anchor="end">−72</text>
+              <text x="34" y="89" text-anchor="end">−52</text>
+              <text x="34" y="56" text-anchor="end">−32</text>
+              <text x="34" y="24" text-anchor="end">−12</text>
+            </svg>
+          </div>
+          <div class="panel-foot"><span>Huawei hardware-calibrated linear curve: RSSI DC voltage against RSL.</span></div>
+        </div>
 
-      <!-- Result -->
-      <div id="result"></div>
+        <div class="panel">
+          <div class="panel-head label"><span><b>Table 1</b>Quick reference</span></div>
+          <table class="ref">
+            <thead><tr><th scope="col">RSSI voltage</th><th scope="col">RSL</th></tr></thead>
+            <tbody>
+            <tr><td>0.5 V</td><td>−83.65 dBm</td></tr>
+            <tr><td>1.0 V</td><td>−75.70 dBm</td></tr>
+            <tr><td>1.5 V</td><td>−67.75 dBm</td></tr>
+            <tr><td>2.0 V</td><td>−59.80 dBm</td></tr>
+            <tr><td>2.5 V</td><td>−51.85 dBm</td></tr>
+            <tr><td>3.0 V</td><td>−43.90 dBm</td></tr>
+            <tr><td>3.5 V</td><td>−35.95 dBm</td></tr>
+            <tr><td>4.0 V</td><td>−28.00 dBm</td></tr>
+            <tr><td>4.5 V</td><td>−20.05 dBm</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
     </div>
   </div>
+</main>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <p>© 2026 · AFIQ FIRDAUS · ALL RIGHTS RESERVED</p>
-  </footer>
-
-</div>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> Afiq Firdaus &mdash; afiqz.com</span>
+    <nav class="label" aria-label="Footer">
+      <a href="../">Home</a>
+      <a href="../#tools">All tools</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
 
 <script>
-  // Sign state: RSL is negative by default
-  let rslNegative = true;
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  $('yr').textContent = new Date().getFullYear();
 
-  function toggleSign() {
-    rslNegative = !rslNegative;
-    const btn = document.getElementById('signToggle');
-    const input = document.getElementById('inputX');
-    if (rslNegative) {
-      btn.textContent = '−';
-      btn.classList.add('is-negative');
-      // If there's a value, flip it negative
-      if (input.value !== '' && parseFloat(input.value) > 0) {
-        input.value = (parseFloat(input.value) * -1).toString();
-      }
-    } else {
-      btn.textContent = '+';
-      btn.classList.remove('is-negative');
-      // If there's a value, flip it positive
-      if (input.value !== '' && parseFloat(input.value) < 0) {
-        input.value = Math.abs(parseFloat(input.value)).toString();
-      }
-    }
+  // Huawei curve: RSL (dBm) = 15.9 × V − 91.6
+  var vIn = $('inputY');
+  var rIn = $('inputX');
+  var signBtn = $('signToggle');
+  var negative = true;
+
+  function num(s) {
+    var n = parseFloat(String(s).replace(',', '.').replace(/[^0-9.]/g, ''));
+    return isFinite(n) ? n : NaN;
   }
 
-  function getRSLValue() {
-    const raw = document.getElementById('inputX').value.trim();
-    if (raw === '') return NaN;
-    let val = parseFloat(raw);
-    // Enforce sign from toggle — if user typed a positive but toggle is negative, negate it
-    if (rslNegative && val > 0) val = -val;
-    if (!rslNegative && val < 0) val = Math.abs(val);
-    return val;
+  function setSign(neg) {
+    negative = neg;
+    signBtn.textContent = neg ? '−' : '+';
+    signBtn.setAttribute('aria-label', 'RSL sign: ' + (neg ? 'negative' : 'positive') + '. Press to switch.');
   }
 
-  function calculateFormula() {
-    const xRaw = document.getElementById('inputX').value.trim();
-    const yRaw = document.getElementById('inputY').value.trim();
-    const X = getRSLValue();
-    const Y = parseFloat(yRaw);
-    const res = document.getElementById('result');
-
-    if (xRaw === '' && yRaw !== '' && !isNaN(Y)) {
-      const calc = (15.9 * Y - 91.6).toFixed(4);
-      // Set display value and sync sign toggle
-      document.getElementById('inputX').value = Math.abs(parseFloat(calc));
-      const btn = document.getElementById('signToggle');
-      if (parseFloat(calc) < 0) {
-        rslNegative = true;
-        btn.textContent = '−';
-        btn.classList.add('is-negative');
-      } else {
-        rslNegative = false;
-        btn.textContent = '+';
-        btn.classList.remove('is-negative');
-      }
-      res.innerHTML = `
-        <div class="result-card">
-          <span class="result-icon">📡</span>
-          <div>
-            <p class="result-label">Calculated RSL</p>
-            <p class="result-value">${calc} <span style="font-size:0.8rem;font-family:'Share Tech Mono',monospace;color:var(--muted)">dBm</span></p>
-          </div>
-        </div>`;
-    } else if (yRaw === '' && xRaw !== '' && !isNaN(X)) {
-      const calc = ((X + 91.6) / 15.9).toFixed(4);
-      document.getElementById('inputY').value = calc;
-      res.innerHTML = `
-        <div class="result-card">
-          <span class="result-icon">⚡</span>
-          <div>
-            <p class="result-label">Calculated RSSI Voltage</p>
-            <p class="result-value">${calc} <span style="font-size:0.8rem;font-family:'Share Tech Mono',monospace;color:var(--muted)">V</span></p>
-          </div>
-        </div>`;
-    } else {
-      res.innerHTML = `
-        <div class="result-card result-error">
-          <span class="result-icon">⚠</span>
-          <div>
-            <p class="result-label">Input Error</p>
-            <p class="result-value">Fill exactly one field to compute the other.</p>
-          </div>
-        </div>`;
-    }
+  function show(v, rsl) {
+    var ok = isFinite(v) && isFinite(rsl);
+    $('outV').textContent = ok ? v.toFixed(2) : '—';
+    $('outRsl').textContent = ok ? rsl.toFixed(2).replace('-', '−') : '—';
+    var c = ok ? Math.max(0, Math.min(5, v)) : 2.5;
+    var x = 40 + c * 52;
+    var y = 150 - c * 26;
+    $('mk').style.transform = 'translate(' + x + 'px,' + y + 'px)';
+    $('mk').style.opacity = ok ? 1 : 0;
+    $('mkDrop').setAttribute('d', 'M0 0V' + (150 - y) + 'M0 0H' + (40 - x));
   }
 
-  function resetForm() {
-    document.getElementById('inputX').value = '';
-    document.getElementById('inputY').value = '';
-    document.getElementById('result').innerHTML = '';
-    // Reset sign to negative (default for RSL)
-    rslNegative = true;
-    const btn = document.getElementById('signToggle');
-    btn.textContent = '−';
-    btn.classList.add('is-negative');
+  function fromVolts() {
+    var v = num(vIn.value);
+    if (isNaN(v)) { rIn.value = ''; show(NaN, NaN); return; }
+    var rsl = 15.9 * v - 91.6;
+    setSign(rsl < 0);
+    rIn.value = String(parseFloat(Math.abs(rsl).toFixed(4)));
+    show(v, rsl);
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') calculateFormula();
+  function fromRsl() {
+    var m = num(rIn.value);
+    if (isNaN(m)) { vIn.value = ''; show(NaN, NaN); return; }
+    var rsl = negative ? -m : m;
+    var v = (rsl + 91.6) / 15.9;
+    vIn.value = String(parseFloat(v.toFixed(4)));
+    show(v, rsl);
+  }
+
+  vIn.addEventListener('input', fromVolts);
+  rIn.addEventListener('input', function () {
+    var first = rIn.value.trim().charAt(0);
+    if (first === '-' || first === '−') setSign(true);
+    fromRsl();
   });
+  signBtn.addEventListener('click', function () { setSign(!negative); fromRsl(); });
+  $('reset').addEventListener('click', function () {
+    vIn.value = '';
+    rIn.value = '';
+    setSign(true);
+    show(NaN, NaN);
+    vIn.focus();
+  });
+
+  fromVolts();
+})();
 </script>
 
 </body>
