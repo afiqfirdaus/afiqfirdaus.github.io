@@ -785,7 +785,24 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   border: 1px solid var(--ink);
 }
 
+.proj-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--on-dark);
+}
+
 .proj-img img {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   transition: transform 700ms var(--ease);
@@ -1114,7 +1131,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
       <li><a href="#education">Education</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="mailto:afiq@afiqz.com">afiq@afiqz.com</a>
+    <a class="nav-cta em" data-show href="#contact">Email me</a>
     <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
       <span></span><span></span>
     </button>
@@ -1393,7 +1410,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
           </div>
           <div class="spec-row">
             <dt class="mono">Status</dt>
-            <dd>Employed full time <span>Freelancing, and open to opportunities</span></dd>
+            <dd>Employed full time <span>Also takes freelance microwave and RAN jobs</span></dd>
           </div>
         </dl>
       </div>
@@ -1407,13 +1424,15 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
     <header class="section-head" data-reveal>
       <p class="section-no mono"><b>03</b> Projects</p>
       <h2 class="section-title display" id="projects-title">Networks I have worked on</h2>
+      <p class="section-intro">The work is the same on every network: installation, alignment, commissioning, troubleshooting, swaps and upgrades, as engineer and team leader. The equipment is what changes.</p>
     </header>
 
     <div class="projects">
       <article class="proj" data-reveal>
         <div class="proj-img">
           <span class="proj-no mono" aria-hidden="true">P1</span>
-          <img src="https://framerusercontent.com/images/sW4EyzYHvqNHPpnR5BfC42ty82Y.jpg" alt="Huawei logo" width="600" height="375" loading="lazy" decoding="async">
+          <span class="proj-mark" aria-hidden="true">Huawei</span>
+          <img src="img/huawei.jpg" onerror="this.remove()" alt="Huawei logo" width="600" height="375" loading="lazy" decoding="async">
         </div>
         <div>
           <h3 class="proj-client">Huawei</h3>
@@ -1424,34 +1443,37 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
       <article class="proj" data-reveal>
         <div class="proj-img">
           <span class="proj-no mono" aria-hidden="true">P2</span>
-          <img src="https://framerusercontent.com/images/mfNBU1r5JXzvDQ50eQAGzMH5hk.jpg" alt="CelcomDigi logo" width="600" height="375" loading="lazy" decoding="async">
+          <span class="proj-mark" aria-hidden="true">CelcomDigi</span>
+          <img src="img/celcomdigi.jpg" onerror="this.remove()" alt="CelcomDigi logo" width="600" height="375" loading="lazy" decoding="async">
         </div>
         <div>
           <h3 class="proj-client">CelcomDigi</h3>
           <p class="proj-scope mono">Huawei · Siemens · Microwave</p>
-          <p class="proj-note">Installation, alignment, commissioning, troubleshooting, swaps and upgrades on Huawei RTN and Siemens microwave links, as engineer and team leader.</p>
+          <p class="proj-note">Huawei RTN and Siemens microwave links.</p>
         </div>
       </article>
       <article class="proj" data-reveal>
         <div class="proj-img">
           <span class="proj-no mono" aria-hidden="true">P3</span>
-          <img src="https://framerusercontent.com/images/pG42RabipkdazsskRcRiDp7cO0.jpg" alt="Maxis logo" width="600" height="375" loading="lazy" decoding="async">
+          <span class="proj-mark" aria-hidden="true">Maxis</span>
+          <img src="img/maxis.jpg" onerror="this.remove()" alt="Maxis logo" width="600" height="375" loading="lazy" decoding="async">
         </div>
         <div>
           <h3 class="proj-client">Maxis</h3>
           <p class="proj-scope mono">Huawei · NEC · Microwave</p>
-          <p class="proj-note">Installation, alignment, commissioning, troubleshooting, swaps and upgrades on Huawei RTN and NEC iPASO microwave links, as engineer and team leader.</p>
+          <p class="proj-note">Huawei RTN and NEC iPASO microwave links.</p>
         </div>
       </article>
       <article class="proj" data-reveal>
         <div class="proj-img">
           <span class="proj-no mono" aria-hidden="true">P4</span>
-          <img src="https://framerusercontent.com/images/bC5fllD9Qws5km6rS7i2knprKDI.jpg" alt="U Mobile logo" width="600" height="375" loading="lazy" decoding="async">
+          <span class="proj-mark" aria-hidden="true">U Mobile</span>
+          <img src="img/umobile.jpg" onerror="this.remove()" alt="U Mobile logo" width="600" height="375" loading="lazy" decoding="async">
         </div>
         <div>
           <h3 class="proj-client">U Mobile</h3>
           <p class="proj-scope mono">Huawei · NEC · Microwave</p>
-          <p class="proj-note">Installation, alignment, commissioning, troubleshooting, swaps and upgrades on Huawei RTN and NEC iPASO microwave links, as engineer and team leader.</p>
+          <p class="proj-note">Huawei RTN and NEC iPASO microwave links.</p>
         </div>
       </article>
     </div>
@@ -1541,11 +1563,11 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
           </div>
           <div class="contact-detail">
             <dt class="mono">Status</dt>
-            <dd>Employed full time · freelance · open to opportunities</dd>
+            <dd>Employed full time · freelance</dd>
           </div>
           <div class="contact-detail">
             <dt class="mono">Email</dt>
-            <dd><a class="text-link" href="mailto:afiq@afiqz.com">afiq@afiqz.com</a></dd>
+            <dd><a class="text-link em" data-show href="#contact">Use the form on this page</a></dd>
           </div>
           <div class="contact-detail">
             <dt class="mono">Web</dt>
@@ -1554,8 +1576,8 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
         </dl>
       </div>
 
-      <form class="contact-form" id="contactForm" method="post" action="https://formsubmit.co/afiq@afiqz.com" data-reveal style="--d:120ms">
-        <div class="form-caption mono"><span>Message</span><span>To: afiq@afiqz.com</span></div>
+      <form class="contact-form" id="contactForm" method="post" action="#contact" data-reveal style="--d:120ms">
+        <div class="form-caption mono"><span>Message</span><span>To: <span class="em-text">Afiq</span></span></div>
         <input type="hidden" name="_subject" value="New message via afiqz.com">
         <input type="hidden" name="_next" value="https://afiqz.com/?sent=1#contact">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -1587,7 +1609,7 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
   <div class="wrap footer-grid">
     <span class="footer-copy">&copy; <span id="yr">2026</span> Afiq Firdaus &mdash; afiqz.com</span>
     <div class="footer-links mono">
-      <a href="mailto:afiq@afiqz.com">Email</a>
+      <a class="em" href="#contact">Email</a>
       <a href="#tools">Tools</a>
       <a href="#hero">↑ Top</a>
     </div>
@@ -1789,6 +1811,15 @@ input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
     formStatus.hidden = false;
     history.replaceState(null, '', location.pathname + location.hash);
   }
+
+  // The address is put together here so it is not in the page source for spam bots
+  var addr = ['afiq', 'afiqz.com'].join('@');
+  document.querySelectorAll('.em').forEach(function (a) {
+    a.href = 'mailto:' + addr;
+    if (a.hasAttribute('data-show')) a.textContent = addr;
+  });
+  document.querySelectorAll('.em-text').forEach(function (el) { el.textContent = addr; });
+  form.action = 'https://formsubmit.co/' + addr;
 
   form.addEventListener('submit', function () {
     formSubmit.disabled = true;
